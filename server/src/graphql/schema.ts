@@ -121,7 +121,6 @@ const Mutation = new GraphQLObjectType({
           } else {
             user.solvedChallenges.splice(index, 1);
           }
-
           user.save();
         });
 
