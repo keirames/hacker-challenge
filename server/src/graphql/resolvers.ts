@@ -17,12 +17,7 @@ const resolvers = {
     },
   },
   User: {
-    solvedChallenges: async (
-      obj: any,
-      args: any,
-      context: any,
-      info: any
-    ) => {
+    solvedChallenges: async (obj: any, args: any, context: any, info: any) => {
       const getChallenge = async (challengeId: String) => {
         return await Challenge.findById(challengeId);
       };
@@ -37,12 +32,7 @@ const resolvers = {
 
       return await getChallenges();
     },
-    likedChallenges: async (
-      obj: any,
-      args: any,
-      context: any,
-      info: any
-    ) => {
+    likedChallenges: async (obj: any, args: any, context: any, info: any) => {
       const getChallenge = async (challengeId: String) => {
         return await Challenge.findById(challengeId);
       };
@@ -59,16 +49,8 @@ const resolvers = {
     },
   },
   Challenge: {
-    passedUser: async (
-      obj: any,
-      args: any,
-      context: any,
-      info: any
-    ) => {
-      return await User.find(
-        { solvedChallenges: obj.id },
-        "-password"
-      );
+    passedUser: async (obj: any, args: any, context: any, info: any) => {
+      return await User.find({ solvedChallenges: obj.id }, "-password");
     },
   },
   Mutation: {
@@ -86,18 +68,47 @@ const resolvers = {
 
       return user.save();
     },
-    addOrRemoveSolvedChallenges: async (
-      root: any,
-      args: any,
-      context: any
-    ) => {
+    // ? How to create flexible InputUser graphql
+    editUser: async (obj: any, args: any, context: any, info: any) => {
+      const { username = "", password = "", firstname, lastname } = args.user;
+
+      let user = await User.findById(args.userId);
+      if (!user) throw new Error(`Invalid user's id`);
+
+      user.firstname = firstname;
+      user.lastname = lastname;
+      user = await user.save();
+      delete user.password;
+
+      return user.save();
+    },
+    addChallenge: async (obj: any, args: any, context: any, info: any) => {
+      const { title, content, level } = args.challenge;
+
+      let challenge = new Challenge({ title, content, level });
+      challenge = await challenge.save();
+
+      return challenge;
+    },
+    editChallenge: async (obj: any, args: any, context: any, info: any) => {
+      const { title, content, level } = args.challenge;
+
+      let challenge = await Challenge.findById(args.challengeId);
+      if (!challenge) throw new Error(`Invalid challenge's id`);
+
+      challenge.title = title;
+      challenge.content = content;
+      challenge.level = level;
+
+      challenge = await challenge.save();
+      return challenge;
+    },
+    addOrRemoveSolvedChallenges: async (root: any, args: any, context: any) => {
       const { userId, challengeId } = args;
       let user = await User.findById(userId);
-      if (!user) throw new Error("No user found");
+      if (!user) throw new Error(`Invalid user's id`);
 
-      const index: number = user.solvedChallenges.indexOf(
-        challengeId
-      );
+      const index: number = user.solvedChallenges.indexOf(challengeId);
       if (index === -1) {
         user.solvedChallenges.push(challengeId);
       } else {
@@ -107,14 +118,10 @@ const resolvers = {
       delete user.password;
       return user.solvedChallenges;
     },
-    addOrRemoveLikedChallenges: async (
-      root: any,
-      args: any,
-      context: any
-    ) => {
+    addOrRemoveLikedChallenges: async (root: any, args: any, context: any) => {
       const { userId, challengeId } = args;
       let user = await User.findById(userId);
-      if (!user) throw new Error("No user found");
+      if (!user) throw new Error(`Invalid user's id`);
 
       const index: number = user.likedChallenges.indexOf(challengeId);
       if (index === -1) {

@@ -15,8 +15,17 @@ input UserInput {
   lastname: String!
 }
 
+input ChallengeInput {
+  title: String!
+  content: String!
+  level: String!
+}
+
 type Mutation {
   addUser(user: UserInput!): User!
+  editUser(userId: ID!, user: UserInput!): User!
+  addChallenge(challenge: ChallengeInput!): Challenge!
+  editChallenge(challengeId: ID!, challenge: ChallengeInput!): Challenge!
   addOrRemoveSolvedChallenges(userId: ID!, challengeId: ID!): [ID!]!
   addOrRemoveLikedChallenges(userId: ID!, challengeId: ID!): [ID!]!
 }
