@@ -4,23 +4,21 @@ const cors = require("cors");
 const graphqlHTTP = require("express-graphql");
 // const schema = require("./graphql/schema");
 const { buildSchema } = require("graphql");
+import { makeExecutableSchema } from "graphql-tools";
+import { importSchema } from "graphql-import";
+import resolvers from "./graphql/resolvers";
+const path = require("path");
 
-const schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
+// Load GraphQL schema from files
+const typeDefs = importSchema(
+  path.join(__dirname, "./graphql/index.graphql")
+);
 
-const root = {
-  hello: () => "Helloworld",
-};
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const app = express();
 app.use(cors({ origin: "*" }));
-app.use(
-  "/graphql",
-  graphqlHTTP({ schema, rootValue: root, graphiql: true })
-);
+app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
 
 connect("mongodb://localhost:27017/hacker-challenge", {
   useNewUrlParser: true,

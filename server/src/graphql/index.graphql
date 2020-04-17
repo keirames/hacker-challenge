@@ -1,0 +1,22 @@
+# import Challenge from './challenge.graphql'
+# import User from './challenge.graphql'
+
+type Query {
+  getChallenge(id: ID!): Challenge
+  getChallenges: [Challenge!]!
+  getUser(id: ID!): User
+  getUsers: [User!]!
+}
+
+input UserInput {
+  username: String!
+  password: String!
+  firstname: String!
+  lastname: String!
+}
+
+type Mutation {
+  addUser(user: UserInput!): User!
+  addOrRemoveSolvedChallenges(userId: ID!, challengeId: ID!): [ID!]!
+  addOrRemoveLikedChallenges(userId: ID!, challengeId: ID!): [ID!]!
+}

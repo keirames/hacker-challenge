@@ -1,0 +1,17 @@
+type Challenge {
+  id: ID!
+  title: String!
+  content: String!
+  level: String!
+  passedUser: [User!]!
+}
+
+type User {
+  id: ID!
+  username: String!
+  password: String
+  firstname: String!
+  lastname: String!
+  solvedChallenges: [Challenge!]!
+  likedChallenges: [Challenge!]!
+}
