@@ -1,9 +1,9 @@
 # Hacker Challenge
 - Hacker Challenge is a web application which allows user to solve algorithm.
-- In server site we are using Nodejs with Express, which know as most popular library for combine with Nodejs.
-- In client site we are using React.
+- In server side we are using Nodejs with Express, which know as most popular library for combine with Nodejs.
+- In client side we are using React.
 
-# About server site with Nodejs
+# About server side with Nodejs
 - We currently add these technologies (may be change in the future):
   - Expressjs
   - Graphql
