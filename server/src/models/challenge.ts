@@ -7,6 +7,9 @@ const challengeSchema: Schema = new Schema({
     type: String,
     enum: ["easy", "medium", "hard"],
     default: "easy",
+    trim: true,
+    set: (v: string) => v.toLowerCase(),
+    get: (v: string) => v.toLowerCase(),
   },
   points: {
     type: Number,
