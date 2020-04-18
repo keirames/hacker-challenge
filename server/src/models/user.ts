@@ -23,6 +23,12 @@ const userSchema: Schema = new Schema({
       ref: "Challenge",
     },
   ],
+  totalPoints: {
+    type: Number,
+    required: true,
+    default: 0,
+    min: 0,
+  },
 });
 
 interface IUser extends Document {
@@ -33,19 +39,9 @@ interface IUser extends Document {
   isPremium: Boolean;
   solvedChallenges: String[];
   likedChallenges: String[];
+  totalPoints: Number;
 }
 
 const User: Model<IUser> = model<IUser>("User", userSchema);
-
-// const user = new User({
-//   username: "harrypotter",
-//   password: "1234",
-//   firstname: "Harry",
-//   lastname: "Potter",
-//   solvedChallenges: [],
-//   likedChallenges: [],
-// });
-
-// user.save();
 
 export { User, userSchema };

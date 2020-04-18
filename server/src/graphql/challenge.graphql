@@ -3,6 +3,8 @@ type Challenge {
   title: String!
   content: String!
   level: String!
+  points: Number!
+  category: Category!
   passedUser: [User!]!
 }
 
@@ -14,4 +16,10 @@ type User {
   lastname: String!
   solvedChallenges: [Challenge!]!
   likedChallenges: [Challenge!]!
+  totalPoints: Number!
+}
+
+type Category {
+  name: String!
+  challenges: [Challenge!]!
 }

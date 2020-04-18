@@ -8,12 +8,24 @@ const challengeSchema: Schema = new Schema({
     enum: ["easy", "medium", "hard"],
     default: "easy",
   },
+  points: {
+    type: Number,
+    required: true,
+    default: 0,
+    min: 0,
+  },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: "Category",
+  },
 });
 
 interface IChallenge extends Document {
-  title: string;
-  content: string;
-  level: string;
+  title: String;
+  content: String;
+  level: String;
+  points: Number;
+  category: String;
 }
 
 const Challenge: Model<IChallenge> = model<IChallenge>(
