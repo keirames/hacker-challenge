@@ -1,5 +1,6 @@
 # import Challenge from './challenge.graphql'
 # import User from './challenge.graphql'
+# import Category from './challenge.graphql'
 
 type Query {
   getChallenge(id: ID!): Challenge
@@ -19,6 +20,7 @@ input ChallengeInput {
   title: String!
   content: String!
   level: String!
+  categoryId: ID!
 }
 
 type Mutation {
