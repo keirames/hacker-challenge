@@ -5,10 +5,12 @@ const userSchema: Schema = new Schema({
     type: String,
     required: true,
     unique: true,
+    minlength: 5,
   },
-  password: { type: String, required: true },
-  firstname: { type: String, required: true },
-  lastname: { type: String, required: true },
+  password: { type: String, required: true, minlength: 5 },
+  firstname: { type: String, required: true, minlength: 2 },
+  lastname: { type: String, required: true, minlength: 2 },
+  isPremium: { type: Boolean, required: true, default: false },
   solvedChallenges: [
     {
       type: Schema.Types.ObjectId,
@@ -24,12 +26,13 @@ const userSchema: Schema = new Schema({
 });
 
 interface IUser extends Document {
-  username: string;
-  password: string;
-  firstname: string;
-  lastname: string;
-  solvedChallenges: string[];
-  likedChallenges: string[];
+  username: String;
+  password: String;
+  firstname: String;
+  lastname: String;
+  isPremium: Boolean;
+  solvedChallenges: String[];
+  likedChallenges: String[];
 }
 
 const User: Model<IUser> = model<IUser>("User", userSchema);
