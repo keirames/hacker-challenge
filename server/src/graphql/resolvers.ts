@@ -59,6 +59,9 @@ const resolvers = {
     passedUser: async (obj: any, args: any, context: any, info: any) => {
       return await User.find({ solvedChallenges: obj.id }, "-password");
     },
+    category: async (obj: any, args: any, context: any, info: any) => {
+      return await Category.findById(obj.category);
+    },
   },
   Category: {
     challenges: async (obj: any, args: any, context: any, info: any) => {
@@ -157,6 +160,20 @@ const resolvers = {
       user = await user.save();
       delete user.password;
       return user.likedChallenges;
+    },
+    addCategory: async (obj: any, args: any, context: any, info: any) => {
+      const { name } = args.category;
+      let category = new Category({ name });
+      return await category.save();
+    },
+    editCategory: async (obj: any, args: any, context: any, info: any) => {
+      const { name } = args.category;
+      let category = await Category.findById(args.categoryId);
+
+      if (!category) throw new Error(`Invalid category's id`);
+
+      category.name = name;
+      return await category.save();
     },
   },
 };

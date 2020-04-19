@@ -113,9 +113,7 @@ const Mutation = new GraphQLObjectType({
         let user = User.findById(userId, (err: any, user) => {
           if (!user) throw new Error("No user found");
 
-          const index: number = user.solvedChallenges.indexOf(
-            challengeId
-          );
+          const index: number = user.solvedChallenges.indexOf(challengeId);
           if (index === -1) {
             user.solvedChallenges.push(challengeId);
           } else {
