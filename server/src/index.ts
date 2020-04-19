@@ -7,12 +7,11 @@ const { buildSchema } = require("graphql");
 import { makeExecutableSchema } from "graphql-tools";
 import { importSchema } from "graphql-import";
 import resolvers from "./graphql/resolvers";
+import { Server } from "http";
 const path = require("path");
 
 // Load GraphQL schema from files
-const typeDefs = importSchema(
-  path.join(__dirname, "./graphql/index.graphql")
-);
+const typeDefs = importSchema(path.join(__dirname, "./graphql/index.graphql"));
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
@@ -26,10 +25,12 @@ connect("mongodb://localhost:27017/hacker-challenge", {
 })
   .then(() => console.log("Connected to mongoDB..."))
   .catch((err: { message: any }) =>
-    console.log(
-      `Cannot connected to mongoDB with err : ${err.message}`
-    )
+    console.log(`Cannot connected to mongoDB with err : ${err.message}`)
   );
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+const server: Server = app.listen(port, () =>
+  console.log(`Listening on port ${port}...`)
+);
+
+module.exports = server;

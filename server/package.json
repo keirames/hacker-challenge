@@ -24,7 +24,8 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node -r ts-node/register ./src/index.ts"
+    "start": "node -r ts-node/register ./src/index.ts",
+    "test": "jest --watchAll --verbose"
   },
   "nodemonConfig": {
     "ignore": [
@@ -39,5 +40,8 @@
     "exec": "yarn start",
     "ext": "ts"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "jest": "^25.3.0"
+  }
 }
