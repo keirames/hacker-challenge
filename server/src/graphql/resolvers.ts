@@ -1,5 +1,7 @@
-import { Challenge } from "../models/challenge";
-import { User } from "../models/user";
+import mongoose, { mongo } from "mongoose";
+import { Challenge, validateChallenge } from "../models/challenge";
+import { User, validateUser } from "../models/user";
+import { Category, validateCategory } from "../models/category";
 
 const resolvers = {
   Query: {
@@ -14,6 +16,12 @@ const resolvers = {
     },
     getUsers: (root: any, args: any, context: any) => {
       return User.find({}, "-password");
+    },
+    getCategory: (root: any, args: any, context: any) => {
+      return Category.findById(args.id);
+    },
+    getCategories: (root: any, args: any, context: any) => {
+      return Category.find({});
     },
   },
   User: {
@@ -52,10 +60,21 @@ const resolvers = {
     passedUser: async (obj: any, args: any, context: any, info: any) => {
       return await User.find({ solvedChallenges: obj.id }, "-password");
     },
+    category: async (obj: any, args: any, context: any, info: any) => {
+      return await Category.findById(obj.category);
+    },
+  },
+  Category: {
+    challenges: async (obj: any, args: any, context: any, info: any) => {
+      return await Challenge.find({ category: obj.category });
+    },
   },
   Mutation: {
     addUser: async (obj: any, args: any, context: any, info: any) => {
       const { username, password, firstname, lastname } = args.user;
+
+      const { error } = validateUser(args.user);
+      if (error) throw new Error(error.details[0].message);
 
       let user = new User({
         username,
@@ -70,9 +89,16 @@ const resolvers = {
     },
     // ? How to create flexible InputUser graphql
     editUser: async (obj: any, args: any, context: any, info: any) => {
+      const { userId } = args;
       const { username = "", password = "", firstname, lastname } = args.user;
 
-      let user = await User.findById(args.userId);
+      const { error } = validateUser(args.user);
+      if (error) throw new Error(error.details[0].message);
+
+      if (!mongoose.Types.ObjectId.isValid(userId))
+        throw new Error(`Invalid user's id`);
+
+      let user = await User.findById(userId);
       if (!user) throw new Error(`Invalid user's id`);
 
       user.firstname = firstname;
@@ -83,30 +109,63 @@ const resolvers = {
       return user.save();
     },
     addChallenge: async (obj: any, args: any, context: any, info: any) => {
-      const { title, content, level } = args.challenge;
+      const { title, content, level, categoryId } = args.challenge;
 
-      let challenge = new Challenge({ title, content, level });
+      const { error } = validateChallenge(args.challenge);
+      if (error) throw new Error(error.details[0].message);
+
+      const category = await Category.findById(categoryId);
+      if (!category) throw new Error(`Invalid category's id`);
+
+      let challenge = new Challenge({
+        title,
+        content,
+        level,
+        category: categoryId,
+      });
       challenge = await challenge.save();
 
       return challenge;
     },
     editChallenge: async (obj: any, args: any, context: any, info: any) => {
-      const { title, content, level } = args.challenge;
+      const { challengeId } = args;
+      const { title, content, level, categoryId } = args.challenge;
 
-      let challenge = await Challenge.findById(args.challengeId);
+      const { error } = validateChallenge(args.challenge);
+      if (error) throw new Error(error.details[0].message);
+
+      if (!mongoose.Types.ObjectId.isValid(challengeId))
+        throw new Error(`Invalid challenge's id`);
+
+      let challenge = await Challenge.findById(challengeId);
       if (!challenge) throw new Error(`Invalid challenge's id`);
+
+      const category = await Category.findById(categoryId);
+      if (!category) throw new Error(`Invalid category's id`);
 
       challenge.title = title;
       challenge.content = content;
       challenge.level = level;
+      challenge.category = categoryId;
 
       challenge = await challenge.save();
       return challenge;
     },
+    // ! Dont need to remove solvedChallenges
     addOrRemoveSolvedChallenges: async (root: any, args: any, context: any) => {
       const { userId, challengeId } = args;
+
+      if (!mongoose.Types.ObjectId.isValid(challengeId))
+        throw new Error(`Invalid challenge's id`);
+
+      if (!mongoose.Types.ObjectId.isValid(userId))
+        throw new Error(`Invalid user's id`);
+
       let user = await User.findById(userId);
       if (!user) throw new Error(`Invalid user's id`);
+
+      let challenge = await Challenge.findById(challengeId);
+      if (!challenge) throw new Error(`Invalid challenge's id`);
 
       const index: number = user.solvedChallenges.indexOf(challengeId);
       if (index === -1) {
@@ -120,8 +179,18 @@ const resolvers = {
     },
     addOrRemoveLikedChallenges: async (root: any, args: any, context: any) => {
       const { userId, challengeId } = args;
+
+      if (!mongoose.Types.ObjectId.isValid(challengeId))
+        throw new Error(`Invalid challenge's id`);
+
+      if (!mongoose.Types.ObjectId.isValid(userId))
+        throw new Error(`Invalid user's id`);
+
       let user = await User.findById(userId);
       if (!user) throw new Error(`Invalid user's id`);
+
+      let challenge = await Challenge.findById(challengeId);
+      if (!challenge) throw new Error(`Invalid challenge's id`);
 
       const index: number = user.likedChallenges.indexOf(challengeId);
       if (index === -1) {
@@ -132,6 +201,30 @@ const resolvers = {
       user = await user.save();
       delete user.password;
       return user.likedChallenges;
+    },
+    addCategory: async (obj: any, args: any, context: any, info: any) => {
+      const { name } = args.category;
+
+      const { error } = validateCategory(args.category);
+      if (error) throw new Error(error.details[0].message);
+
+      let category = new Category({ name });
+      return await category.save();
+    },
+    editCategory: async (obj: any, args: any, context: any, info: any) => {
+      const { name } = args.category;
+
+      const { error } = validateCategory(args.category);
+      if (error) throw new Error(error.details[0].message);
+
+      if (!mongoose.Types.ObjectId.isValid(args.categoryId))
+        throw new Error(`Invalid category's id`);
+
+      let category = await Category.findById(args.categoryId);
+      if (!category) throw new Error(`Invalid category's id`);
+
+      category.name = name;
+      return await category.save();
     },
   },
 };
