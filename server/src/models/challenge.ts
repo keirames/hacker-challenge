@@ -1,4 +1,5 @@
 import { model, Schema, Model, Document } from "mongoose";
+import Joi from "@hapi/joi";
 
 const challengeSchema: Schema = new Schema({
   title: { type: String, required: true, unique: true },
@@ -36,8 +37,14 @@ const Challenge: Model<IChallenge> = model<IChallenge>(
   challengeSchema
 );
 
-// const challege = new Challenge({ title: "Find max", content: "You have..." });
-// challege.save();
+const validateChallenge = (challenge: any) => {
+  const schema = Joi.object({
+    title: Joi.string().min(5).max(255).required(),
+    content: Joi.string().min(5).required(),
+    level: Joi.string().required(),
+    category: Joi.string().required(),
+  });
+  return schema.validate(challenge);
+};
 
-// module.exports = { challengeSchema, Challenge };
-export { challengeSchema, Challenge };
+export { challengeSchema, Challenge, validateChallenge };

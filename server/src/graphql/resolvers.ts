@@ -1,6 +1,7 @@
-import { Challenge } from "../models/challenge";
-import { User } from "../models/user";
-import { Category } from "../models/category";
+import mongoose, { mongo } from "mongoose";
+import { Challenge, validateChallenge } from "../models/challenge";
+import { User, validateUser } from "../models/user";
+import { Category, validateCategory } from "../models/category";
 
 const resolvers = {
   Query: {
@@ -72,6 +73,9 @@ const resolvers = {
     addUser: async (obj: any, args: any, context: any, info: any) => {
       const { username, password, firstname, lastname } = args.user;
 
+      const { error } = validateUser(args.user);
+      if (error) throw new Error(error.details[0].message);
+
       let user = new User({
         username,
         password,
@@ -85,9 +89,16 @@ const resolvers = {
     },
     // ? How to create flexible InputUser graphql
     editUser: async (obj: any, args: any, context: any, info: any) => {
+      const { userId } = args;
       const { username = "", password = "", firstname, lastname } = args.user;
 
-      let user = await User.findById(args.userId);
+      const { error } = validateUser(args.user);
+      if (error) throw new Error(error.details[0].message);
+
+      if (!mongoose.Types.ObjectId.isValid(userId))
+        throw new Error(`Invalid user's id`);
+
+      let user = await User.findById(userId);
       if (!user) throw new Error(`Invalid user's id`);
 
       user.firstname = firstname;
@@ -99,6 +110,9 @@ const resolvers = {
     },
     addChallenge: async (obj: any, args: any, context: any, info: any) => {
       const { title, content, level, categoryId } = args.challenge;
+
+      const { error } = validateChallenge(args.challenge);
+      if (error) throw new Error(error.details[0].message);
 
       const category = await Category.findById(categoryId);
       if (!category) throw new Error(`Invalid category's id`);
@@ -114,9 +128,16 @@ const resolvers = {
       return challenge;
     },
     editChallenge: async (obj: any, args: any, context: any, info: any) => {
+      const { challengeId } = args;
       const { title, content, level, categoryId } = args.challenge;
 
-      let challenge = await Challenge.findById(args.challengeId);
+      const { error } = validateChallenge(args.challenge);
+      if (error) throw new Error(error.details[0].message);
+
+      if (!mongoose.Types.ObjectId.isValid(challengeId))
+        throw new Error(`Invalid challenge's id`);
+
+      let challenge = await Challenge.findById(challengeId);
       if (!challenge) throw new Error(`Invalid challenge's id`);
 
       const category = await Category.findById(categoryId);
@@ -133,8 +154,18 @@ const resolvers = {
     // ! Dont need to remove solvedChallenges
     addOrRemoveSolvedChallenges: async (root: any, args: any, context: any) => {
       const { userId, challengeId } = args;
+
+      if (!mongoose.Types.ObjectId.isValid(challengeId))
+        throw new Error(`Invalid challenge's id`);
+
+      if (!mongoose.Types.ObjectId.isValid(userId))
+        throw new Error(`Invalid user's id`);
+
       let user = await User.findById(userId);
       if (!user) throw new Error(`Invalid user's id`);
+
+      let challenge = await Challenge.findById(challengeId);
+      if (!challenge) throw new Error(`Invalid challenge's id`);
 
       const index: number = user.solvedChallenges.indexOf(challengeId);
       if (index === -1) {
@@ -148,8 +179,18 @@ const resolvers = {
     },
     addOrRemoveLikedChallenges: async (root: any, args: any, context: any) => {
       const { userId, challengeId } = args;
+
+      if (!mongoose.Types.ObjectId.isValid(challengeId))
+        throw new Error(`Invalid challenge's id`);
+
+      if (!mongoose.Types.ObjectId.isValid(userId))
+        throw new Error(`Invalid user's id`);
+
       let user = await User.findById(userId);
       if (!user) throw new Error(`Invalid user's id`);
+
+      let challenge = await Challenge.findById(challengeId);
+      if (!challenge) throw new Error(`Invalid challenge's id`);
 
       const index: number = user.likedChallenges.indexOf(challengeId);
       if (index === -1) {
@@ -163,13 +204,23 @@ const resolvers = {
     },
     addCategory: async (obj: any, args: any, context: any, info: any) => {
       const { name } = args.category;
+
+      const { error } = validateCategory(args.category);
+      if (error) throw new Error(error.details[0].message);
+
       let category = new Category({ name });
       return await category.save();
     },
     editCategory: async (obj: any, args: any, context: any, info: any) => {
       const { name } = args.category;
-      let category = await Category.findById(args.categoryId);
 
+      const { error } = validateCategory(args.category);
+      if (error) throw new Error(error.details[0].message);
+
+      if (!mongoose.Types.ObjectId.isValid(args.categoryId))
+        throw new Error(`Invalid category's id`);
+
+      let category = await Category.findById(args.categoryId);
       if (!category) throw new Error(`Invalid category's id`);
 
       category.name = name;
