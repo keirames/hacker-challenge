@@ -1,25 +1,25 @@
 import { connect } from "mongoose";
 import express from "express";
 const cors = require("cors");
-const graphqlHTTP = require("express-graphql");
-// const schema = require("./graphql/schema");
-const { buildSchema } = require("graphql");
-import { makeExecutableSchema } from "graphql-tools";
-import { importSchema } from "graphql-import";
-import resolvers from "./graphql/resolvers";
 import { Server } from "http";
-const path = require("path");
+const { ApolloServer, gql } = require("apollo-server-express");
+import { typeDefs } from "./graphql/schema";
+import resolvers from "./graphql/resolvers";
 
-// Load GraphQL schema from files
-const typeDefs = importSchema(path.join(__dirname, "./graphql/index.graphql"));
-
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const apolloServer = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
 app.use(cors({ origin: "*" }));
-app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
 
-connect("mongodb://localhost:27017/hacker-challenge", {
+apolloServer.applyMiddleware({
+  app,
+  // cors: {
+  //   credentials: true,
+  //   origin: "http://localhost:3001",
+  // },
+});
+
+const mongooseServer = connect("mongodb://localhost:27017/hacker-challenge", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -33,4 +33,4 @@ const server: Server = app.listen(port, () =>
   console.log(`Listening on port ${port}...`)
 );
 
-module.exports = server;
+export { server, mongooseServer };

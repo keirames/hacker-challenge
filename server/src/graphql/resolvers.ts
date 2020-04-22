@@ -5,34 +5,39 @@ import { Category, validateCategory } from "../models/category";
 
 const resolvers = {
   Query: {
-    getChallenge: (root: any, args: any, context: any) => {
+    getChallenge: (parent: any, args: any, context: any) => {
       return Challenge.findById(args.id);
     },
-    getChallenges: (root: any, args: any, context: any) => {
+    getChallenges: (parent: any, args: any, context: any) => {
       return Challenge.find({});
     },
-    getUser: (root: any, args: any, context: any) => {
+    getUser: (parent: any, args: any, context: any) => {
       return User.findById(args.id, "-password");
     },
-    getUsers: (root: any, args: any, context: any) => {
+    getUsers: (parent: any, args: any, context: any) => {
       return User.find({}, "-password");
     },
-    getCategory: (root: any, args: any, context: any) => {
+    getCategory: (parent: any, args: any, context: any) => {
       return Category.findById(args.id);
     },
-    getCategories: (root: any, args: any, context: any) => {
+    getCategories: (parent: any, args: any, context: any) => {
       return Category.find({});
     },
   },
   User: {
-    solvedChallenges: async (obj: any, args: any, context: any, info: any) => {
+    solvedChallenges: async (
+      parent: any,
+      args: any,
+      context: any,
+      info: any
+    ) => {
       const getChallenge = async (challengeId: String) => {
         return await Challenge.findById(challengeId);
       };
 
       const getChallenges = async () => {
         return Promise.all(
-          obj.solvedChallenges.map((challengeId: any) =>
+          parent.solvedChallenges.map((challengeId: any) =>
             getChallenge(challengeId)
           )
         );
@@ -40,14 +45,19 @@ const resolvers = {
 
       return await getChallenges();
     },
-    likedChallenges: async (obj: any, args: any, context: any, info: any) => {
+    likedChallenges: async (
+      parent: any,
+      args: any,
+      context: any,
+      info: any
+    ) => {
       const getChallenge = async (challengeId: String) => {
         return await Challenge.findById(challengeId);
       };
 
       const getChallenges = async () => {
         return Promise.all(
-          obj.likedChallenges.map((challengeId: any) =>
+          parent.likedChallenges.map((challengeId: any) =>
             getChallenge(challengeId)
           )
         );
@@ -57,11 +67,11 @@ const resolvers = {
     },
   },
   Challenge: {
-    passedUser: async (obj: any, args: any, context: any, info: any) => {
-      return await User.find({ solvedChallenges: obj.id }, "-password");
+    passedUser: async (parent: any, args: any, context: any, info: any) => {
+      return await User.find({ solvedChallenges: parent.id }, "-password");
     },
-    category: async (obj: any, args: any, context: any, info: any) => {
-      return await Category.findById(obj.category);
+    category: async (parent: any, args: any, context: any, info: any) => {
+      return await Category.findById(parent.category);
     },
   },
   Category: {
@@ -70,7 +80,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (obj: any, args: any, context: any, info: any) => {
+    addUser: async (parent: any, args: any, context: any, info: any) => {
       const { username, password, firstname, lastname } = args.user;
 
       const { error } = validateUser(args.user);
@@ -88,7 +98,7 @@ const resolvers = {
       return user.save();
     },
     // ? How to create flexible InputUser graphql
-    editUser: async (obj: any, args: any, context: any, info: any) => {
+    editUser: async (parent: any, args: any, context: any, info: any) => {
       const { userId } = args;
       const { username = "", password = "", firstname, lastname } = args.user;
 
@@ -108,7 +118,7 @@ const resolvers = {
 
       return user.save();
     },
-    addChallenge: async (obj: any, args: any, context: any, info: any) => {
+    addChallenge: async (parent: any, args: any, context: any, info: any) => {
       const { title, content, level, categoryId } = args.challenge;
 
       const { error } = validateChallenge(args.challenge);
@@ -127,7 +137,7 @@ const resolvers = {
 
       return challenge;
     },
-    editChallenge: async (obj: any, args: any, context: any, info: any) => {
+    editChallenge: async (parent: any, args: any, context: any, info: any) => {
       const { challengeId } = args;
       const { title, content, level, categoryId } = args.challenge;
 
@@ -152,7 +162,11 @@ const resolvers = {
       return challenge;
     },
     // ! Dont need to remove solvedChallenges
-    addOrRemoveSolvedChallenges: async (root: any, args: any, context: any) => {
+    addOrRemoveSolvedChallenges: async (
+      parent: any,
+      args: any,
+      context: any
+    ) => {
       const { userId, challengeId } = args;
 
       if (!mongoose.Types.ObjectId.isValid(challengeId))
@@ -177,7 +191,11 @@ const resolvers = {
       delete user.password;
       return user.solvedChallenges;
     },
-    addOrRemoveLikedChallenges: async (root: any, args: any, context: any) => {
+    addOrRemoveLikedChallenges: async (
+      parent: any,
+      args: any,
+      context: any
+    ) => {
       const { userId, challengeId } = args;
 
       if (!mongoose.Types.ObjectId.isValid(challengeId))
@@ -202,7 +220,7 @@ const resolvers = {
       delete user.password;
       return user.likedChallenges;
     },
-    addCategory: async (obj: any, args: any, context: any, info: any) => {
+    addCategory: async (parent: any, args: any, context: any, info: any) => {
       const { name } = args.category;
 
       const { error } = validateCategory(args.category);
@@ -211,7 +229,7 @@ const resolvers = {
       let category = new Category({ name });
       return await category.save();
     },
-    editCategory: async (obj: any, args: any, context: any, info: any) => {
+    editCategory: async (parent: any, args: any, context: any, info: any) => {
       const { name } = args.category;
 
       const { error } = validateCategory(args.category);

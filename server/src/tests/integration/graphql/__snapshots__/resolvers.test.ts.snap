@@ -1,0 +1,240 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Queries should return all categories 1`] = `
+Object {
+  "data": Object {
+    "getCategories": Array [
+      Object {
+        "challenges": Array [],
+        "name": "Play with maximun",
+      },
+      Object {
+        "challenges": Array [],
+        "name": "Play with tree",
+      },
+      Object {
+        "challenges": Array [],
+        "name": "Play with sort",
+      },
+    ],
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Queries should return all challenges 1`] = `
+Object {
+  "data": Object {
+    "getChallenges": Array [
+      Object {
+        "category": Object {
+          "name": "Play with tree",
+        },
+        "content": "xyzabc",
+        "id": "5e9bec5203a9480f22dcb737",
+        "level": "medium",
+        "passedUser": Array [],
+        "points": 0,
+        "title": "Binary tree",
+      },
+      Object {
+        "category": Object {
+          "name": "Play with tree",
+        },
+        "content": "xyzabc",
+        "id": "5e9bec6c03a9480f22dcb73e",
+        "level": "medium",
+        "passedUser": Array [
+          Object {
+            "firstname": "Voldemort",
+            "id": "5e9beb8203a9480f22dcb733",
+            "lastname": "Riddle",
+            "likedChallenges": Array [
+              Object {
+                "id": "5e9bec6c03a9480f22dcb73e",
+              },
+            ],
+            "password": null,
+            "solvedChallenges": Array [
+              Object {
+                "id": "5e9bec6c03a9480f22dcb73e",
+              },
+            ],
+            "username": "Voldemort",
+          },
+        ],
+        "points": 0,
+        "title": "Binary sorts",
+      },
+    ],
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Queries should return all users 1`] = `
+Object {
+  "data": Object {
+    "getUsers": Array [
+      Object {
+        "firstname": "Voldemort",
+        "id": "5e9beb8203a9480f22dcb733",
+        "lastname": "Riddle",
+        "likedChallenges": Array [
+          Object {
+            "category": Object {
+              "name": "Play with tree",
+            },
+            "content": "xyzabc",
+            "id": "5e9bec6c03a9480f22dcb73e",
+            "level": "medium",
+            "passedUser": Array [
+              Object {
+                "firstname": "Voldemort",
+                "id": "5e9beb8203a9480f22dcb733",
+                "lastname": "Riddle",
+                "password": null,
+                "totalPoints": 0,
+                "username": "Voldemort",
+              },
+            ],
+            "title": "Binary sorts",
+          },
+        ],
+        "password": null,
+        "solvedChallenges": Array [
+          Object {
+            "category": Object {
+              "name": "Play with tree",
+            },
+            "content": "xyzabc",
+            "id": "5e9bec6c03a9480f22dcb73e",
+            "level": "medium",
+            "passedUser": Array [
+              Object {
+                "firstname": "Voldemort",
+                "id": "5e9beb8203a9480f22dcb733",
+                "lastname": "Riddle",
+                "password": null,
+                "totalPoints": 0,
+                "username": "Voldemort",
+              },
+            ],
+            "title": "Binary sorts",
+          },
+        ],
+        "totalPoints": 0,
+        "username": "Voldemort",
+      },
+    ],
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Queries should return single challenge with provided ID 1`] = `
+Object {
+  "data": Object {
+    "getChallenge": Object {
+      "category": Object {
+        "name": "Play with tree",
+      },
+      "content": "xyzabc",
+      "id": "5e9bec5203a9480f22dcb737",
+      "level": "medium",
+      "passedUser": Array [],
+      "points": 0,
+      "title": "Binary tree",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Queries should return single user with provided ID 1`] = `
+Object {
+  "data": Object {
+    "getUser": Object {
+      "firstname": "Voldemort",
+      "id": "5e9beb8203a9480f22dcb733",
+      "lastname": "Riddle",
+      "likedChallenges": Array [
+        Object {
+          "category": Object {
+            "name": "Play with tree",
+          },
+          "content": "xyzabc",
+          "id": "5e9bec6c03a9480f22dcb73e",
+          "level": "medium",
+          "passedUser": Array [
+            Object {
+              "firstname": "Voldemort",
+              "id": "5e9beb8203a9480f22dcb733",
+              "lastname": "Riddle",
+              "password": null,
+              "totalPoints": 0,
+              "username": "Voldemort",
+            },
+          ],
+          "title": "Binary sorts",
+        },
+      ],
+      "password": null,
+      "solvedChallenges": Array [
+        Object {
+          "category": Object {
+            "name": "Play with tree",
+          },
+          "content": "xyzabc",
+          "id": "5e9bec6c03a9480f22dcb73e",
+          "level": "medium",
+          "passedUser": Array [
+            Object {
+              "firstname": "Voldemort",
+              "id": "5e9beb8203a9480f22dcb733",
+              "lastname": "Riddle",
+              "password": null,
+              "totalPoints": 0,
+              "username": "Voldemort",
+            },
+          ],
+          "title": "Binary sorts",
+        },
+      ],
+      "totalPoints": 0,
+      "username": "Voldemort",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
