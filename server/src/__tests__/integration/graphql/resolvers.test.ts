@@ -7,25 +7,6 @@ import mongooseServer from "../../../db";
 // Connect to mongoDB
 mongooseServer();
 
-const addUser = gql`
-  input UserInput {
-    username: String!
-    password: String!
-    firstname: String!
-    lastname: String!
-  }
-
-  mutation AddUserMutation($user: UserInput!) {
-    addUser(user: $user) {
-      id
-      username
-      password
-      firstname
-      lastname
-    }
-  }
-`;
-
 const GET_USERS = gql`
   query GetUsers {
     getUsers {

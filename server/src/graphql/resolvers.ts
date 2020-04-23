@@ -2,6 +2,8 @@ import mongoose, { mongo } from "mongoose";
 import { Challenge, validateChallenge } from "../models/challenge";
 import { User, validateUser } from "../models/user";
 import { Category, validateCategory } from "../models/category";
+import { sign } from "jsonwebtoken";
+const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
@@ -75,12 +77,40 @@ const resolvers = {
     },
   },
   Category: {
-    challenges: async (obj: any, args: any, context: any, info: any) => {
-      return await Challenge.find({ category: obj.category });
+    challenges: async (parent: any, args: any, context: any, info: any) => {
+      return await Challenge.find({ category: parent.category });
     },
   },
   Mutation: {
-    addUser: async (parent: any, args: any, context: any, info: any) => {
+    login: async (parent: any, args: any, context: any, info: any) => {
+      const { username, password } = args;
+
+      const { error } = validateUser({
+        username,
+        password,
+        firstname: "validFirstName",
+        lastname: "validLastName",
+      });
+      if (error) throw new Error(error.details[0].message);
+
+      const user = await User.findOne({ username });
+      if (!user) throw new Error(`Invalid username or password`);
+
+      const isValidPassword = await bcrypt.compare(password, user.password);
+      if (!isValidPassword) throw new Error(`Invalid username or password`);
+
+      //! Import config for privatekey later & generateAuthToken need in user schema
+      const token: string = sign(
+        {
+          _id: user._id,
+          firstname: user.firstname,
+          lastname: user.lastname,
+        },
+        "helloworld"
+      );
+      return token;
+    },
+    register: async (parent: any, args: any, context: any, info: any) => {
       const { username, password, firstname, lastname } = args.user;
 
       const { error } = validateUser(args.user);
@@ -92,10 +122,23 @@ const resolvers = {
         firstname,
         lastname,
       });
+
+      user.password = await bcrypt.hash(user.password, 10);
+
+      //? Do i need include password into token ?
+      //! Import config for privatekey later & generateAuthToken need in user schema
+      const token: string = sign(
+        {
+          _id: user._id,
+          firstname: user.firstname,
+          lastname: user.lastname,
+        },
+        "helloworld"
+      );
       user = await user.save();
       delete user.password;
 
-      return user.save();
+      return { token, user };
     },
     // ? How to create flexible InputUser graphql
     editUser: async (parent: any, args: any, context: any, info: any) => {
