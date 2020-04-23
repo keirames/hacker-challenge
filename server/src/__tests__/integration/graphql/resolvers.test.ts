@@ -2,16 +2,10 @@ import { gql, ApolloServer } from "apollo-server-express";
 const { createTestClient } = require("apollo-server-testing");
 import { typeDefs } from "../../../graphql/schema";
 import resolvers from "../../../graphql/resolvers";
-import { connect } from "mongoose";
+import mongooseServer from "../../../db";
 
-connect("mongodb://localhost:27017/hacker-challenge", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("Connected to mongoDB..."))
-  .catch((err: { message: any }) =>
-    console.log(`Cannot connected to mongoDB with err : ${err.message}`)
-  );
+// Connect to mongoDB
+mongooseServer();
 
 const addUser = gql`
   input UserInput {
@@ -204,58 +198,55 @@ const GET_CATEGORY = gql`
   }
 `;
 
+const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const { query, mutate } = createTestClient(apolloServer);
+
 describe("Queries", () => {
-  it("should return all users", async () => {
-    const apolloServer = new ApolloServer({ typeDefs, resolvers });
-
-    const { query, mutate } = createTestClient(apolloServer);
-
-    const res = await query({ query: GET_USERS });
-    expect(res).toMatchSnapshot();
-  });
-
-  it("should return single user with provided ID", async () => {
-    const apolloServer = new ApolloServer({ typeDefs, resolvers });
-
-    const { query, mutate } = createTestClient(apolloServer);
-
-    const res = await query({
-      query: GET_USER,
-      variables: { id: "5e9beb8203a9480f22dcb733" },
+  describe("User", () => {
+    it("should return all users", async () => {
+      const res = await query({ query: GET_USERS });
+      expect(res).toMatchSnapshot();
     });
-    expect(res).toMatchSnapshot();
-  });
 
-  it("should return all challenges", async () => {
-    const apolloServer = new ApolloServer({ typeDefs, resolvers });
-
-    const { query, mutate } = createTestClient(apolloServer);
-
-    const res = await query({ query: GET_CHALLENGES });
-    expect(res).toMatchSnapshot();
-  });
-
-  it("should return single challenge with provided ID", async () => {
-    const apolloServer = new ApolloServer({ typeDefs, resolvers });
-
-    const { query, mutate } = createTestClient(apolloServer);
-
-    const res = await query({
-      query: GET_CHALLENGE,
-      variables: { id: "5e9bec5203a9480f22dcb737" },
+    it("should return single user with provided ID", async () => {
+      const res = await query({
+        query: GET_USER,
+        variables: { id: "5e9beb8203a9480f22dcb733" },
+      });
+      expect(res).toMatchSnapshot();
     });
-    expect(res).toMatchSnapshot();
   });
 
-  it("should return all categories", async () => {
-    const apolloServer = new ApolloServer({ typeDefs, resolvers });
-
-    const { query, mutate } = createTestClient(apolloServer);
-
-    const res = await query({
-      query: GET_CATEGORIES,
-      variables: { id: "5e9b2feccf07096f9ef2bc65" },
+  describe("Challenge", () => {
+    it("should return all challenges", async () => {
+      const res = await query({ query: GET_CHALLENGES });
+      expect(res).toMatchSnapshot();
     });
-    expect(res).toMatchSnapshot();
+
+    it("should return single challenge with provided ID", async () => {
+      const res = await query({
+        query: GET_CHALLENGE,
+        variables: { id: "5e9bec5203a9480f22dcb737" },
+      });
+      expect(res).toMatchSnapshot();
+    });
+  });
+
+  describe("Category", () => {
+    it("should return all categories", async () => {
+      const res = await query({
+        query: GET_CATEGORIES,
+        variables: { id: "5e9b2feccf07096f9ef2bc65" },
+      });
+      expect(res).toMatchSnapshot();
+    });
+
+    it("should return single category with provided ID", async () => {
+      const res = await query({
+        query: GET_CATEGORY,
+        variables: { id: "5e9b2ff8cf07096f9ef2bc67" },
+      });
+      expect(res).toMatchSnapshot();
+    });
   });
 });

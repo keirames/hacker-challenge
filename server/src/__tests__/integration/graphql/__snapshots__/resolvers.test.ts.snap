@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Queries should return all categories 1`] = `
+exports[`Queries Category should return all categories 1`] = `
 Object {
   "data": Object {
     "getCategories": Array [
@@ -28,7 +28,22 @@ Object {
 }
 `;
 
-exports[`Queries should return all challenges 1`] = `
+exports[`Queries Category should return single category with provided ID 1`] = `
+Object {
+  "data": undefined,
+  "errors": Array [
+    [ValidationError: Unknown argument "id" on field "getCategory" of type "Query".],
+  ],
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Queries Challenge should return all challenges 1`] = `
 Object {
   "data": Object {
     "getChallenges": Array [
@@ -84,7 +99,32 @@ Object {
 }
 `;
 
-exports[`Queries should return all users 1`] = `
+exports[`Queries Challenge should return single challenge with provided ID 1`] = `
+Object {
+  "data": Object {
+    "getChallenge": Object {
+      "category": Object {
+        "name": "Play with tree",
+      },
+      "content": "xyzabc",
+      "id": "5e9bec5203a9480f22dcb737",
+      "level": "medium",
+      "passedUser": Array [],
+      "points": 0,
+      "title": "Binary tree",
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
+
+exports[`Queries User should return all users 1`] = `
 Object {
   "data": Object {
     "getUsers": Array [
@@ -150,32 +190,7 @@ Object {
 }
 `;
 
-exports[`Queries should return single challenge with provided ID 1`] = `
-Object {
-  "data": Object {
-    "getChallenge": Object {
-      "category": Object {
-        "name": "Play with tree",
-      },
-      "content": "xyzabc",
-      "id": "5e9bec5203a9480f22dcb737",
-      "level": "medium",
-      "passedUser": Array [],
-      "points": 0,
-      "title": "Binary tree",
-    },
-  },
-  "errors": undefined,
-  "extensions": undefined,
-  "http": Object {
-    "headers": Headers {
-      Symbol(map): Object {},
-    },
-  },
-}
-`;
-
-exports[`Queries should return single user with provided ID 1`] = `
+exports[`Queries User should return single user with provided ID 1`] = `
 Object {
   "data": Object {
     "getUser": Object {

@@ -27,7 +27,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node -r ts-node/register ./src/index.ts",
-    "test": "jest --watchAll --verbose"
+    "test": "export NODE_ENV=test && jest --watchAll --verbose"
   },
   "nodemonConfig": {
     "ignore": [
@@ -39,7 +39,7 @@
     "watch": [
       "./*"
     ],
-    "exec": "yarn start",
+    "exec": "export NODE_ENV=development && yarn start",
     "ext": "ts"
   },
   "devDependencies": {
