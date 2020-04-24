@@ -1,12 +1,20 @@
 import express from "express";
 const cors = require("cors");
 import { Server } from "http";
-const { ApolloServer, gql } = require("apollo-server-express");
 import { typeDefs } from "./graphql/schema";
 import resolvers from "./graphql/resolvers";
 import mongooseServer from "./db";
+import { ApolloServer, AuthenticationError } from "apollo-server-express";
+import { verify } from "jsonwebtoken";
+import { User } from "./models/user";
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers });
+const apolloServer: ApolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: async ({ req, res }) => {
+    return { req };
+  },
+});
 
 const app = express();
 app.use(cors({ origin: "*" }));

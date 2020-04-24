@@ -30,7 +30,8 @@ input CategoryInput {
 }
 
 type Mutation {
-  addUser(user: UserInput!): User!
+  login(username: String!, password: String!): String!
+  register(user: UserInput!): User!
   editUser(userId: ID!, user: UserInput!): User!
   addChallenge(challenge: ChallengeInput!): Challenge!
   editChallenge(challengeId: ID!, challenge: ChallengeInput!): Challenge!

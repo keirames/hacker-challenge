@@ -7,6 +7,11 @@ export const typeDefs = gql`
   #   message: String!
   # }
 
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
   type Challenge {
     id: ID!
     title: String!
@@ -62,7 +67,8 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    addUser(user: UserInput!): User!
+    login(username: String!, password: String!): String!
+    register(user: UserInput!): AuthPayload!
     editUser(userId: ID!, user: UserInput!): User!
     addChallenge(challenge: ChallengeInput!): Challenge!
     editChallenge(challengeId: ID!, challenge: ChallengeInput!): Challenge!
