@@ -19,7 +19,7 @@ const resolvers = {
     },
     getUsers: async (parent: any, args: any, context: any) => {
       const user = await authenticateUser(context);
-      return User.find({}, "-password");
+      return await User.find({}, "-password");
     },
     getCategory: async (parent: any, args: any, context: any) => {
       return await Category.findById(args.id);
