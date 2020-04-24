@@ -3,27 +3,29 @@ import { Challenge, validateChallenge } from "../models/challenge";
 import { User, validateUser } from "../models/user";
 import { Category, validateCategory } from "../models/category";
 import { sign } from "jsonwebtoken";
+import { authenticateUser } from "../utils/auth";
 const bcrypt = require("bcrypt");
 
 const resolvers = {
   Query: {
-    getChallenge: (parent: any, args: any, context: any) => {
-      return Challenge.findById(args.id);
+    getChallenge: async (parent: any, args: any, context: any) => {
+      return await Challenge.findById(args.id);
     },
-    getChallenges: (parent: any, args: any, context: any) => {
-      return Challenge.find({});
+    getChallenges: async (parent: any, args: any, context: any) => {
+      return await Challenge.find({});
     },
-    getUser: (parent: any, args: any, context: any) => {
-      return User.findById(args.id, "-password");
+    getUser: async (parent: any, args: any, context: any) => {
+      return await User.findById(args.id, "-password");
     },
-    getUsers: (parent: any, args: any, context: any) => {
+    getUsers: async (parent: any, args: any, context: any) => {
+      const user = await authenticateUser(context);
       return User.find({}, "-password");
     },
-    getCategory: (parent: any, args: any, context: any) => {
-      return Category.findById(args.id);
+    getCategory: async (parent: any, args: any, context: any) => {
+      return await Category.findById(args.id);
     },
-    getCategories: (parent: any, args: any, context: any) => {
-      return Category.find({});
+    getCategories: async (parent: any, args: any, context: any) => {
+      return await Category.find({});
     },
   },
   User: {
