@@ -1,34 +1,38 @@
-import { connect } from "mongoose";
 import express from "express";
 const cors = require("cors");
-const graphqlHTTP = require("express-graphql");
-// const schema = require("./graphql/schema");
-const { buildSchema } = require("graphql");
-import { makeExecutableSchema } from "graphql-tools";
-import { importSchema } from "graphql-import";
-import resolvers from "./graphql/resolvers";
 import { Server } from "http";
-const path = require("path");
+import { typeDefs } from "./graphql/schema";
+import resolvers from "./graphql/resolvers";
+import mongooseServer from "./db";
+import { ApolloServer, AuthenticationError } from "apollo-server-express";
+import { verify } from "jsonwebtoken";
+import { User } from "./models/user";
 
-// Load GraphQL schema from files
-const typeDefs = importSchema(path.join(__dirname, "./graphql/index.graphql"));
-
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+const apolloServer: ApolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: async ({ req, res }) => {
+    return { req };
+  },
+});
 
 const app = express();
 app.use(cors({ origin: "*" }));
-app.use("/graphql", graphqlHTTP({ schema, graphiql: true }));
 
-connect("mongodb://localhost:27017/hacker-challenge", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("Connected to mongoDB..."))
-  .catch((err: { message: any }) =>
-    console.log(`Cannot connected to mongoDB with err : ${err.message}`)
-  );
+apolloServer.applyMiddleware({
+  app,
+  // cors: {
+  //   credentials: true,
+  //   origin: "http://localhost:3001",
+  // },
+});
+
+// Connect to mongoDB
+mongooseServer();
 
 const port = process.env.PORT || 3000;
 const server: Server = app.listen(port, () =>
   console.log(`Listening on port ${port}...`)
 );
+
+export { server };
