@@ -231,6 +231,13 @@ const resolvers = {
       let challenge = await Challenge.findById(challengeId);
       if (!challenge) throw new Error(`Invalid challenge's id`);
 
+      const uniqueTitleChallenge = await Challenge.findOne({
+        title,
+        _id: { $nin: [challengeId] },
+      });
+      if (uniqueTitleChallenge)
+        throw new Error(`Challenge' title is already exist`);
+
       const contest = await Contest.findById(contestId);
       if (!contest) throw new Error(`Invalid contest's id`);
 
