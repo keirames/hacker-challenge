@@ -191,7 +191,11 @@ const resolvers = {
       const contest = await Contest.findById(contestId);
       if (!contest) throw new Error(`Invalid contest's id`);
 
-      let challenge = new Challenge({
+      // If title exist
+      let challenge = await Challenge.findOne({ title });
+      if (challenge) throw new Error(`Title is already taken`);
+
+      challenge = new Challenge({
         title,
         content,
         level,

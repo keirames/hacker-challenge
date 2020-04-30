@@ -71,11 +71,15 @@ const validateChallenge = (challenge: any) => {
     content: Joi.string().min(5).required(),
     level: Joi.string().required(),
     points: Joi.number().min(0),
-    contest: Joi.string().required(),
-    testCases: Joi.object({
-      text: Joi.string(),
-      testString: Joi.string().required(),
-    }).required(),
+    contestId: Joi.string().required(),
+    testCases: Joi.array()
+      .required()
+      .items(
+        Joi.object({
+          text: Joi.string().required(),
+          testString: Joi.string().required(),
+        })
+      ),
     testInputs: Joi.array().required(),
     challengeSeed: Joi.string(),
   });
