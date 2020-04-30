@@ -18,12 +18,14 @@ const resolvers = {
     getChallenges: async (parent: any, args: any, context: any) => {
       return await Challenge.find({});
     },
+    //! Need admin authorization
     getUser: async (parent: any, args: any, context: any) => {
-      return await User.findById(args.id, "-password");
+      return await User.findById(args.id);
     },
+    //! Need admin authorization
     getUsers: async (parent: any, args: any, context: any) => {
       const user = await authenticateUser(context);
-      return await User.find({}, "-password");
+      return await User.find({});
     },
     getContest: async (parent: any, args: any, context: any) => {
       return await Contest.findById(args.id);
@@ -305,7 +307,11 @@ const resolvers = {
       const { error } = validateContest(args.contest);
       if (error) throw new Error(error.details[0].message);
 
-      let contest = new Contest({ name });
+      // Check name unique
+      let contest = await Contest.findOne({ name });
+      if (contest) throw new Error(`Name of contest is already taken`);
+
+      contest = new Contest({ name });
       return await contest.save();
     },
     editContest: async (parent: any, args: any, context: any, info: any) => {
@@ -319,6 +325,10 @@ const resolvers = {
 
       let contest = await Contest.findById(args.contestId);
       if (!contest) throw new Error(`Invalid contest's id`);
+
+      // Check name unique
+      let uniqueContest = await Contest.findOne({ name });
+      if (uniqueContest) throw new Error(`Name of contest is already taken`);
 
       contest.name = name;
       return await contest.save();
