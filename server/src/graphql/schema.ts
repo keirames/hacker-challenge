@@ -12,6 +12,11 @@ export const typeDefs = gql`
     user: User!
   }
 
+  type TestCase {
+    text: String!
+    testString: String!
+  }
+
   type Challenge {
     id: ID!
     title: String!
@@ -19,6 +24,9 @@ export const typeDefs = gql`
     level: String!
     points: Int!
     contest: Contest!
+    testCases: [TestCase!]!
+    testInputs: [String!]!
+    challengeSeed: String!
     passedUser: [User!]!
   }
 

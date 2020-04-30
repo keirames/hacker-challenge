@@ -22,6 +22,31 @@ const challengeSchema: Schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Contest",
   },
+  testCases: [
+    {
+      text: {
+        type: String,
+        default: "",
+        required: true,
+        trim: true,
+      },
+      testString: {
+        type: String,
+        required: true,
+        trim: true,
+      },
+    },
+  ],
+  testInputs: {
+    type: [String],
+    required: true,
+  },
+  challengeSeed: {
+    type: String,
+    required: true,
+    default: "",
+    trim: true,
+  },
 });
 
 interface IChallenge extends Document {
@@ -30,6 +55,9 @@ interface IChallenge extends Document {
   level: String;
   points: Number;
   contest: String;
+  testCases: [Object];
+  testInputs: [String];
+  challengeSeed: String;
 }
 
 const Challenge: Model<IChallenge> = model<IChallenge>(
@@ -42,7 +70,14 @@ const validateChallenge = (challenge: any) => {
     title: Joi.string().min(5).max(255).required(),
     content: Joi.string().min(5).required(),
     level: Joi.string().required(),
+    points: Joi.number().min(0),
     contest: Joi.string().required(),
+    testCases: Joi.object({
+      text: Joi.string(),
+      testString: Joi.string().required(),
+    }).required(),
+    testInputs: Joi.array().required(),
+    challengeSeed: Joi.string(),
   });
   return schema.validate(challenge);
 };

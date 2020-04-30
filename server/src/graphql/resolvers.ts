@@ -168,7 +168,16 @@ const resolvers = {
       return user.save();
     },
     addChallenge: async (parent: any, args: any, context: any, info: any) => {
-      const { title, content, level, contestId } = args.challenge;
+      const {
+        title,
+        content,
+        level,
+        points,
+        contestId,
+        testCases,
+        testInputs,
+        challengeSeed,
+      } = args.challenge;
 
       const { error } = validateChallenge(args.challenge);
       if (error) throw new Error(error.details[0].message);
@@ -180,7 +189,11 @@ const resolvers = {
         title,
         content,
         level,
+        points,
         contest: contestId,
+        testCases,
+        testInputs,
+        challengeSeed,
       });
       challenge = await challenge.save();
 
@@ -188,7 +201,16 @@ const resolvers = {
     },
     editChallenge: async (parent: any, args: any, context: any, info: any) => {
       const { challengeId } = args;
-      const { title, content, level, contestId } = args.challenge;
+      const {
+        title,
+        content,
+        level,
+        points,
+        contestId,
+        testCases,
+        testInputs,
+        challengeSeed,
+      } = args.challenge;
 
       const { error } = validateChallenge(args.challenge);
       if (error) throw new Error(error.details[0].message);
@@ -205,7 +227,11 @@ const resolvers = {
       challenge.title = title;
       challenge.content = content;
       challenge.level = level;
+      challenge.points = points;
       challenge.contest = contestId;
+      challenge.testCases = testCases;
+      challenge.testInputs = testInputs;
+      challenge.challengeSeed = challengeSeed;
 
       challenge = await challenge.save();
       return challenge;
