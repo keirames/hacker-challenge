@@ -9,7 +9,7 @@ interface IContest extends Document {
   name: String;
 }
 
-const Contest: Model<IContest> = model<IContest>("Category", contestSchema);
+const Contest: Model<IContest> = model<IContest>("Contest", contestSchema);
 
 const validateContest = (contest: any) => {
   const schema = Joi.object({

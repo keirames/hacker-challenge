@@ -327,7 +327,10 @@ const resolvers = {
       if (!contest) throw new Error(`Invalid contest's id`);
 
       // Check name unique
-      let uniqueContest = await Contest.findOne({ name });
+      let uniqueContest = await Contest.findOne({
+        name,
+        _id: { $nin: [args.contestId] },
+      });
       if (uniqueContest) throw new Error(`Name of contest is already taken`);
 
       contest.name = name;
