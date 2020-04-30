@@ -67,7 +67,12 @@ export const typeDefs = gql`
     title: String!
     content: String!
     level: String!
+    points: Int!
     contestId: ID!
+    testCases: [TestCase!]!
+    testInputs: [String!]!
+    challengeSeed: String!
+    passedUser: [User!]!
   }
 
   input ContestInput {
