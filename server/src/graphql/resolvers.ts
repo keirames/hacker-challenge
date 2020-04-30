@@ -138,8 +138,9 @@ const resolvers = {
       user.password = await bcrypt.hash(user.password, 10);
 
       //? Do i need include password into token ?
+      //! Create generateToken for user schema (refactor)
       //! Import config for privatekey later & generateAuthToken need in user schema
-      const token: string = sign(
+      const token = sign(
         {
           _id: user._id,
           firstname: user.firstname,

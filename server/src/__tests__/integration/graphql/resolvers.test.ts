@@ -3,6 +3,10 @@ const { createTestClient } = require("apollo-server-testing");
 import { typeDefs } from "../../../graphql/schema";
 import resolvers from "../../../graphql/resolvers";
 import mongooseServer from "../../../db";
+import { constructTestServer } from "../../__utils";
+import * as auth from "../../../utils/auth";
+import { User } from "../../../models/user";
+import { sign } from "jsonwebtoken";
 
 // Connect to mongoDB
 mongooseServer();
@@ -300,9 +304,32 @@ describe("Queries", () => {
     });
 
     it("should return single user with provided ID", async () => {
+      const { server } = constructTestServer({
+        context: async () => {
+          //! Create generateToken for user schema (refactor)
+          //! Import config for privatekey later & generateAuthToken need in user schema
+          const user = await User.findById("5eaa773df4dcc728b76b00b7");
+
+          const token = sign(
+            {
+              _id: user?._id,
+              firstname: user?.firstname,
+              lastname: user?.lastname,
+            },
+            "helloworld"
+          );
+
+          return { req: { headers: { authorization: token } } };
+        },
+      });
+
+      const { query, mutate } = createTestClient(server);
+
       const res = await query({
         query: GET_USER,
-        variables: { id: "5eaa773df4dcc728b76b00b7" },
+        variables: {
+          id: "5eaa773df4dcc728b76b00b7",
+        },
       });
       expect(res).toMatchSnapshot();
     });
