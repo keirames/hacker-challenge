@@ -86,7 +86,7 @@ const resolvers = {
   },
   Contest: {
     challenges: async (parent: any, args: any, context: any, info: any) => {
-      return await Challenge.find({ contest: parent.contest });
+      return await Challenge.find({ contest: parent._id });
     },
   },
   Mutation: {
