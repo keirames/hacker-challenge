@@ -375,10 +375,85 @@ Object {
 
 exports[`Queries User should return all users 1`] = `
 Object {
-  "data": null,
-  "errors": Array [
-    [GraphQLError: Cannot read property 'headers' of undefined],
-  ],
+  "data": Object {
+    "getUsers": Array [
+      Object {
+        "firstname": "kenny",
+        "id": "5eaa773df4dcc728b76b00b7",
+        "lastname": "uchiha",
+        "likedChallenges": Array [
+          Object {
+            "content": "John is playing with his friends in the park",
+            "contest": Object {
+              "challenges": Array [
+                Object {
+                  "id": "5eaa7d1effd50d33c34637a8",
+                  "title": "Find max",
+                },
+                Object {
+                  "id": "5eaa7f442db1ce3470fa16cc",
+                  "title": "Find min",
+                },
+              ],
+              "id": "5eaa779bf4dcc728b76b00bb",
+              "name": "Sherlock Homes",
+            },
+            "id": "5eaa7d1effd50d33c34637a8",
+            "level": "easy",
+            "passedUser": Array [
+              Object {
+                "firstname": "kenny",
+                "id": "5eaa773df4dcc728b76b00b7",
+                "lastname": "uchiha",
+                "password": null,
+                "totalPoints": 0,
+                "username": "kenny",
+              },
+            ],
+            "points": 100,
+            "title": "Find max",
+          },
+        ],
+        "password": "$2b$10$X/poZZHEEgasjT/43Q3U..8.bSwpgvoxajCx34limRh4ByOO6A9bC",
+        "solvedChallenges": Array [
+          Object {
+            "content": "John is playing with his friends in the park",
+            "contest": Object {
+              "challenges": Array [
+                Object {
+                  "id": "5eaa7d1effd50d33c34637a8",
+                  "title": "Find max",
+                },
+                Object {
+                  "id": "5eaa7f442db1ce3470fa16cc",
+                  "title": "Find min",
+                },
+              ],
+              "id": "5eaa779bf4dcc728b76b00bb",
+              "name": "Sherlock Homes",
+            },
+            "id": "5eaa7d1effd50d33c34637a8",
+            "level": "easy",
+            "passedUser": Array [
+              Object {
+                "firstname": "kenny",
+                "id": "5eaa773df4dcc728b76b00b7",
+                "lastname": "uchiha",
+                "password": null,
+                "totalPoints": 0,
+                "username": "kenny",
+              },
+            ],
+            "points": 100,
+            "title": "Find max",
+          },
+        ],
+        "totalPoints": 0,
+        "username": "kenny",
+      },
+    ],
+  },
+  "errors": undefined,
   "extensions": undefined,
   "http": Object {
     "headers": Headers {

@@ -299,11 +299,6 @@ const { query, mutate } = createTestClient(apolloServer);
 describe("Queries", () => {
   describe("User", () => {
     it("should return all users", async () => {
-      const res = await query({ query: GET_USERS });
-      expect(res).toMatchSnapshot();
-    });
-
-    it("should return single user with provided ID", async () => {
       const { server } = constructTestServer({
         context: async () => {
           //! Create generateToken for user schema (refactor)
@@ -325,6 +320,11 @@ describe("Queries", () => {
 
       const { query, mutate } = createTestClient(server);
 
+      const res = await query({ query: GET_USERS });
+      expect(res).toMatchSnapshot();
+    });
+
+    it("should return single user with provided ID", async () => {
       const res = await query({
         query: GET_USER,
         variables: {
