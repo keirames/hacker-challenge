@@ -33,7 +33,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node -r ts-node/register ./src/index.ts",
-    "test": "export NODE_ENV=test && jest --watchAll"
+    "test": "export NODE_ENV=test && jest --watchAll --runInBand --detectOpenHandles"
   },
   "nodemonConfig": {
     "ignore": [
