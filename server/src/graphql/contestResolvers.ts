@@ -1,8 +1,6 @@
 import { Contest, validateContest } from "../models/contest";
 import { Challenge } from "../models/challenge";
 import mongoose from "mongoose";
-import { createWriteStream } from "fs";
-import { code } from "../code";
 
 const contestResolvers = {
   Query: {
@@ -53,25 +51,6 @@ const contestResolvers = {
 
       contest.name = name;
       return await contest.save();
-    },
-    submitAnswer: async (parent: any, args: any, context: any, info: any) => {
-      const { challengeId, answer } = args;
-
-      const sum: Function = new Function(answer)();
-      const checkAnonymous: Function = new Function(
-        "assert",
-        "sum",
-        "return assert(sum(1,2) === 3)"
-      );
-
-      // await writeFile("test.ts", code, () => {});
-      const writer = createWriteStream("test.ts", { encoding: "utf8" });
-      writer.write(code);
-      // if (anonymousFunc()(1, 2) === 3) return [true];
-
-      // console.log(checkAnonymous(assert, sum).toString());
-      console.log(sum.toString());
-      return [true];
     },
   },
 };
