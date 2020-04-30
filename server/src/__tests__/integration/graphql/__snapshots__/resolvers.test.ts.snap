@@ -8,7 +8,14 @@ Object {
         "challengeSeed": "'use strict'",
         "content": "John is playing with his friends in the park",
         "contest": Object {
-          "challenges": Array [],
+          "challenges": Array [
+            Object {
+              "id": "5eaa7d1effd50d33c34637a8",
+            },
+            Object {
+              "id": "5eaa7f442db1ce3470fa16cc",
+            },
+          ],
           "id": "5eaa779bf4dcc728b76b00bb",
           "name": "Sherlock Homes",
         },
@@ -50,7 +57,14 @@ Object {
         "challengeSeed": "'use strict'",
         "content": "John is playing with his friends in the park",
         "contest": Object {
-          "challenges": Array [],
+          "challenges": Array [
+            Object {
+              "id": "5eaa7d1effd50d33c34637a8",
+            },
+            Object {
+              "id": "5eaa7f442db1ce3470fa16cc",
+            },
+          ],
           "id": "5eaa779bf4dcc728b76b00bb",
           "name": "Sherlock Homes",
         },
@@ -88,7 +102,14 @@ Object {
       "challengeSeed": "'use strict'",
       "content": "John is playing with his friends in the park",
       "contest": Object {
-        "challenges": Array [],
+        "challenges": Array [
+          Object {
+            "id": "5eaa7d1effd50d33c34637a8",
+          },
+          Object {
+            "id": "5eaa7f442db1ce3470fa16cc",
+          },
+        ],
         "id": "5eaa779bf4dcc728b76b00bb",
         "name": "Sherlock Homes",
       },
@@ -157,7 +178,87 @@ Object {
         "name": "The big map",
       },
       Object {
-        "challenges": Array [],
+        "challenges": Array [
+          Object {
+            "challengeSeed": "'use strict'",
+            "content": "John is playing with his friends in the park",
+            "contest": Object {
+              "challenges": Array [
+                Object {
+                  "id": "5eaa7d1effd50d33c34637a8",
+                },
+                Object {
+                  "id": "5eaa7f442db1ce3470fa16cc",
+                },
+              ],
+              "id": "5eaa779bf4dcc728b76b00bb",
+              "name": "Sherlock Homes",
+            },
+            "id": "5eaa7d1effd50d33c34637a8",
+            "level": "easy",
+            "passedUser": Array [
+              Object {
+                "firstname": "kenny",
+                "id": "5eaa773df4dcc728b76b00b7",
+                "lastname": "uchiha",
+                "likedChallenges": Array [
+                  Object {
+                    "id": "5eaa7d1effd50d33c34637a8",
+                  },
+                ],
+                "password": null,
+                "solvedChallenges": Array [
+                  Object {
+                    "id": "5eaa7d1effd50d33c34637a8",
+                  },
+                ],
+                "totalPoints": 0,
+                "username": "kenny",
+              },
+            ],
+            "points": 100,
+            "testCases": Array [
+              Object {
+                "testString": "assert.strictEqual(result,10)",
+                "text": "Must be 10",
+              },
+            ],
+            "testInputs": Array [
+              "3\\\\n1 2 10",
+            ],
+            "title": "Find max",
+          },
+          Object {
+            "challengeSeed": "'use strict'",
+            "content": "John is playing with his friends in the park",
+            "contest": Object {
+              "challenges": Array [
+                Object {
+                  "id": "5eaa7d1effd50d33c34637a8",
+                },
+                Object {
+                  "id": "5eaa7f442db1ce3470fa16cc",
+                },
+              ],
+              "id": "5eaa779bf4dcc728b76b00bb",
+              "name": "Sherlock Homes",
+            },
+            "id": "5eaa7f442db1ce3470fa16cc",
+            "level": "easy",
+            "passedUser": Array [],
+            "points": 100,
+            "testCases": Array [
+              Object {
+                "testString": "assert.strictEqual(result,1)",
+                "text": "Must be 1",
+              },
+            ],
+            "testInputs": Array [
+              "3\\\\n1 2 10",
+            ],
+            "title": "Find min",
+          },
+        ],
         "id": "5eaa779bf4dcc728b76b00bb",
         "name": "Sherlock Homes",
       },
@@ -175,10 +276,94 @@ Object {
 
 exports[`Queries Contest should return single contest with provided ID 1`] = `
 Object {
-  "data": undefined,
-  "errors": Array [
-    [ValidationError: Unknown argument "id" on field "getContest" of type "Query".],
-  ],
+  "data": Object {
+    "getContest": Object {
+      "challenges": Array [
+        Object {
+          "challengeSeed": "'use strict'",
+          "content": "John is playing with his friends in the park",
+          "contest": Object {
+            "challenges": Array [
+              Object {
+                "id": "5eaa7d1effd50d33c34637a8",
+              },
+              Object {
+                "id": "5eaa7f442db1ce3470fa16cc",
+              },
+            ],
+            "id": "5eaa779bf4dcc728b76b00bb",
+            "name": "Sherlock Homes",
+          },
+          "id": "5eaa7d1effd50d33c34637a8",
+          "level": "easy",
+          "passedUser": Array [
+            Object {
+              "firstname": "kenny",
+              "id": "5eaa773df4dcc728b76b00b7",
+              "lastname": "uchiha",
+              "likedChallenges": Array [
+                Object {
+                  "id": "5eaa7d1effd50d33c34637a8",
+                },
+              ],
+              "password": null,
+              "solvedChallenges": Array [
+                Object {
+                  "id": "5eaa7d1effd50d33c34637a8",
+                },
+              ],
+              "totalPoints": 0,
+              "username": "kenny",
+            },
+          ],
+          "points": 100,
+          "testCases": Array [
+            Object {
+              "testString": "assert.strictEqual(result,10)",
+              "text": "Must be 10",
+            },
+          ],
+          "testInputs": Array [
+            "3\\\\n1 2 10",
+          ],
+          "title": "Find max",
+        },
+        Object {
+          "challengeSeed": "'use strict'",
+          "content": "John is playing with his friends in the park",
+          "contest": Object {
+            "challenges": Array [
+              Object {
+                "id": "5eaa7d1effd50d33c34637a8",
+              },
+              Object {
+                "id": "5eaa7f442db1ce3470fa16cc",
+              },
+            ],
+            "id": "5eaa779bf4dcc728b76b00bb",
+            "name": "Sherlock Homes",
+          },
+          "id": "5eaa7f442db1ce3470fa16cc",
+          "level": "easy",
+          "passedUser": Array [],
+          "points": 100,
+          "testCases": Array [
+            Object {
+              "testString": "assert.strictEqual(result,1)",
+              "text": "Must be 1",
+            },
+          ],
+          "testInputs": Array [
+            "3\\\\n1 2 10",
+          ],
+          "title": "Find min",
+        },
+      ],
+      "id": "5eaa779bf4dcc728b76b00bb",
+      "name": "Sherlock Homes",
+    },
+  },
+  "errors": undefined,
   "extensions": undefined,
   "http": Object {
     "headers": Headers {
@@ -214,7 +399,16 @@ Object {
         Object {
           "content": "John is playing with his friends in the park",
           "contest": Object {
-            "challenges": Array [],
+            "challenges": Array [
+              Object {
+                "id": "5eaa7d1effd50d33c34637a8",
+                "title": "Find max",
+              },
+              Object {
+                "id": "5eaa7f442db1ce3470fa16cc",
+                "title": "Find min",
+              },
+            ],
             "id": "5eaa779bf4dcc728b76b00bb",
             "name": "Sherlock Homes",
           },
@@ -239,7 +433,16 @@ Object {
         Object {
           "content": "John is playing with his friends in the park",
           "contest": Object {
-            "challenges": Array [],
+            "challenges": Array [
+              Object {
+                "id": "5eaa7d1effd50d33c34637a8",
+                "title": "Find max",
+              },
+              Object {
+                "id": "5eaa7f442db1ce3470fa16cc",
+                "title": "Find min",
+              },
+            ],
             "id": "5eaa779bf4dcc728b76b00bb",
             "name": "Sherlock Homes",
           },

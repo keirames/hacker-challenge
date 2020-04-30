@@ -52,7 +52,7 @@ export const typeDefs = gql`
     getChallenges: [Challenge!]!
     getUser(id: ID!): User
     getUsers: [User!]!
-    getContest: Contest!
+    getContest(id: ID!): Contest!
     getContests: [Contest!]!
   }
 
