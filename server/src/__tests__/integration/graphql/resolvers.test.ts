@@ -21,8 +21,14 @@ const GET_USERS = gql`
         title
         content
         level
-        category {
+        points
+        contest {
+          id
           name
+          challenges {
+            id
+            title
+          }
         }
         passedUser {
           id
@@ -38,8 +44,14 @@ const GET_USERS = gql`
         title
         content
         level
-        category {
+        points
+        contest {
+          id
           name
+          challenges {
+            id
+            title
+          }
         }
         passedUser {
           id
@@ -68,8 +80,14 @@ const GET_USER = gql`
         title
         content
         level
-        category {
+        points
+        contest {
+          id
           name
+          challenges {
+            id
+            title
+          }
         }
         passedUser {
           id
@@ -85,8 +103,14 @@ const GET_USER = gql`
         title
         content
         level
-        category {
+        points
+        contest {
+          id
           name
+          challenges {
+            id
+            title
+          }
         }
         passedUser {
           id
@@ -109,21 +133,32 @@ const GET_CHALLENGE = gql`
       content
       level
       points
-      category {
+      contest {
+        id
         name
+        challenges {
+          id
+        }
       }
+      testCases {
+        text
+        testString
+      }
+      testInputs
+      challengeSeed
       passedUser {
         id
         username
         password
         firstname
         lastname
-        likedChallenges {
-          id
-        }
         solvedChallenges {
           id
         }
+        likedChallenges {
+          id
+        }
+        totalPoints
       }
     }
   }
@@ -137,43 +172,118 @@ const GET_CHALLENGES = gql`
       content
       level
       points
-      category {
+      contest {
+        id
         name
+        challenges {
+          id
+        }
       }
+      testCases {
+        text
+        testString
+      }
+      testInputs
+      challengeSeed
       passedUser {
         id
         username
         password
         firstname
         lastname
-        likedChallenges {
-          id
-        }
         solvedChallenges {
           id
         }
+        likedChallenges {
+          id
+        }
+        totalPoints
       }
     }
   }
 `;
 
-const GET_CATEGORIES = gql`
-  query GetCategories {
-    getCategories {
+const GET_CONTESTS = gql`
+  query GetContests {
+    getContests {
+      id
       name
       challenges {
         id
+        title
+        content
+        level
+        points
+        contest {
+          id
+          name
+          challenges {
+            id
+          }
+        }
+        testCases {
+          text
+          testString
+        }
+        testInputs
+        challengeSeed
+        passedUser {
+          id
+          username
+          password
+          firstname
+          lastname
+          solvedChallenges {
+            id
+          }
+          likedChallenges {
+            id
+          }
+          totalPoints
+        }
       }
     }
   }
 `;
 
-const GET_CATEGORY = gql`
-  query GetCategory($id: ID!) {
-    getCategory(id: $id) {
+const GET_CONTEST = gql`
+  query GetContest($id: ID!) {
+    getContest(id: $id) {
+      id
       name
       challenges {
         id
+        title
+        content
+        level
+        points
+        contest {
+          id
+          name
+          challenges {
+            id
+          }
+        }
+        testCases {
+          text
+          testString
+        }
+        testInputs
+        challengeSeed
+        passedUser {
+          id
+          username
+          password
+          firstname
+          lastname
+          solvedChallenges {
+            id
+          }
+          likedChallenges {
+            id
+          }
+          totalPoints
+        }
       }
     }
   }
@@ -192,7 +302,7 @@ describe("Queries", () => {
     it("should return single user with provided ID", async () => {
       const res = await query({
         query: GET_USER,
-        variables: { id: "5e9beb8203a9480f22dcb733" },
+        variables: { id: "5eaa773df4dcc728b76b00b7" },
       });
       expect(res).toMatchSnapshot();
     });
@@ -207,25 +317,24 @@ describe("Queries", () => {
     it("should return single challenge with provided ID", async () => {
       const res = await query({
         query: GET_CHALLENGE,
-        variables: { id: "5e9bec5203a9480f22dcb737" },
+        variables: { id: "5eaa7d1effd50d33c34637a8" },
       });
       expect(res).toMatchSnapshot();
     });
   });
 
-  describe("Category", () => {
-    it("should return all categories", async () => {
+  describe("Contest", () => {
+    it("should return all contests", async () => {
       const res = await query({
-        query: GET_CATEGORIES,
-        variables: { id: "5e9b2feccf07096f9ef2bc65" },
+        query: GET_CONTESTS,
       });
       expect(res).toMatchSnapshot();
     });
 
-    it("should return single category with provided ID", async () => {
+    it("should return single contest with provided ID", async () => {
       const res = await query({
-        query: GET_CATEGORY,
-        variables: { id: "5e9b2ff8cf07096f9ef2bc67" },
+        query: GET_CONTEST,
+        variables: { id: "5eaa779bf4dcc728b76b00bb" },
       });
       expect(res).toMatchSnapshot();
     });
