@@ -69,5 +69,5 @@
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
   "exclude": ["node_modules", ".vscode"],
-  "include": ["src/**/*.ts", "src/models/user.js"]
+  "include": ["src/**/*.ts", "src/models/user.js", "src/factorialWorker.js"]
 }

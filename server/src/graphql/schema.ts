@@ -18,7 +18,7 @@ export const typeDefs = gql`
     content: String!
     level: String!
     points: Int!
-    category: Category!
+    contest: Contest!
     passedUser: [User!]!
   }
 
@@ -33,7 +33,7 @@ export const typeDefs = gql`
     totalPoints: Int!
   }
 
-  type Category {
+  type Contest {
     id: ID!
     name: String!
     challenges: [Challenge!]!
@@ -44,8 +44,8 @@ export const typeDefs = gql`
     getChallenges: [Challenge!]!
     getUser(id: ID!): User
     getUsers: [User!]!
-    getCategory: Category!
-    getCategories: [Category!]!
+    getContest: Contest!
+    getContests: [Contest!]!
   }
 
   input UserInput {
@@ -59,10 +59,10 @@ export const typeDefs = gql`
     title: String!
     content: String!
     level: String!
-    categoryId: ID!
+    contestId: ID!
   }
 
-  input CategoryInput {
+  input ContestInput {
     name: String!
   }
 
@@ -74,7 +74,8 @@ export const typeDefs = gql`
     editChallenge(challengeId: ID!, challenge: ChallengeInput!): Challenge!
     addOrRemoveSolvedChallenges(userId: ID!, challengeId: ID!): [ID!]!
     addOrRemoveLikedChallenges(userId: ID!, challengeId: ID!): [ID!]!
-    addCategory(category: CategoryInput!): Category!
-    editCategory(categoryId: ID!, category: CategoryInput!): Category!
+    addContest(contest: ContestInput!): Contest!
+    editContest(contestId: ID!, contest: ContestInput!): Contest!
+    submitAnswer(challengeId: ID!, answer: String!): [String]!
   }
 `;

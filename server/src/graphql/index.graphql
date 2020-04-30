@@ -39,4 +39,5 @@ type Mutation {
   addOrRemoveLikedChallenges(userId: ID!, challengeId: ID!): [ID!]!
   addCategory(category: CategoryInput!): Category!
   editCategory(categoryId: ID!, category: CategoryInput!): Category!
+  submitAnswer(categoryId: ID!, answer: String!): [String]!
 }

@@ -1,9 +1,13 @@
 import mongoose, { mongo } from "mongoose";
 import { Challenge, validateChallenge } from "../models/challenge";
 import { User, validateUser } from "../models/user";
-import { Category, validateCategory } from "../models/category";
+import { Contest, validateContest } from "../models/contest";
 import { sign } from "jsonwebtoken";
 import { authenticateUser } from "../utils/auth";
+import { assert } from "chai";
+import { writeFile, createWriteStream, write } from "fs";
+import { join } from "path";
+import { code } from "../code";
 const bcrypt = require("bcrypt");
 
 const resolvers = {
@@ -21,11 +25,11 @@ const resolvers = {
       const user = await authenticateUser(context);
       return await User.find({}, "-password");
     },
-    getCategory: async (parent: any, args: any, context: any) => {
-      return await Category.findById(args.id);
+    getContest: async (parent: any, args: any, context: any) => {
+      return await Contest.findById(args.id);
     },
-    getCategories: async (parent: any, args: any, context: any) => {
-      return await Category.find({});
+    getContests: async (parent: any, args: any, context: any) => {
+      return await Contest.find({});
     },
   },
   User: {
@@ -74,13 +78,13 @@ const resolvers = {
     passedUser: async (parent: any, args: any, context: any, info: any) => {
       return await User.find({ solvedChallenges: parent.id }, "-password");
     },
-    category: async (parent: any, args: any, context: any, info: any) => {
-      return await Category.findById(parent.category);
+    contest: async (parent: any, args: any, context: any, info: any) => {
+      return await Contest.findById(parent.contest);
     },
   },
-  Category: {
+  Contest: {
     challenges: async (parent: any, args: any, context: any, info: any) => {
-      return await Challenge.find({ category: parent.category });
+      return await Challenge.find({ contest: parent.contest });
     },
   },
   Mutation: {
@@ -164,19 +168,19 @@ const resolvers = {
       return user.save();
     },
     addChallenge: async (parent: any, args: any, context: any, info: any) => {
-      const { title, content, level, categoryId } = args.challenge;
+      const { title, content, level, contestId } = args.challenge;
 
       const { error } = validateChallenge(args.challenge);
       if (error) throw new Error(error.details[0].message);
 
-      const category = await Category.findById(categoryId);
-      if (!category) throw new Error(`Invalid category's id`);
+      const contest = await Contest.findById(contestId);
+      if (!contest) throw new Error(`Invalid contest's id`);
 
       let challenge = new Challenge({
         title,
         content,
         level,
-        category: categoryId,
+        contest: contestId,
       });
       challenge = await challenge.save();
 
@@ -184,7 +188,7 @@ const resolvers = {
     },
     editChallenge: async (parent: any, args: any, context: any, info: any) => {
       const { challengeId } = args;
-      const { title, content, level, categoryId } = args.challenge;
+      const { title, content, level, contestId } = args.challenge;
 
       const { error } = validateChallenge(args.challenge);
       if (error) throw new Error(error.details[0].message);
@@ -195,13 +199,13 @@ const resolvers = {
       let challenge = await Challenge.findById(challengeId);
       if (!challenge) throw new Error(`Invalid challenge's id`);
 
-      const category = await Category.findById(categoryId);
-      if (!category) throw new Error(`Invalid category's id`);
+      const contest = await Contest.findById(contestId);
+      if (!contest) throw new Error(`Invalid contest's id`);
 
       challenge.title = title;
       challenge.content = content;
       challenge.level = level;
-      challenge.category = categoryId;
+      challenge.contest = contestId;
 
       challenge = await challenge.save();
       return challenge;
@@ -265,29 +269,48 @@ const resolvers = {
       delete user.password;
       return user.likedChallenges;
     },
-    addCategory: async (parent: any, args: any, context: any, info: any) => {
-      const { name } = args.category;
+    addContest: async (parent: any, args: any, context: any, info: any) => {
+      const { name } = args.contest;
 
-      const { error } = validateCategory(args.category);
+      const { error } = validateContest(args.contest);
       if (error) throw new Error(error.details[0].message);
 
-      let category = new Category({ name });
-      return await category.save();
+      let contest = new Contest({ name });
+      return await contest.save();
     },
-    editCategory: async (parent: any, args: any, context: any, info: any) => {
-      const { name } = args.category;
+    editContest: async (parent: any, args: any, context: any, info: any) => {
+      const { name } = args.contest;
 
-      const { error } = validateCategory(args.category);
+      const { error } = validateContest(args.contest);
       if (error) throw new Error(error.details[0].message);
 
-      if (!mongoose.Types.ObjectId.isValid(args.categoryId))
-        throw new Error(`Invalid category's id`);
+      if (!mongoose.Types.ObjectId.isValid(args.contestId))
+        throw new Error(`Invalid contest's id`);
 
-      let category = await Category.findById(args.categoryId);
-      if (!category) throw new Error(`Invalid category's id`);
+      let contest = await Contest.findById(args.contestId);
+      if (!contest) throw new Error(`Invalid contest's id`);
 
-      category.name = name;
-      return await category.save();
+      contest.name = name;
+      return await contest.save();
+    },
+    submitAnswer: async (parent: any, args: any, context: any, info: any) => {
+      const { challengeId, answer } = args;
+
+      const sum: Function = new Function(answer)();
+      const checkAnonymous: Function = new Function(
+        "assert",
+        "sum",
+        "return assert(sum(1,2) === 3)"
+      );
+
+      // await writeFile("test.ts", code, () => {});
+      const writer = createWriteStream("test.ts", { encoding: "utf8" });
+      writer.write(code);
+      // if (anonymousFunc()(1, 2) === 3) return [true];
+
+      // console.log(checkAnonymous(assert, sum).toString());
+      console.log(sum.toString());
+      return [true];
     },
   },
 };

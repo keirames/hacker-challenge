@@ -4,7 +4,7 @@ type Challenge {
   content: String!
   level: String!
   points: Int!
-  category: Category!
+  contest: Contest!
   passedUser: [User!]!
 }
 
@@ -19,7 +19,7 @@ type User {
   totalPoints: Int!
 }
 
-type Category {
+type Contest {
   id: ID!
   name: String!
   challenges: [Challenge!]!

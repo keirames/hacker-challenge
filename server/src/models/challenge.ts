@@ -18,9 +18,9 @@ const challengeSchema: Schema = new Schema({
     default: 0,
     min: 0,
   },
-  category: {
+  contest: {
     type: Schema.Types.ObjectId,
-    ref: "Category",
+    ref: "Contest",
   },
 });
 
@@ -29,7 +29,7 @@ interface IChallenge extends Document {
   content: String;
   level: String;
   points: Number;
-  category: String;
+  contest: String;
 }
 
 const Challenge: Model<IChallenge> = model<IChallenge>(
@@ -42,7 +42,7 @@ const validateChallenge = (challenge: any) => {
     title: Joi.string().min(5).max(255).required(),
     content: Joi.string().min(5).required(),
     level: Joi.string().required(),
-    category: Joi.string().required(),
+    contest: Joi.string().required(),
   });
   return schema.validate(challenge);
 };
