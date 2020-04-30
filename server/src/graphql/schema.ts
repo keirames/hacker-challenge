@@ -63,16 +63,20 @@ export const typeDefs = gql`
     lastname: String!
   }
 
+  input TestCaseInput {
+    text: String!
+    testString: String!
+  }
+
   input ChallengeInput {
     title: String!
     content: String!
     level: String!
     points: Int!
     contestId: ID!
-    testCases: [TestCase!]!
+    testCases: [TestCaseInput!]!
     testInputs: [String!]!
     challengeSeed: String!
-    passedUser: [User!]!
   }
 
   input ContestInput {
