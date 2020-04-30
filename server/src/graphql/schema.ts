@@ -17,6 +17,21 @@ export const typeDefs = gql`
     testString: String!
   }
 
+  type TestedResultError {
+    message: String!
+    actual: Int!
+    expected: Int!
+  }
+
+  type TestedResult {
+    passed: Boolean!
+    assert: TestedResultError
+  }
+
+  type Answer {
+    testedResults: [TestedResult!]!
+  }
+
   type Challenge {
     id: ID!
     title: String!
@@ -93,6 +108,6 @@ export const typeDefs = gql`
     addOrRemoveLikedChallenges(userId: ID!, challengeId: ID!): [ID!]!
     addContest(contest: ContestInput!): Contest!
     editContest(contestId: ID!, contest: ContestInput!): Contest!
-    submitAnswer(challengeId: ID!, answer: String!): [String]!
+    submitAnswer(challengeId: ID!, answer: String!): Answer!
   }
 `;

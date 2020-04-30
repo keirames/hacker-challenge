@@ -5,6 +5,7 @@ import { sign } from "jsonwebtoken";
 import mongoose from "mongoose";
 import { createWriteStream } from "fs";
 import { code } from "../code";
+import executeSolution from "./utils/executeSolution";
 const bcrypt = require("bcrypt");
 
 const userResolvers = {
@@ -149,21 +150,28 @@ const userResolvers = {
     submitAnswer: async (parent: any, args: any, context: any, info: any) => {
       const { challengeId, answer } = args;
 
-      const sum: Function = new Function(answer)();
-      const checkAnonymous: Function = new Function(
-        "assert",
-        "sum",
-        "return assert(sum(1,2) === 3)"
+      const user = await authenticateUser(context);
+
+      if (!mongoose.Types.ObjectId.isValid(challengeId))
+        throw new Error(`Invalid challenge id`);
+
+      let challenge = await Challenge.findById(challengeId);
+      if (!challenge) throw new Error(`Invalid challenge id`);
+
+      const testInputs: any[] = challenge.testInputs;
+      const testStrings: any[] = [];
+      challenge.testCases.forEach((testCase: any) =>
+        testStrings.push(testCase.testString)
       );
 
-      // await writeFile("test.ts", code, () => {});
-      const writer = createWriteStream("test.ts", { encoding: "utf8" });
-      writer.write(code);
-      // if (anonymousFunc()(1, 2) === 3) return [true];
-
-      // console.log(checkAnonymous(assert, sum).toString());
-      console.log(sum.toString());
-      return [true];
+      const executeResult = await executeSolution(user._id, {
+        testInputs,
+        testStrings,
+        answer,
+      });
+      // console.log(result);
+      if (executeResult.error) return executeResult.error;
+      return executeResult;
     },
   },
 };
