@@ -3,8 +3,6 @@ import { authenticateUser } from "../utils/auth";
 import { Challenge } from "../models/challenge";
 import { sign } from "jsonwebtoken";
 import mongoose from "mongoose";
-import { createWriteStream } from "fs";
-import { code } from "../code";
 import executeSolution from "./utils/executeSolution";
 const bcrypt = require("bcrypt");
 
