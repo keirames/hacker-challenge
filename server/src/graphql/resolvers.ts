@@ -122,7 +122,11 @@ const resolvers = {
       const { error } = validateUser(args.user);
       if (error) throw new Error(error.details[0].message);
 
-      let user = new User({
+      // If username already exist
+      let user = await User.findOne({ username });
+      if (user) throw new Error(`Username already taken`);
+
+      user = new User({
         username,
         password,
         firstname,
