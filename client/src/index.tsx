@@ -6,15 +6,27 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./reducers";
-import thunk from "redux-thunk";
+import thunkMiddleware from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
+import ApolloClient, { gql } from "apollo-boost";
+import { ApolloProvider } from "@apollo/react-hooks";
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const client = new ApolloClient({
+  uri: "http://localhost:3000/graphql",
+});
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunkMiddleware))
+);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

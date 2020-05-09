@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import challengeReducer from "./challenge";
 
-const rootReducer = combineReducers({ challengeReducer });
+const rootReducer = combineReducers({ challenge: challengeReducer });
 
 export default rootReducer;

@@ -4,11 +4,11 @@ export const requestChallenges = () => {
   return { type: actions.REQUEST_CHALLENGES, payload: {} };
 };
 
-export const receiveChallenges = () => {
+export const receiveChallenges = (json: [string]) => {
   return {
-    types: actions.REQUEST_CHALLENGES,
+    type: actions.RECEIVE_CHALLENGES,
     payload: {
-      challenges: [],
+      challenges: json,
       receivedAt: Date.now(),
     },
   };
@@ -16,7 +16,8 @@ export const receiveChallenges = () => {
 
 export const fetchChallenges = () => {
   return (dispatch: any) => {
-    console.log("DISPATCH: ", dispatch);
-    console.log("click");
+    fetch("https://shielded-crag-28383.herokuapp.com/api/brands")
+      .then((response: any) => response.json())
+      .then((json) => dispatch(receiveChallenges(json)));
   };
 };

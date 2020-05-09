@@ -1,15 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { fetchChallenges } from "./actions";
+import MainPage from "./components/MainPage";
 
 function App() {
-  const dispatch = useDispatch();
-
   return (
     <SApp>
-      <p>Hello world</p>
-      <button onClick={() => dispatch(fetchChallenges())}>CLICK</button>
+      <MainPage />
     </SApp>
   );
 }

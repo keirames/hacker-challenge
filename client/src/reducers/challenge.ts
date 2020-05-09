@@ -13,7 +13,7 @@ const challengeReducer = (
         isFetching: false,
         didInvalidate: false,
         items: action.payload.challenges,
-        lastUpdated: action.receiveAt,
+        lastUpdated: action.payload.receivedAt,
       };
     default:
       return state;
