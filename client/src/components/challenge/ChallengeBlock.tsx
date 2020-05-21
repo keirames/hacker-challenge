@@ -1,6 +1,6 @@
 import React from "react";
 
-type ContainerProps = {
+type Props = {
   challenge: {
     id: string;
     title: string;
@@ -9,7 +9,7 @@ type ContainerProps = {
   };
 };
 
-const ChallengeBlock: React.FC<ContainerProps> = ({ challenge }) => {
+const ChallengeBlock: React.FC<Props> = ({ challenge }) => {
   return <div>{challenge.title}</div>;
 };
 

@@ -14,7 +14,7 @@ const GET_CHALLENGES = gql`
   }
 `;
 
-const ChallengeContainer: React.FC = () => {
+const ChallengeContainer: React.FC = (props) => {
   const { data, error, loading } = useQuery(GET_CHALLENGES);
 
   if (loading) return <p>Loading...</p>;
