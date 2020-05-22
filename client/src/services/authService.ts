@@ -2,15 +2,15 @@ import jwtDecode from "jwt-decode";
 
 const tokenKey = "token";
 
-export const loginWithJwt = (jwt: string) => {
+export const signInWithJwt = (jwt: string) => {
   localStorage.setItem(tokenKey, jwt);
 };
 
-export const logout = () => {
+export const signOut = () => {
   localStorage.removeItem(tokenKey);
 };
 
-export const getCurrentUser = (): any => {
+export const getCurrentUser = (): object | null => {
   try {
     const jwt = localStorage.getItem(tokenKey);
     if (jwt) return jwtDecode(jwt);

@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { getCurrentUser, logout } from "../../services/authService";
-import { Button } from "@material-ui/core";
-// import ChallengeContainer from "../challenge/ChallengeContainer";
+import React from "react";
+import { Container } from "@material-ui/core";
+import ContestsContainer from "../contest/ContestsContainer";
 
-const MainPage: React.FC = () => {
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    const user = getCurrentUser();
-    setUser({ ...user });
-  }, []);
-
-  // const { data } = useQuery(GET_USER);
-
+const MainPage: React.FC = (props) => {
   return (
-    <div>
-      {JSON.stringify(user)} <Button onClick={logout}>Logout</Button>
-    </div>
+    <Container>
+      <ContestsContainer />
+    </Container>
   );
 };
 

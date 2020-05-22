@@ -8,10 +8,15 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./theme";
 import { BrowserRouter } from "react-router-dom";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
+  clientState: { defaults: {}, resolvers: {} },
 });
+
+library.add(fas);
 
 ReactDOM.render(
   <React.StrictMode>

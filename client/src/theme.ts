@@ -10,7 +10,9 @@ export const theme = {
     common: {
       black: "#000",
       white: "#fff",
+      whitesmoke: "#f3f7f7",
       green: "#26d487",
+      darkGreen: "#00b372",
       dark: "#36393f",
       red: "#FF4646",
       lightRed: "#FF6E6E",
@@ -30,12 +32,24 @@ export const theme = {
   },
 };
 
-export interface ThemeType {
+export interface STheme {
+  typography: {
+    fontSize: {
+      small: string;
+      medium: string;
+      large: string;
+    };
+  };
   palette: {
     common: {
       black: string;
       white: string;
+      whitesmoke: string;
       green: string;
+      darkGreen: string;
+      dark: string;
+      red: string;
+      lightRed: string;
     };
   };
   shadows: {

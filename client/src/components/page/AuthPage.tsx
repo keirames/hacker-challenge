@@ -9,14 +9,14 @@ interface Props {
 }
 
 const AuthPage: React.FC<Props> = (props) => {
-  const { type = "login" } = props;
+  const { type = "signIn" } = props;
 
   return (
     <SAuth>
       <Grow in={true} style={{ transformOrigin: "50% 0 0" }}>
         <Paper elevation={4}>
-          {type === "login" && <LoginForm />}
-          {type === "register" && <RegisterForm />}
+          {type === "signIn" && <LoginForm />}
+          {type === "signUp" && <RegisterForm />}
         </Paper>
       </Grow>
       <img src="./images/hacker_mindset.svg" alt="" />

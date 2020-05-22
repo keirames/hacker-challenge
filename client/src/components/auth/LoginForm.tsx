@@ -6,7 +6,7 @@ import { Formik, Form, Field } from "formik";
 import { Link } from "react-router-dom";
 import { LOGIN, LoginUserDetails } from "../../mutations";
 import { useMutation } from "@apollo/react-hooks";
-import { loginWithJwt } from "../../services/authService";
+import { signInWithJwt } from "../../services/authService";
 
 interface FormValues {
   username: string;
@@ -40,7 +40,7 @@ const LoginForm: React.FC = (props) => {
 
     try {
       const response = await login({ variables: { username, password } });
-      loginWithJwt(response.data?.login);
+      signInWithJwt(response.data?.login);
       window.location.href = "/";
     } catch (error) {
       // Do nothing
