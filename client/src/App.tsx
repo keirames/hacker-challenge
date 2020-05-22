@@ -8,6 +8,7 @@ import { GET_USER } from "./mutations";
 import { getCurrentUser } from "./services/authService";
 import NavBar from "./components/navBar/NavBar";
 import ContestDetailsPage from "./components/page/ContestDetailsPage";
+import ChallengePage from "./components/page/ChallengePage";
 
 const App: React.FC = () => {
   const { client } = useQuery(GET_USER);
@@ -69,6 +70,7 @@ const App: React.FC = () => {
         />
         <NavRoute exact path="/contests" component={MainPage} />
         <NavRoute exact path="/contests/:id" component={ContestDetailsPage} />
+        <NavRoute exact path="/challenges/:id" component={ChallengePage} />
         <NavRoute exact path="/practice" component={MainPage} />
         <Redirect exact from="/" to="/contests" />
         <Redirect to="/contests" />

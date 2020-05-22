@@ -16,6 +16,7 @@ export const theme = {
       dark: "#36393f",
       red: "#FF4646",
       lightRed: "#FF6E6E",
+      orange: "#f59b42",
     },
   },
   shadows: {
@@ -50,6 +51,7 @@ export interface STheme {
       dark: string;
       red: string;
       lightRed: string;
+      orange: string;
     };
   };
   shadows: {
