@@ -5,7 +5,7 @@ import { Typography, TextField, Button } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { Link } from "react-router-dom";
 import { LOGIN, LoginUserDetails } from "../../mutations";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/client";
 import { signInWithJwt } from "../../services/authService";
 
 interface FormValues {

@@ -31,7 +31,6 @@ Object {
                 "id": "5eaa7d1effd50d33c34637a8",
               },
             ],
-            "password": null,
             "solvedChallenges": Array [
               Object {
                 "id": "5eaa7d1effd50d33c34637a8",
@@ -125,7 +124,6 @@ Object {
               "id": "5eaa7d1effd50d33c34637a8",
             },
           ],
-          "password": null,
           "solvedChallenges": Array [
             Object {
               "id": "5eaa7d1effd50d33c34637a8",
@@ -206,7 +204,6 @@ Object {
                     "id": "5eaa7d1effd50d33c34637a8",
                   },
                 ],
-                "password": null,
                 "solvedChallenges": Array [
                   Object {
                     "id": "5eaa7d1effd50d33c34637a8",
@@ -306,7 +303,6 @@ Object {
                   "id": "5eaa7d1effd50d33c34637a8",
                 },
               ],
-              "password": null,
               "solvedChallenges": Array [
                 Object {
                   "id": "5eaa7d1effd50d33c34637a8",
@@ -405,7 +401,6 @@ Object {
                 "firstname": "kenny",
                 "id": "5eaa773df4dcc728b76b00b7",
                 "lastname": "uchiha",
-                "password": null,
                 "totalPoints": 0,
                 "username": "kenny",
               },
@@ -414,7 +409,6 @@ Object {
             "title": "Find max",
           },
         ],
-        "password": "$2b$10$X/poZZHEEgasjT/43Q3U..8.bSwpgvoxajCx34limRh4ByOO6A9bC",
         "solvedChallenges": Array [
           Object {
             "content": "John is playing with his friends in the park",
@@ -439,7 +433,6 @@ Object {
                 "firstname": "kenny",
                 "id": "5eaa773df4dcc728b76b00b7",
                 "lastname": "uchiha",
-                "password": null,
                 "totalPoints": 0,
                 "username": "kenny",
               },
@@ -494,7 +487,6 @@ Object {
               "firstname": "kenny",
               "id": "5eaa773df4dcc728b76b00b7",
               "lastname": "uchiha",
-              "password": null,
               "totalPoints": 0,
               "username": "kenny",
             },
@@ -503,7 +495,6 @@ Object {
           "title": "Find max",
         },
       ],
-      "password": "$2b$10$X/poZZHEEgasjT/43Q3U..8.bSwpgvoxajCx34limRh4ByOO6A9bC",
       "solvedChallenges": Array [
         Object {
           "content": "John is playing with his friends in the park",
@@ -528,7 +519,6 @@ Object {
               "firstname": "kenny",
               "id": "5eaa773df4dcc728b76b00b7",
               "lastname": "uchiha",
-              "password": null,
               "totalPoints": 0,
               "username": "kenny",
             },

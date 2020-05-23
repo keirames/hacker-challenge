@@ -2,21 +2,21 @@ import React, { useEffect, useCallback } from "react";
 import styled from "styled-components";
 import MainPage from "./components/page/MainPage";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import AuthPage from "./components/page/AuthPage";
-import { useQuery } from "@apollo/react-hooks";
-import { GET_USER } from "./mutations";
+import { GET_USER_CLIENT } from "./mutations";
 import { getCurrentUser } from "./services/authService";
 import NavBar from "./components/navBar/NavBar";
 import ContestDetailsPage from "./components/page/ContestDetailsPage";
 import ChallengePage from "./components/page/ChallengePage";
 
 const App: React.FC = () => {
-  const { client } = useQuery(GET_USER);
+  const { client } = useQuery(GET_USER_CLIENT);
 
   useEffect(() => {
     const user = getCurrentUser();
     client.writeQuery({
-      query: GET_USER,
+      query: GET_USER_CLIENT,
       data: { user: user },
     });
   }, [client]);

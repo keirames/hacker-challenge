@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 import { STheme } from "../../theme";
-import { ISortTypes } from "../page/ContestDetailsPage";
+import { ILevelFilter, IStatusFilter } from "../page/ContestDetailsPage";
 
 const GreenCheckBox = withStyles({
   root: {
@@ -23,38 +23,57 @@ const GreenCheckBox = withStyles({
 
 interface IProps {
   style?: React.CSSProperties;
-  onChangeSortTypes?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  sortType: ISortTypes;
+  levelFilter: ILevelFilter;
+  statusFilter: IStatusFilter;
+  onChangeLevelFilter?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeStatusFilter?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SortTable: React.FC<IProps> = (props) => {
-  const { style, sortType, onChangeSortTypes: onChangeSortType } = props;
+  const {
+    style,
+    levelFilter,
+    statusFilter,
+    onChangeLevelFilter,
+    onChangeStatusFilter,
+  } = props;
 
   return (
     <SSortTable style={style}>
       <FormGroup>
+        <p className="title">Status</p>
         <FormControlLabel
-          control={<GreenCheckBox checked={false} name="solved" size="small" />}
+          control={
+            <GreenCheckBox
+              checked={statusFilter.solved}
+              name="solved"
+              size="small"
+              onChange={onChangeStatusFilter}
+            />
+          }
           label={<Typography variant="body2">Solved</Typography>}
         />
         <FormControlLabel
           control={
             <GreenCheckBox
-              checked={false}
+              checked={statusFilter.unsolved}
               name="unsolved"
               size="small"
-              onChange={onChangeSortType}
+              onChange={onChangeStatusFilter}
             />
           }
           label={<Typography variant="body2">Unsolved</Typography>}
         />
+      </FormGroup>
+      <FormGroup>
+        <p className="title">Level</p>
         <FormControlLabel
           control={
             <GreenCheckBox
-              checked={sortType.easy}
+              checked={levelFilter.easy}
               name="easy"
               size="small"
-              onChange={onChangeSortType}
+              onChange={onChangeLevelFilter}
             />
           }
           label={<Typography variant="body2">Easy</Typography>}
@@ -62,10 +81,10 @@ const SortTable: React.FC<IProps> = (props) => {
         <FormControlLabel
           control={
             <GreenCheckBox
-              checked={sortType.medium}
+              checked={levelFilter.medium}
               name="medium"
               size="small"
-              onChange={onChangeSortType}
+              onChange={onChangeLevelFilter}
             />
           }
           label={<Typography variant="body2">Medium</Typography>}
@@ -73,10 +92,10 @@ const SortTable: React.FC<IProps> = (props) => {
         <FormControlLabel
           control={
             <GreenCheckBox
-              checked={sortType.hard}
+              checked={levelFilter.hard}
               name="hard"
               size="small"
-              onChange={onChangeSortType}
+              onChange={onChangeLevelFilter}
             />
           }
           label={<Typography variant="body2">Hard </Typography>}
@@ -88,8 +107,25 @@ const SortTable: React.FC<IProps> = (props) => {
 
 const SSortTable = styled.div`
   border-left: 1px solid
-    ${({ theme }: { theme: STheme }) => theme.palette.common.grey};
+    ${({ theme }: { theme: STheme }) => theme.palette.common.lightGrey};
   padding-left: 20px;
+
+  & > :first-child {
+    border-bottom: 1px solid
+      ${({ theme }: { theme: STheme }) => theme.palette.common.lightGrey};
+  }
+
+  & > * {
+    margin-top: 10px;
+  }
+
+  .title {
+    margin: 0;
+    font-size: ${({ theme }: { theme: STheme }) =>
+      theme.typography.fontSize.large};
+    color: ${({ theme }: { theme: STheme }) => theme.palette.common.grey};
+    font-weight: lighter;
+  }
 `;
 
 export default SortTable;

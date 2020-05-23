@@ -1,7 +1,6 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { gql, useQuery } from "@apollo/client";
 import ContestBlock from "./ContestBlock";
-import { gql } from "apollo-boost";
 import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 

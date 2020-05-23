@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { STheme } from "../../theme";
 import { Typography, Button } from "@material-ui/core";
 import Level from "./Level";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
   const { id, title, points, level } = challenge;
