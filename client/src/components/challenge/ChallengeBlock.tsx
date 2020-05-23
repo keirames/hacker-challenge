@@ -30,7 +30,7 @@ const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
         color="primary"
         onClick={() => push(`/challenges/${id}`)}
       >
-        Try Solve
+        Solve Challenge
       </SButton>
     </SChallengeBlock>
   );
