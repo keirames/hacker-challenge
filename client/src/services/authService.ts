@@ -10,6 +10,10 @@ export const signOut = () => {
   localStorage.removeItem(tokenKey);
 };
 
+export const getJwt = (): string | null => {
+  return localStorage.getItem(tokenKey);
+};
+
 export const getCurrentUser = (): object | null => {
   try {
     const jwt = localStorage.getItem(tokenKey);

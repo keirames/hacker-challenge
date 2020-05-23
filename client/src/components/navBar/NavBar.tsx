@@ -6,12 +6,12 @@ import Burger from "./Burger";
 import { Hidden, Button } from "@material-ui/core";
 import Links from "./Links";
 import UserOptions from "./UserOptions";
-import { GET_USER } from "../../mutations";
-import { useQuery } from "@apollo/react-hooks";
+import { GET_USER_CLIENT } from "../../mutations";
+import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 
 const NavBar: React.FC = (props) => {
-  const { data } = useQuery(GET_USER);
+  const { data } = useQuery(GET_USER_CLIENT);
 
   return (
     <SNavBar>

@@ -16,7 +16,6 @@ const GET_USERS = gql`
     getUsers {
       id
       username
-      password
       firstname
       lastname
       totalPoints
@@ -37,7 +36,6 @@ const GET_USERS = gql`
         passedUser {
           id
           username
-          password
           firstname
           lastname
           totalPoints
@@ -60,7 +58,6 @@ const GET_USERS = gql`
         passedUser {
           id
           username
-          password
           firstname
           lastname
           totalPoints
@@ -75,7 +72,6 @@ const GET_USER = gql`
     getUser(id: $id) {
       id
       username
-      password
       firstname
       lastname
       totalPoints
@@ -96,7 +92,6 @@ const GET_USER = gql`
         passedUser {
           id
           username
-          password
           firstname
           lastname
           totalPoints
@@ -119,7 +114,6 @@ const GET_USER = gql`
         passedUser {
           id
           username
-          password
           firstname
           lastname
           totalPoints
@@ -153,7 +147,6 @@ const GET_CHALLENGE = gql`
       passedUser {
         id
         username
-        password
         firstname
         lastname
         solvedChallenges {
@@ -192,7 +185,6 @@ const GET_CHALLENGES = gql`
       passedUser {
         id
         username
-        password
         firstname
         lastname
         solvedChallenges {
@@ -234,7 +226,6 @@ const GET_CONTESTS = gql`
         passedUser {
           id
           username
-          password
           firstname
           lastname
           solvedChallenges {
@@ -277,7 +268,6 @@ const GET_CONTEST = gql`
         passedUser {
           id
           username
-          password
           firstname
           lastname
           solvedChallenges {

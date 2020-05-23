@@ -17,6 +17,11 @@ const userResolvers = {
       const user = await authenticateUser(context);
       return await User.find({});
     },
+    //! Dont have integration test
+    getMe: async (parent: any, args: any, context: any) => {
+      const user = await authenticateUser(context);
+      return user;
+    },
   },
   User: {
     solvedChallenges: async (
@@ -79,13 +84,20 @@ const userResolvers = {
       if (!isValidPassword) throw new Error(`Invalid username or password`);
 
       //! Import config for privatekey later & generateAuthToken need in user schema
+      //? sign({...user}) => spread all unknown properties
       const token: string = sign(
         {
-          _id: user._id,
+          id: user._id,
+          username: user.username,
           firstname: user.firstname,
           lastname: user.lastname,
+          totalPoints: user.totalPoints,
+          isPremium: user.isPremium,
         },
-        "helloworld"
+        "helloworld",
+        {
+          expiresIn: "2d",
+        }
       );
       return token;
     },
@@ -107,21 +119,28 @@ const userResolvers = {
       });
 
       user.password = await bcrypt.hash(user.password, 10);
+      user = await user.save();
 
-      //? Do i need include password into token ?
       //! Create generateToken for user schema (refactor)
       //! Import config for privatekey later & generateAuthToken need in user schema
       const token = sign(
         {
-          _id: user._id,
+          id: user._id,
+          username: user.username,
           firstname: user.firstname,
           lastname: user.lastname,
+          totalPoints: user.totalPoints,
+          isPremium: user.isPremium,
         },
-        "helloworld"
+        "helloworld",
+        { expiresIn: "2d" }
       );
-      user = await user.save();
-      delete user.password;
 
+      //* Mongoose return model object and it cannot be delete properties
+      //* Change it to plain object .toObject();
+      //* But plain object _id need change to id
+      //* Better set graphql server cannot get password of user
+      // user.password = "you cannot get it";
       return { token, user };
     },
     // ? How to create flexible InputUser graphql

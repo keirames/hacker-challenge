@@ -1,4 +1,4 @@
-import { gql } from "apollo-boost";
+import { gql } from "@apollo/client";
 
 export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
@@ -28,7 +28,7 @@ export const REGISTER = gql`
 `;
 
 // Local state
-export const GET_USER = gql`
+export const GET_USER_CLIENT = gql`
   query GetUser {
     user @client
   }

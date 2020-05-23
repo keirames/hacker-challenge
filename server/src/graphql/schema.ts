@@ -45,10 +45,11 @@ export const typeDefs = gql`
     passedUser: [User!]!
   }
 
+  # Noone can get password of an user
   type User {
     id: ID!
     username: String!
-    password: String
+    # password: String
     firstname: String!
     lastname: String!
     solvedChallenges: [Challenge!]!
@@ -62,11 +63,13 @@ export const typeDefs = gql`
     challenges: [Challenge!]!
   }
 
+  # getUser & getChallenge dont throw error if id wrong
   type Query {
     getChallenge(id: ID!): Challenge
     getChallenges: [Challenge!]!
     getUser(id: ID!): User
     getUsers: [User!]!
+    getMe: User!
     getContest(id: ID!): Contest!
     getContests: [Contest!]!
   }
