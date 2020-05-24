@@ -7,6 +7,7 @@ export interface User {
   solvedChallenges: Challenge[];
   likedChallenges: Challenge[];
   totalPointes: number;
+  isPremium: boolean;
 }
 
 export interface Contest {
@@ -31,4 +32,5 @@ export interface Challenge {
   testInputs: String[];
   challengeSeed: String;
   passedUser: User[];
+  isSolved: boolean;
 }

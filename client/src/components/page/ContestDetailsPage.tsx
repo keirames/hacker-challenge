@@ -13,9 +13,9 @@ export interface IStatusFilter {
 }
 
 export interface ILevelFilter {
-  easy: false;
-  medium: false;
-  hard: false;
+  easy: boolean;
+  medium: boolean;
+  hard: boolean;
 }
 
 interface ContestVars {
@@ -66,11 +66,12 @@ const GET_ME = gql`
 const ContestDetailsPage: React.FC = (props) => {
   const { id } = useParams();
 
+  const [challenges, setChallenges] = useState<Challenge[]>([]);
+
   const { data, loading, error } = useQuery<ContestData, ContestVars>(
     GET_CONTEST,
     { variables: { id } }
   );
-
   const { data: userData } = useQuery<UserData>(GET_ME);
 
   const [levelFilter, setLevelFilter] = useState<ILevelFilter>({
@@ -78,13 +79,24 @@ const ContestDetailsPage: React.FC = (props) => {
     medium: false,
     hard: false,
   });
-
   const [statusFilter, setStatusFilter] = useState<IStatusFilter>({
     solved: false,
     unsolved: false,
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const solvedChallengesId: string[] = userData
+      ? userData.getMe.solvedChallenges.map((c) => c.id)
+      : [];
+
+    if (data) {
+      let tempChallenges = [...data.getContest.challenges];
+      tempChallenges = tempChallenges.map((c) =>
+        solvedChallengesId.includes(c.id) ? { ...c, isSolved: true } : c
+      );
+      setChallenges(tempChallenges);
+    }
+  }, [data, userData]);
 
   const handleChangeLevelFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLevelFilter({
@@ -114,24 +126,17 @@ const ContestDetailsPage: React.FC = (props) => {
     }
 
     // Level filter
-    let sortedChallenges = data?.getContest.challenges.filter((c) => {
+    let sortedChallenges = challenges.filter((c) => {
       return levelChoices.length === 0 ? true : levelChoices.includes(c.level);
     });
 
     // Status filter
-    const solvedChallengesId: string[] = userData
-      ? userData.getMe.solvedChallenges.map((c) => c.id)
-      : [];
     sortedChallenges = sortedChallenges?.filter((c) => {
       if (statusChoices.length === 0) return true;
       if (statusChoices.length === Object.keys(statusFilter).length)
         return true;
 
-      if (statusChoices.includes("solved"))
-        return solvedChallengesId.includes(c.id) ? true : false;
-
-      if (statusChoices.includes("unsolved"))
-        return solvedChallengesId.includes(c.id) ? false : true;
+      return statusChoices.includes("solved") ? c.isSolved : !c.isSolved;
     });
 
     return sortedChallenges ? sortedChallenges : [];

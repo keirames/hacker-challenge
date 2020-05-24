@@ -5,14 +5,31 @@ import { STheme } from "../../theme";
 import { Typography, Button } from "@material-ui/core";
 import Level from "./Level";
 import { useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
-  const { id, title, points, level } = challenge;
+  const { id, title, points, level, isSolved } = challenge;
 
   const { push } = useHistory();
 
+  const SolvedBtn = () => (
+    <Button
+      variant="contained"
+      startIcon={<FontAwesomeIcon icon="check-circle" />}
+      disabled
+    >
+      Solved Challenge
+    </Button>
+  );
+
+  const UnsolvedBtn = () => (
+    <SButton variant="contained" color="primary">
+      Solve Challenge
+    </SButton>
+  );
+
   return (
-    <SChallengeBlock>
+    <SChallengeBlock onClick={() => push(`/challenges/${id}`)}>
       <div>
         <Typography variant="h5" style={{ marginBottom: "5px" }}>
           {title}
@@ -25,13 +42,7 @@ const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
           , Max Score: {points}
         </Typography>
       </div>
-      <SButton
-        variant="contained"
-        color="primary"
-        onClick={() => push(`/challenges/${id}`)}
-      >
-        Solve Challenge
-      </SButton>
+      {isSolved ? <SolvedBtn /> : <UnsolvedBtn />}
     </SChallengeBlock>
   );
 };
