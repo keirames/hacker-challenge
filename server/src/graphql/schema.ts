@@ -17,6 +17,13 @@ export const typeDefs = gql`
     testString: String!
   }
 
+  type Content {
+    problem: String
+    constraints: String
+    inputFormat: String
+    outputFormat: String
+  }
+
   type TestedResultError {
     message: String!
     actual: Int!
@@ -35,7 +42,7 @@ export const typeDefs = gql`
   type Challenge {
     id: ID!
     title: String!
-    content: String!
+    content: Content!
     level: String!
     points: Int!
     contest: Contest!
@@ -86,9 +93,16 @@ export const typeDefs = gql`
     testString: String!
   }
 
+  input ContentInput {
+    problem: String
+    constraints: String
+    inputFormat: String
+    outputFormat: String
+  }
+
   input ChallengeInput {
     title: String!
-    content: String!
+    content: ContentInput!
     level: String!
     points: Int!
     contestId: ID!
