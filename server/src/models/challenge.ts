@@ -3,7 +3,32 @@ import Joi from "@hapi/joi";
 
 const challengeSchema: Schema = new Schema({
   title: { type: String, required: true, unique: true },
-  content: { type: String, required: true },
+  content: {
+    problem: {
+      type: String,
+      default: "",
+      required: true,
+      trim: true,
+    },
+    constraints: {
+      type: String,
+      default: "",
+      required: true,
+      trim: true,
+    },
+    inputFormat: {
+      type: String,
+      default: "",
+      required: true,
+      trim: true,
+    },
+    outputFormat: {
+      type: String,
+      default: "",
+      required: true,
+      trim: true,
+    },
+  },
   level: {
     type: String,
     enum: ["easy", "medium", "hard"],
@@ -68,7 +93,12 @@ const Challenge: Model<IChallenge> = model<IChallenge>(
 const validateChallenge = (challenge: any) => {
   const schema = Joi.object({
     title: Joi.string().min(5).max(255).required(),
-    content: Joi.string().min(5).required(),
+    content: Joi.object({
+      problem: Joi.string(),
+      constraints: Joi.string(),
+      inputFormat: Joi.string(),
+      outputFormat: Joi.string(),
+    }),
     level: Joi.string().required(),
     points: Joi.number().min(0),
     contestId: Joi.string().required(),

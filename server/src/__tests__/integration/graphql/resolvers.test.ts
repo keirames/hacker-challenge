@@ -11,6 +11,7 @@ import { sign } from "jsonwebtoken";
 // Connect to mongoDB
 mongooseServer();
 
+//TODO: Do i need customize those graphql call
 const GET_USERS = gql`
   query GetUsers {
     getUsers {
@@ -22,7 +23,12 @@ const GET_USERS = gql`
       solvedChallenges {
         id
         title
-        content
+        content {
+          problem
+          constraints
+          inputFormat
+          outputFormat
+        }
         level
         points
         contest {
@@ -44,7 +50,12 @@ const GET_USERS = gql`
       likedChallenges {
         id
         title
-        content
+        content {
+          problem
+          constraints
+          inputFormat
+          outputFormat
+        }
         level
         points
         contest {
@@ -78,7 +89,12 @@ const GET_USER = gql`
       solvedChallenges {
         id
         title
-        content
+        content {
+          problem
+          constraints
+          inputFormat
+          outputFormat
+        }
         level
         points
         contest {
@@ -100,7 +116,12 @@ const GET_USER = gql`
       likedChallenges {
         id
         title
-        content
+        content {
+          problem
+          constraints
+          inputFormat
+          outputFormat
+        }
         level
         points
         contest {
@@ -128,7 +149,12 @@ const GET_CHALLENGE = gql`
     getChallenge(id: $id) {
       id
       title
-      content
+      content {
+        problem
+        constraints
+        inputFormat
+        outputFormat
+      }
       level
       points
       contest {
@@ -166,7 +192,12 @@ const GET_CHALLENGES = gql`
     getChallenges {
       id
       title
-      content
+      content {
+        problem
+        constraints
+        inputFormat
+        outputFormat
+      }
       level
       points
       contest {
@@ -207,7 +238,12 @@ const GET_CONTESTS = gql`
       challenges {
         id
         title
-        content
+        content {
+          problem
+          constraints
+          inputFormat
+          outputFormat
+        }
         level
         points
         contest {
@@ -249,7 +285,12 @@ const GET_CONTEST = gql`
       challenges {
         id
         title
-        content
+        content {
+          problem
+          constraints
+          inputFormat
+          outputFormat
+        }
         level
         points
         contest {
@@ -293,18 +334,19 @@ describe("Queries", () => {
         context: async () => {
           //! Create generateToken for user schema (refactor)
           //! Import config for privatekey later & generateAuthToken need in user schema
-          const user = await User.findById("5eaa773df4dcc728b76b00b7");
+          const user = await User.findById("5ecbf55607088b2b3f573459");
+          console.log(user);
 
           const token = sign(
             {
-              _id: user?._id,
+              id: user?._id,
               firstname: user?.firstname,
               lastname: user?.lastname,
             },
             "helloworld"
           );
 
-          return { req: { headers: { authorization: token } } };
+          return { req: { headers: { authorization: `Bearer ${token}` } } };
         },
       });
 
@@ -318,7 +360,7 @@ describe("Queries", () => {
       const res = await query({
         query: GET_USER,
         variables: {
-          id: "5eaa773df4dcc728b76b00b7",
+          id: "5ecbf55607088b2b3f573459",
         },
       });
       expect(res).toMatchSnapshot();
@@ -334,7 +376,8 @@ describe("Queries", () => {
     it("should return single challenge with provided ID", async () => {
       const res = await query({
         query: GET_CHALLENGE,
-        variables: { id: "5eaa7d1effd50d33c34637a8" },
+        //! Too specific test
+        variables: { id: "5ecbf96716adcf33089b9198" },
       });
       expect(res).toMatchSnapshot();
     });
@@ -351,7 +394,7 @@ describe("Queries", () => {
     it("should return single contest with provided ID", async () => {
       const res = await query({
         query: GET_CONTEST,
-        variables: { id: "5eaa779bf4dcc728b76b00bb" },
+        variables: { id: "5ecbf68781de4e2d392e22c3" },
       });
       expect(res).toMatchSnapshot();
     });
