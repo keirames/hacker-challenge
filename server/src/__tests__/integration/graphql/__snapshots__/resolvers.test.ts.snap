@@ -5,118 +5,376 @@ Object {
   "data": Object {
     "getChallenges": Array [
       Object {
-        "challengeSeed": "'use strict'",
+        "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
         "content": Object {
-          "constraints": "abc",
-          "inputFormat": "abc",
-          "outputFormat": "abc",
-          "problem": "abc",
+          "inputSample": "Qwdqwd",
+          "outputSample": "QWdqwd",
+          "problem": "asb",
         },
         "contest": Object {
           "challenges": Array [
             Object {
-              "id": "5ecbf94b16adcf33089b9194",
-            },
-            Object {
-              "id": "5ecbf95916adcf33089b9196",
-            },
-            Object {
               "id": "5ecbf96716adcf33089b9198",
             },
-          ],
-          "id": "5ecbf68781de4e2d392e22c3",
-          "name": "Sort Algorithm",
-        },
-        "id": "5ecbf94b16adcf33089b9194",
-        "level": "easy",
-        "passedUser": Array [],
-        "points": 100,
-        "testCases": Array [
-          Object {
-            "testString": "assert",
-            "text": "Must be [1,2,3]",
-          },
-        ],
-        "testInputs": Array [
-          "[3,1,2]",
-        ],
-        "title": "Bubble Sort",
-      },
-      Object {
-        "challengeSeed": "'use strict'",
-        "content": Object {
-          "constraints": "abc",
-          "inputFormat": "abc",
-          "outputFormat": "abc",
-          "problem": "abc",
-        },
-        "contest": Object {
-          "challenges": Array [
             Object {
-              "id": "5ecbf94b16adcf33089b9194",
+              "id": "5ecdd0681e38df1562b67a93",
             },
             Object {
-              "id": "5ecbf95916adcf33089b9196",
+              "id": "5ecdd07d1e38df1562b67a94",
             },
             Object {
-              "id": "5ecbf96716adcf33089b9198",
-            },
-          ],
-          "id": "5ecbf68781de4e2d392e22c3",
-          "name": "Sort Algorithm",
-        },
-        "id": "5ecbf95916adcf33089b9196",
-        "level": "medium",
-        "passedUser": Array [],
-        "points": 100,
-        "testCases": Array [
-          Object {
-            "testString": "assert",
-            "text": "Must be [1,2,3]",
-          },
-        ],
-        "testInputs": Array [
-          "[3,1,2]",
-        ],
-        "title": "Quick Sort",
-      },
-      Object {
-        "challengeSeed": "'use strict'",
-        "content": Object {
-          "constraints": "abc",
-          "inputFormat": "abc",
-          "outputFormat": "abc",
-          "problem": "abc",
-        },
-        "contest": Object {
-          "challenges": Array [
-            Object {
-              "id": "5ecbf94b16adcf33089b9194",
-            },
-            Object {
-              "id": "5ecbf95916adcf33089b9196",
-            },
-            Object {
-              "id": "5ecbf96716adcf33089b9198",
+              "id": "5ecdd0871e38df1562b67a95",
             },
           ],
           "id": "5ecbf68781de4e2d392e22c3",
           "name": "Sort Algorithm",
         },
         "id": "5ecbf96716adcf33089b9198",
-        "level": "medium",
+        "level": "hard",
         "passedUser": Array [],
         "points": 100,
         "testCases": Array [
           Object {
-            "testString": "assert",
-            "text": "Must be [1,2,3]",
+            "testString": "assert.strictEqual(result,10)",
+            "text": "Must be 10",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,9)",
+            "text": "Must be 9",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,1)",
+            "text": "Must be 1",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,3)",
+            "text": "Must be 3",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,100)",
+            "text": "Must be 100",
           },
         ],
         "testInputs": Array [
-          "[3,1,2]",
+          "2\\\\n1 10",
+          "3\\\\n1 8 9",
+          "4\\\\n1 1 1 1",
+          "5\\\\n3 1 2 1 1",
+          "6\\\\n1 100 99 95 10 -20",
         ],
         "title": "Merge Sort",
+      },
+      Object {
+        "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+        "content": Object {
+          "inputSample": "Qwdqwd",
+          "outputSample": "QWdqwd",
+          "problem": "asb",
+        },
+        "contest": Object {
+          "challenges": Array [
+            Object {
+              "id": "5ecbf96716adcf33089b9198",
+            },
+            Object {
+              "id": "5ecdd0681e38df1562b67a93",
+            },
+            Object {
+              "id": "5ecdd07d1e38df1562b67a94",
+            },
+            Object {
+              "id": "5ecdd0871e38df1562b67a95",
+            },
+          ],
+          "id": "5ecbf68781de4e2d392e22c3",
+          "name": "Sort Algorithm",
+        },
+        "id": "5ecdd0681e38df1562b67a93",
+        "level": "easy",
+        "passedUser": Array [],
+        "points": 100,
+        "testCases": Array [
+          Object {
+            "testString": "assert.strictEqual(result,10)",
+            "text": "Must be 10",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,9)",
+            "text": "Must be 9",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,1)",
+            "text": "Must be 1",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,3)",
+            "text": "Must be 3",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,100)",
+            "text": "Must be 100",
+          },
+        ],
+        "testInputs": Array [
+          "2\\\\n1 10",
+          "3\\\\n1 8 9",
+          "4\\\\n1 1 1 1",
+          "5\\\\n3 1 2 1 1",
+          "6\\\\n1 100 99 95 10 -20",
+        ],
+        "title": "Selection Sort",
+      },
+      Object {
+        "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+        "content": Object {
+          "inputSample": "Qwdqwd",
+          "outputSample": "QWdqwd",
+          "problem": "asb",
+        },
+        "contest": Object {
+          "challenges": Array [
+            Object {
+              "id": "5ecbf96716adcf33089b9198",
+            },
+            Object {
+              "id": "5ecdd0681e38df1562b67a93",
+            },
+            Object {
+              "id": "5ecdd07d1e38df1562b67a94",
+            },
+            Object {
+              "id": "5ecdd0871e38df1562b67a95",
+            },
+          ],
+          "id": "5ecbf68781de4e2d392e22c3",
+          "name": "Sort Algorithm",
+        },
+        "id": "5ecdd07d1e38df1562b67a94",
+        "level": "hard",
+        "passedUser": Array [],
+        "points": 100,
+        "testCases": Array [
+          Object {
+            "testString": "assert.strictEqual(result,10)",
+            "text": "Must be 10",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,9)",
+            "text": "Must be 9",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,1)",
+            "text": "Must be 1",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,3)",
+            "text": "Must be 3",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,100)",
+            "text": "Must be 100",
+          },
+        ],
+        "testInputs": Array [
+          "2\\\\n1 10",
+          "3\\\\n1 8 9",
+          "4\\\\n1 1 1 1",
+          "5\\\\n3 1 2 1 1",
+          "6\\\\n1 100 99 95 10 -20",
+        ],
+        "title": "Quick Sort",
+      },
+      Object {
+        "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+        "content": Object {
+          "inputSample": "Qwdqwd",
+          "outputSample": "QWdqwd",
+          "problem": "asb",
+        },
+        "contest": Object {
+          "challenges": Array [
+            Object {
+              "id": "5ecbf96716adcf33089b9198",
+            },
+            Object {
+              "id": "5ecdd0681e38df1562b67a93",
+            },
+            Object {
+              "id": "5ecdd07d1e38df1562b67a94",
+            },
+            Object {
+              "id": "5ecdd0871e38df1562b67a95",
+            },
+          ],
+          "id": "5ecbf68781de4e2d392e22c3",
+          "name": "Sort Algorithm",
+        },
+        "id": "5ecdd0871e38df1562b67a95",
+        "level": "easy",
+        "passedUser": Array [],
+        "points": 100,
+        "testCases": Array [
+          Object {
+            "testString": "assert.strictEqual(result,10)",
+            "text": "Must be 10",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,9)",
+            "text": "Must be 9",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,1)",
+            "text": "Must be 1",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,3)",
+            "text": "Must be 3",
+          },
+          Object {
+            "testString": "assert.strictEqual(result,100)",
+            "text": "Must be 100",
+          },
+        ],
+        "testInputs": Array [
+          "2\\\\n1 10",
+          "3\\\\n1 8 9",
+          "4\\\\n1 1 1 1",
+          "5\\\\n3 1 2 1 1",
+          "6\\\\n1 100 99 95 10 -20",
+        ],
+        "title": "Bubble Sort",
       },
     ],
   },
@@ -134,40 +392,95 @@ exports[`Queries Challenge should return single challenge with provided ID 1`] =
 Object {
   "data": Object {
     "getChallenge": Object {
-      "challengeSeed": "'use strict'",
+      "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
       "content": Object {
-        "constraints": "abc",
-        "inputFormat": "abc",
-        "outputFormat": "abc",
-        "problem": "abc",
+        "inputSample": "Qwdqwd",
+        "outputSample": "QWdqwd",
+        "problem": "asb",
       },
       "contest": Object {
         "challenges": Array [
           Object {
-            "id": "5ecbf94b16adcf33089b9194",
-          },
-          Object {
-            "id": "5ecbf95916adcf33089b9196",
-          },
-          Object {
             "id": "5ecbf96716adcf33089b9198",
+          },
+          Object {
+            "id": "5ecdd0681e38df1562b67a93",
+          },
+          Object {
+            "id": "5ecdd07d1e38df1562b67a94",
+          },
+          Object {
+            "id": "5ecdd0871e38df1562b67a95",
           },
         ],
         "id": "5ecbf68781de4e2d392e22c3",
         "name": "Sort Algorithm",
       },
       "id": "5ecbf96716adcf33089b9198",
-      "level": "medium",
+      "level": "hard",
       "passedUser": Array [],
       "points": 100,
       "testCases": Array [
         Object {
-          "testString": "assert",
-          "text": "Must be [1,2,3]",
+          "testString": "assert.strictEqual(result,10)",
+          "text": "Must be 10",
+        },
+        Object {
+          "testString": "assert.strictEqual(result,9)",
+          "text": "Must be 9",
+        },
+        Object {
+          "testString": "assert.strictEqual(result,1)",
+          "text": "Must be 1",
+        },
+        Object {
+          "testString": "assert.strictEqual(result,3)",
+          "text": "Must be 3",
+        },
+        Object {
+          "testString": "assert.strictEqual(result,100)",
+          "text": "Must be 100",
         },
       ],
       "testInputs": Array [
-        "[3,1,2]",
+        "2\\\\n1 10",
+        "3\\\\n1 8 9",
+        "4\\\\n1 1 1 1",
+        "5\\\\n3 1 2 1 1",
+        "6\\\\n1 100 99 95 10 -20",
       ],
       "title": "Merge Sort",
     },
@@ -194,118 +507,376 @@ Object {
       Object {
         "challenges": Array [
           Object {
-            "challengeSeed": "'use strict'",
+            "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
             "content": Object {
-              "constraints": "abc",
-              "inputFormat": "abc",
-              "outputFormat": "abc",
-              "problem": "abc",
+              "inputSample": "Qwdqwd",
+              "outputSample": "QWdqwd",
+              "problem": "asb",
             },
             "contest": Object {
               "challenges": Array [
                 Object {
-                  "id": "5ecbf94b16adcf33089b9194",
-                },
-                Object {
-                  "id": "5ecbf95916adcf33089b9196",
-                },
-                Object {
                   "id": "5ecbf96716adcf33089b9198",
                 },
-              ],
-              "id": "5ecbf68781de4e2d392e22c3",
-              "name": "Sort Algorithm",
-            },
-            "id": "5ecbf94b16adcf33089b9194",
-            "level": "easy",
-            "passedUser": Array [],
-            "points": 100,
-            "testCases": Array [
-              Object {
-                "testString": "assert",
-                "text": "Must be [1,2,3]",
-              },
-            ],
-            "testInputs": Array [
-              "[3,1,2]",
-            ],
-            "title": "Bubble Sort",
-          },
-          Object {
-            "challengeSeed": "'use strict'",
-            "content": Object {
-              "constraints": "abc",
-              "inputFormat": "abc",
-              "outputFormat": "abc",
-              "problem": "abc",
-            },
-            "contest": Object {
-              "challenges": Array [
                 Object {
-                  "id": "5ecbf94b16adcf33089b9194",
+                  "id": "5ecdd0681e38df1562b67a93",
                 },
                 Object {
-                  "id": "5ecbf95916adcf33089b9196",
+                  "id": "5ecdd07d1e38df1562b67a94",
                 },
                 Object {
-                  "id": "5ecbf96716adcf33089b9198",
-                },
-              ],
-              "id": "5ecbf68781de4e2d392e22c3",
-              "name": "Sort Algorithm",
-            },
-            "id": "5ecbf95916adcf33089b9196",
-            "level": "medium",
-            "passedUser": Array [],
-            "points": 100,
-            "testCases": Array [
-              Object {
-                "testString": "assert",
-                "text": "Must be [1,2,3]",
-              },
-            ],
-            "testInputs": Array [
-              "[3,1,2]",
-            ],
-            "title": "Quick Sort",
-          },
-          Object {
-            "challengeSeed": "'use strict'",
-            "content": Object {
-              "constraints": "abc",
-              "inputFormat": "abc",
-              "outputFormat": "abc",
-              "problem": "abc",
-            },
-            "contest": Object {
-              "challenges": Array [
-                Object {
-                  "id": "5ecbf94b16adcf33089b9194",
-                },
-                Object {
-                  "id": "5ecbf95916adcf33089b9196",
-                },
-                Object {
-                  "id": "5ecbf96716adcf33089b9198",
+                  "id": "5ecdd0871e38df1562b67a95",
                 },
               ],
               "id": "5ecbf68781de4e2d392e22c3",
               "name": "Sort Algorithm",
             },
             "id": "5ecbf96716adcf33089b9198",
-            "level": "medium",
+            "level": "hard",
             "passedUser": Array [],
             "points": 100,
             "testCases": Array [
               Object {
-                "testString": "assert",
-                "text": "Must be [1,2,3]",
+                "testString": "assert.strictEqual(result,10)",
+                "text": "Must be 10",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,9)",
+                "text": "Must be 9",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,1)",
+                "text": "Must be 1",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,3)",
+                "text": "Must be 3",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,100)",
+                "text": "Must be 100",
               },
             ],
             "testInputs": Array [
-              "[3,1,2]",
+              "2\\\\n1 10",
+              "3\\\\n1 8 9",
+              "4\\\\n1 1 1 1",
+              "5\\\\n3 1 2 1 1",
+              "6\\\\n1 100 99 95 10 -20",
             ],
             "title": "Merge Sort",
+          },
+          Object {
+            "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+            "content": Object {
+              "inputSample": "Qwdqwd",
+              "outputSample": "QWdqwd",
+              "problem": "asb",
+            },
+            "contest": Object {
+              "challenges": Array [
+                Object {
+                  "id": "5ecbf96716adcf33089b9198",
+                },
+                Object {
+                  "id": "5ecdd0681e38df1562b67a93",
+                },
+                Object {
+                  "id": "5ecdd07d1e38df1562b67a94",
+                },
+                Object {
+                  "id": "5ecdd0871e38df1562b67a95",
+                },
+              ],
+              "id": "5ecbf68781de4e2d392e22c3",
+              "name": "Sort Algorithm",
+            },
+            "id": "5ecdd0681e38df1562b67a93",
+            "level": "easy",
+            "passedUser": Array [],
+            "points": 100,
+            "testCases": Array [
+              Object {
+                "testString": "assert.strictEqual(result,10)",
+                "text": "Must be 10",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,9)",
+                "text": "Must be 9",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,1)",
+                "text": "Must be 1",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,3)",
+                "text": "Must be 3",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,100)",
+                "text": "Must be 100",
+              },
+            ],
+            "testInputs": Array [
+              "2\\\\n1 10",
+              "3\\\\n1 8 9",
+              "4\\\\n1 1 1 1",
+              "5\\\\n3 1 2 1 1",
+              "6\\\\n1 100 99 95 10 -20",
+            ],
+            "title": "Selection Sort",
+          },
+          Object {
+            "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+            "content": Object {
+              "inputSample": "Qwdqwd",
+              "outputSample": "QWdqwd",
+              "problem": "asb",
+            },
+            "contest": Object {
+              "challenges": Array [
+                Object {
+                  "id": "5ecbf96716adcf33089b9198",
+                },
+                Object {
+                  "id": "5ecdd0681e38df1562b67a93",
+                },
+                Object {
+                  "id": "5ecdd07d1e38df1562b67a94",
+                },
+                Object {
+                  "id": "5ecdd0871e38df1562b67a95",
+                },
+              ],
+              "id": "5ecbf68781de4e2d392e22c3",
+              "name": "Sort Algorithm",
+            },
+            "id": "5ecdd07d1e38df1562b67a94",
+            "level": "hard",
+            "passedUser": Array [],
+            "points": 100,
+            "testCases": Array [
+              Object {
+                "testString": "assert.strictEqual(result,10)",
+                "text": "Must be 10",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,9)",
+                "text": "Must be 9",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,1)",
+                "text": "Must be 1",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,3)",
+                "text": "Must be 3",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,100)",
+                "text": "Must be 100",
+              },
+            ],
+            "testInputs": Array [
+              "2\\\\n1 10",
+              "3\\\\n1 8 9",
+              "4\\\\n1 1 1 1",
+              "5\\\\n3 1 2 1 1",
+              "6\\\\n1 100 99 95 10 -20",
+            ],
+            "title": "Quick Sort",
+          },
+          Object {
+            "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+            "content": Object {
+              "inputSample": "Qwdqwd",
+              "outputSample": "QWdqwd",
+              "problem": "asb",
+            },
+            "contest": Object {
+              "challenges": Array [
+                Object {
+                  "id": "5ecbf96716adcf33089b9198",
+                },
+                Object {
+                  "id": "5ecdd0681e38df1562b67a93",
+                },
+                Object {
+                  "id": "5ecdd07d1e38df1562b67a94",
+                },
+                Object {
+                  "id": "5ecdd0871e38df1562b67a95",
+                },
+              ],
+              "id": "5ecbf68781de4e2d392e22c3",
+              "name": "Sort Algorithm",
+            },
+            "id": "5ecdd0871e38df1562b67a95",
+            "level": "easy",
+            "passedUser": Array [],
+            "points": 100,
+            "testCases": Array [
+              Object {
+                "testString": "assert.strictEqual(result,10)",
+                "text": "Must be 10",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,9)",
+                "text": "Must be 9",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,1)",
+                "text": "Must be 1",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,3)",
+                "text": "Must be 3",
+              },
+              Object {
+                "testString": "assert.strictEqual(result,100)",
+                "text": "Must be 100",
+              },
+            ],
+            "testInputs": Array [
+              "2\\\\n1 10",
+              "3\\\\n1 8 9",
+              "4\\\\n1 1 1 1",
+              "5\\\\n3 1 2 1 1",
+              "6\\\\n1 100 99 95 10 -20",
+            ],
+            "title": "Bubble Sort",
           },
         ],
         "id": "5ecbf68781de4e2d392e22c3",
@@ -339,118 +910,376 @@ Object {
     "getContest": Object {
       "challenges": Array [
         Object {
-          "challengeSeed": "'use strict'",
+          "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
           "content": Object {
-            "constraints": "abc",
-            "inputFormat": "abc",
-            "outputFormat": "abc",
-            "problem": "abc",
+            "inputSample": "Qwdqwd",
+            "outputSample": "QWdqwd",
+            "problem": "asb",
           },
           "contest": Object {
             "challenges": Array [
               Object {
-                "id": "5ecbf94b16adcf33089b9194",
-              },
-              Object {
-                "id": "5ecbf95916adcf33089b9196",
-              },
-              Object {
                 "id": "5ecbf96716adcf33089b9198",
               },
-            ],
-            "id": "5ecbf68781de4e2d392e22c3",
-            "name": "Sort Algorithm",
-          },
-          "id": "5ecbf94b16adcf33089b9194",
-          "level": "easy",
-          "passedUser": Array [],
-          "points": 100,
-          "testCases": Array [
-            Object {
-              "testString": "assert",
-              "text": "Must be [1,2,3]",
-            },
-          ],
-          "testInputs": Array [
-            "[3,1,2]",
-          ],
-          "title": "Bubble Sort",
-        },
-        Object {
-          "challengeSeed": "'use strict'",
-          "content": Object {
-            "constraints": "abc",
-            "inputFormat": "abc",
-            "outputFormat": "abc",
-            "problem": "abc",
-          },
-          "contest": Object {
-            "challenges": Array [
               Object {
-                "id": "5ecbf94b16adcf33089b9194",
+                "id": "5ecdd0681e38df1562b67a93",
               },
               Object {
-                "id": "5ecbf95916adcf33089b9196",
+                "id": "5ecdd07d1e38df1562b67a94",
               },
               Object {
-                "id": "5ecbf96716adcf33089b9198",
-              },
-            ],
-            "id": "5ecbf68781de4e2d392e22c3",
-            "name": "Sort Algorithm",
-          },
-          "id": "5ecbf95916adcf33089b9196",
-          "level": "medium",
-          "passedUser": Array [],
-          "points": 100,
-          "testCases": Array [
-            Object {
-              "testString": "assert",
-              "text": "Must be [1,2,3]",
-            },
-          ],
-          "testInputs": Array [
-            "[3,1,2]",
-          ],
-          "title": "Quick Sort",
-        },
-        Object {
-          "challengeSeed": "'use strict'",
-          "content": Object {
-            "constraints": "abc",
-            "inputFormat": "abc",
-            "outputFormat": "abc",
-            "problem": "abc",
-          },
-          "contest": Object {
-            "challenges": Array [
-              Object {
-                "id": "5ecbf94b16adcf33089b9194",
-              },
-              Object {
-                "id": "5ecbf95916adcf33089b9196",
-              },
-              Object {
-                "id": "5ecbf96716adcf33089b9198",
+                "id": "5ecdd0871e38df1562b67a95",
               },
             ],
             "id": "5ecbf68781de4e2d392e22c3",
             "name": "Sort Algorithm",
           },
           "id": "5ecbf96716adcf33089b9198",
-          "level": "medium",
+          "level": "hard",
           "passedUser": Array [],
           "points": 100,
           "testCases": Array [
             Object {
-              "testString": "assert",
-              "text": "Must be [1,2,3]",
+              "testString": "assert.strictEqual(result,10)",
+              "text": "Must be 10",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,9)",
+              "text": "Must be 9",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,1)",
+              "text": "Must be 1",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,3)",
+              "text": "Must be 3",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,100)",
+              "text": "Must be 100",
             },
           ],
           "testInputs": Array [
-            "[3,1,2]",
+            "2\\\\n1 10",
+            "3\\\\n1 8 9",
+            "4\\\\n1 1 1 1",
+            "5\\\\n3 1 2 1 1",
+            "6\\\\n1 100 99 95 10 -20",
           ],
           "title": "Merge Sort",
+        },
+        Object {
+          "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+          "content": Object {
+            "inputSample": "Qwdqwd",
+            "outputSample": "QWdqwd",
+            "problem": "asb",
+          },
+          "contest": Object {
+            "challenges": Array [
+              Object {
+                "id": "5ecbf96716adcf33089b9198",
+              },
+              Object {
+                "id": "5ecdd0681e38df1562b67a93",
+              },
+              Object {
+                "id": "5ecdd07d1e38df1562b67a94",
+              },
+              Object {
+                "id": "5ecdd0871e38df1562b67a95",
+              },
+            ],
+            "id": "5ecbf68781de4e2d392e22c3",
+            "name": "Sort Algorithm",
+          },
+          "id": "5ecdd0681e38df1562b67a93",
+          "level": "easy",
+          "passedUser": Array [],
+          "points": 100,
+          "testCases": Array [
+            Object {
+              "testString": "assert.strictEqual(result,10)",
+              "text": "Must be 10",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,9)",
+              "text": "Must be 9",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,1)",
+              "text": "Must be 1",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,3)",
+              "text": "Must be 3",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,100)",
+              "text": "Must be 100",
+            },
+          ],
+          "testInputs": Array [
+            "2\\\\n1 10",
+            "3\\\\n1 8 9",
+            "4\\\\n1 1 1 1",
+            "5\\\\n3 1 2 1 1",
+            "6\\\\n1 100 99 95 10 -20",
+          ],
+          "title": "Selection Sort",
+        },
+        Object {
+          "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+          "content": Object {
+            "inputSample": "Qwdqwd",
+            "outputSample": "QWdqwd",
+            "problem": "asb",
+          },
+          "contest": Object {
+            "challenges": Array [
+              Object {
+                "id": "5ecbf96716adcf33089b9198",
+              },
+              Object {
+                "id": "5ecdd0681e38df1562b67a93",
+              },
+              Object {
+                "id": "5ecdd07d1e38df1562b67a94",
+              },
+              Object {
+                "id": "5ecdd0871e38df1562b67a95",
+              },
+            ],
+            "id": "5ecbf68781de4e2d392e22c3",
+            "name": "Sort Algorithm",
+          },
+          "id": "5ecdd07d1e38df1562b67a94",
+          "level": "hard",
+          "passedUser": Array [],
+          "points": 100,
+          "testCases": Array [
+            Object {
+              "testString": "assert.strictEqual(result,10)",
+              "text": "Must be 10",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,9)",
+              "text": "Must be 9",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,1)",
+              "text": "Must be 1",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,3)",
+              "text": "Must be 3",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,100)",
+              "text": "Must be 100",
+            },
+          ],
+          "testInputs": Array [
+            "2\\\\n1 10",
+            "3\\\\n1 8 9",
+            "4\\\\n1 1 1 1",
+            "5\\\\n3 1 2 1 1",
+            "6\\\\n1 100 99 95 10 -20",
+          ],
+          "title": "Quick Sort",
+        },
+        Object {
+          "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
+const fs = require(\\"fs\\");
+process.stdin.resume();
+process.stdin.setEncoding(\\"utf-8\\");
+
+let inputString = \\"\\";
+let currentLine = 0;
+
+process.stdin.on(\\"data\\", (inputStdin) => {
+    inputString += inputStdin;
+});
+
+process.stdin.on(\\"end\\", (_) => {
+    inputString = inputString
+                            .replace(/s*$/, \\"\\")
+                            .split(\\"\\\\n\\")
+                            .map((str) => str.replace(/s*$/, \\"\\"));
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+// Complete the jumpingOnClouds function below.
+function jumpingOnClouds(c) {
+    return 1;
+}
+
+function main() {
+    const c = readLine().split(\\" \\")
+                        .map((cTemp) => parseInt(cTemp, 10));
+    let result = jumpingOnClouds(c);
+    parentPort.postMessage(result);
+}",
+          "content": Object {
+            "inputSample": "Qwdqwd",
+            "outputSample": "QWdqwd",
+            "problem": "asb",
+          },
+          "contest": Object {
+            "challenges": Array [
+              Object {
+                "id": "5ecbf96716adcf33089b9198",
+              },
+              Object {
+                "id": "5ecdd0681e38df1562b67a93",
+              },
+              Object {
+                "id": "5ecdd07d1e38df1562b67a94",
+              },
+              Object {
+                "id": "5ecdd0871e38df1562b67a95",
+              },
+            ],
+            "id": "5ecbf68781de4e2d392e22c3",
+            "name": "Sort Algorithm",
+          },
+          "id": "5ecdd0871e38df1562b67a95",
+          "level": "easy",
+          "passedUser": Array [],
+          "points": 100,
+          "testCases": Array [
+            Object {
+              "testString": "assert.strictEqual(result,10)",
+              "text": "Must be 10",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,9)",
+              "text": "Must be 9",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,1)",
+              "text": "Must be 1",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,3)",
+              "text": "Must be 3",
+            },
+            Object {
+              "testString": "assert.strictEqual(result,100)",
+              "text": "Must be 100",
+            },
+          ],
+          "testInputs": Array [
+            "2\\\\n1 10",
+            "3\\\\n1 8 9",
+            "4\\\\n1 1 1 1",
+            "5\\\\n3 1 2 1 1",
+            "6\\\\n1 100 99 95 10 -20",
+          ],
+          "title": "Bubble Sort",
         },
       ],
       "id": "5ecbf68781de4e2d392e22c3",

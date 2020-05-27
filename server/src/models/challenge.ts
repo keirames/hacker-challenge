@@ -10,19 +10,13 @@ const challengeSchema: Schema = new Schema({
       required: true,
       trim: true,
     },
-    constraints: {
+    inputSample: {
       type: String,
       default: "",
       required: true,
       trim: true,
     },
-    inputFormat: {
-      type: String,
-      default: "",
-      required: true,
-      trim: true,
-    },
-    outputFormat: {
+    outputSample: {
       type: String,
       default: "",
       required: true,
@@ -76,7 +70,7 @@ const challengeSchema: Schema = new Schema({
 
 interface IChallenge extends Document {
   title: String;
-  content: String;
+  content: Object;
   level: String;
   points: Number;
   contest: String;
@@ -95,9 +89,8 @@ const validateChallenge = (challenge: any) => {
     title: Joi.string().min(5).max(255).required(),
     content: Joi.object({
       problem: Joi.string(),
-      constraints: Joi.string(),
-      inputFormat: Joi.string(),
-      outputFormat: Joi.string(),
+      inputSample: Joi.string(),
+      outputSample: Joi.string(),
     }),
     level: Joi.string().required(),
     points: Joi.number().min(0),

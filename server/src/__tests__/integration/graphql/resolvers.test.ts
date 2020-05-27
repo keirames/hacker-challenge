@@ -25,9 +25,8 @@ const GET_USERS = gql`
         title
         content {
           problem
-          constraints
-          inputFormat
-          outputFormat
+          inputSample
+          outputSample
         }
         level
         points
@@ -52,9 +51,8 @@ const GET_USERS = gql`
         title
         content {
           problem
-          constraints
-          inputFormat
-          outputFormat
+          inputSample
+          outputSample
         }
         level
         points
@@ -91,9 +89,8 @@ const GET_USER = gql`
         title
         content {
           problem
-          constraints
-          inputFormat
-          outputFormat
+          inputSample
+          outputSample
         }
         level
         points
@@ -118,9 +115,8 @@ const GET_USER = gql`
         title
         content {
           problem
-          constraints
-          inputFormat
-          outputFormat
+          inputSample
+          outputSample
         }
         level
         points
@@ -151,9 +147,8 @@ const GET_CHALLENGE = gql`
       title
       content {
         problem
-        constraints
-        inputFormat
-        outputFormat
+        inputSample
+        outputSample
       }
       level
       points
@@ -194,9 +189,8 @@ const GET_CHALLENGES = gql`
       title
       content {
         problem
-        constraints
-        inputFormat
-        outputFormat
+        inputSample
+        outputSample
       }
       level
       points
@@ -240,9 +234,8 @@ const GET_CONTESTS = gql`
         title
         content {
           problem
-          constraints
-          inputFormat
-          outputFormat
+          inputSample
+          outputSample
         }
         level
         points
@@ -287,9 +280,8 @@ const GET_CONTEST = gql`
         title
         content {
           problem
-          constraints
-          inputFormat
-          outputFormat
+          inputSample
+          outputSample
         }
         level
         points

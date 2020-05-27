@@ -19,9 +19,8 @@ export const typeDefs = gql`
 
   type Content {
     problem: String
-    constraints: String
-    inputFormat: String
-    outputFormat: String
+    inputSample: String
+    outputSample: String
   }
 
   type TestedResultError {
@@ -95,9 +94,8 @@ export const typeDefs = gql`
 
   input ContentInput {
     problem: String
-    constraints: String
-    inputFormat: String
-    outputFormat: String
+    inputSample: String
+    outputSample: String
   }
 
   input ChallengeInput {
