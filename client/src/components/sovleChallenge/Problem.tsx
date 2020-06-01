@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { STheme } from "../../theme";
 import { Challenge, Answer } from "../../graphql";
 import Editor from "./Editor";
-import ProblemContent from "./Content";
 import TestTable from "./TestTable";
 import { useMutation, gql } from "@apollo/client";
+import ProblemContent from "./ProblemContent";
 
 const SUBMIT_ANSWER = gql`
   mutation SubmitAnswer($challengeId: ID!, $answer: String!) {
