@@ -41,6 +41,7 @@ export const typeDefs = gql`
   type Challenge {
     id: ID!
     title: String!
+    slug: String!
     content: Content!
     level: String!
     points: Int!
@@ -66,17 +67,18 @@ export const typeDefs = gql`
   type Contest {
     id: ID!
     name: String!
+    slug: String!
     challenges: [Challenge!]!
   }
 
   # getUser & getChallenge dont throw error if id wrong
   type Query {
-    getChallenge(id: ID!): Challenge
+    getChallenge(slug: String!): Challenge
     getChallenges: [Challenge!]!
     getUser(id: ID!): User
     getUsers: [User!]!
     getMe: User!
-    getContest(id: ID!): Contest!
+    getContest(slug: String!): Contest!
     getContests: [Contest!]!
   }
 

@@ -327,7 +327,6 @@ describe("Queries", () => {
           //! Create generateToken for user schema (refactor)
           //! Import config for privatekey later & generateAuthToken need in user schema
           const user = await User.findById("5ecbf55607088b2b3f573459");
-          console.log(user);
 
           const token = sign(
             {

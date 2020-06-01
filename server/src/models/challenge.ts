@@ -1,8 +1,21 @@
 import { model, Schema, Model, Document } from "mongoose";
 import Joi from "@hapi/joi";
 
+interface IChallenge extends Document {
+  title: String;
+  slug: String;
+  content: Object;
+  level: String;
+  points: Number;
+  contest: String;
+  testCases: [Object];
+  testInputs: [String];
+  challengeSeed: String;
+}
+
 const challengeSchema: Schema = new Schema({
   title: { type: String, required: true, unique: true },
+  slug: { type: String, required: true, unique: true },
   content: {
     problem: {
       type: String,
@@ -67,17 +80,6 @@ const challengeSchema: Schema = new Schema({
     trim: true,
   },
 });
-
-interface IChallenge extends Document {
-  title: String;
-  content: Object;
-  level: String;
-  points: Number;
-  contest: String;
-  testCases: [Object];
-  testInputs: [String];
-  challengeSeed: String;
-}
 
 const Challenge: Model<IChallenge> = model<IChallenge>(
   "Challenge",

@@ -2,11 +2,12 @@ import { Challenge, validateChallenge } from "../models/challenge";
 import { User } from "../models/user";
 import { Contest } from "../models/contest";
 import mongoose from "mongoose";
+import { slugify } from "../utils/utilities";
 
 const challengeResolvers = {
   Query: {
     getChallenge: async (parent: any, args: any, context: any) => {
-      return await Challenge.findById(args.id);
+      return await Challenge.findOne({ slug: args.slug });
     },
     getChallenges: async (parent: any, args: any, context: any) => {
       return await Challenge.find({});
@@ -36,15 +37,21 @@ const challengeResolvers = {
       const { error } = validateChallenge(args.challenge);
       if (error) throw new Error(error.details[0].message);
 
-      const contest = await Contest.findById(contestId);
-      if (!contest) throw new Error(`Invalid contest's id`);
-
       // If title exist
       let challenge = await Challenge.findOne({ title });
       if (challenge) throw new Error(`Title is already taken`);
 
+      // Create a unique slug
+      const slug = slugify(title);
+      const checkSlug = await Challenge.findOne({ slug });
+      if (checkSlug) throw new Error(`Title creates an existed slug`);
+
+      const contest = await Contest.findById(contestId);
+      if (!contest) throw new Error(`Invalid contest's id`);
+
       challenge = new Challenge({
         title,
+        slug,
         content,
         level,
         points,
@@ -81,10 +88,22 @@ const challengeResolvers = {
 
       const uniqueTitleChallenge = await Challenge.findOne({
         title,
-        _id: { $nin: [challengeId] },
+        _id: {
+          $nin: [challengeId],
+        },
       });
       if (uniqueTitleChallenge)
-        throw new Error(`Challenge' title is already exist`);
+        throw new Error(`Challenge's title is already exist`);
+
+      // Create a unique slug
+      const slug = slugify(title);
+      const checkSlug = await Challenge.findOne({
+        slug,
+        _id: {
+          $nin: [challengeId],
+        },
+      });
+      if (checkSlug) throw new Error(`Title creates an existed slug`);
 
       const contest = await Contest.findById(contestId);
       if (!contest) throw new Error(`Invalid contest's id`);

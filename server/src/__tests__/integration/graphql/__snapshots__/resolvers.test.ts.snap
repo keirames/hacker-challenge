@@ -42,7 +42,7 @@ function main() {
         "content": Object {
           "inputSample": "Qwdqwd",
           "outputSample": "QWdqwd",
-          "problem": "asb",
+          "problem": "--- id: 5cfa550e84205a357704ccb6 title: Use Destructuring Assignment to Extract Values from Objects challengeType: 1 isHidden: false forumTopicId: 301216 ---  ## Description <section id='description'> <dfn>Destructuring assignment</dfn> is special syntax introduced in ES6, for neatly assigning values taken directly from an object.  Consider the following ES5 code:  \`\`\`js const user = { name: 'John Doe', age: 34 };  const name = user.name; // name = 'John Doe' const age = user.age; // age = 34 \`\`\`  Here's an equivalent assignment statement using the ES6 destructuring syntax:  \`\`\`js const { name, age } = user; // name = 'John Doe', age = 34 \`\`\`  Here, the <code>name</code> and <code>age</code> variables will be created and assigned the values of their respective values from the <code>user</code> object. You can see how much cleaner this is.  You can extract as many or few values from the object as you want. </section>  ## Instructions <section id='instructions'> Replace the two assignments with an equivalent destructuring assignment. It should still assign the variables <code>today</code> and <code>tomorrow</code> the values of <code>today</code> and <code>tomorrow</code> from the <code>HIGH_TEMPERATURES</code> object. </section>  ## Tests <section id='tests'>  \`\`\`yml tests:   - text: You should remove the ES5 assignment syntax.     testString: assert(!removeJSComments(code).match(/today\\\\s*=\\\\s*HIGH_TEMPERATURES\\\\.(today|tomorrow)/g))   - text: You should use destructuring to create the <code>today</code> variable.     testString: assert(removeJSComments(code).match(/(var|let|const)\\\\s*{\\\\s*(today[^}]*|[^,]*,\\\\s*today)\\\\s*}\\\\s*=\\\\s*HIGH_TEMPERATURES(;|\\\\s+|\\\\/\\\\/)/g));   - text: You should use destructuring to create the <code>tomorrow</code> variable.     testString: assert(removeJSComments(code).match(/(var|let|const)\\\\s*{\\\\s*(tomorrow[^}]*|[^,]*,\\\\s*tomorrow)\\\\s*}\\\\s*=\\\\s*HIGH_TEMPERATURES(;|\\\\s+|\\\\/\\\\/)/g));   - text: <code>today</code> should be equal to <code>77</code> and <code>tomorrow</code> should be equal to <code>80</code>.     testString: assert(today === 77 && tomorrow === 80);  \`\`\`  </section>  ## Challenge Seed <section id='challengeSeed'> <div id='js-seed'>  \`\`\`js const HIGH_TEMPERATURES = {   yesterday: 75,   today: 77,   tomorrow: 80 };  // Only change code below this line  const today = HIGH_TEMPERATURES.today; const tomorrow = HIGH_TEMPERATURES.tomorrow;  // Only change code above this line \`\`\`  </div>  ### After Test <div id='js-teardown'>  \`\`\`js const removeJSComments = str => str.replace(/\\\\/\\\\*[\\\\s\\\\S]*?\\\\*\\\\/|\\\\/\\\\/.*$/gm, ''); \`\`\`  </div>  </section>  ## Solution <section id='solution'>  \`\`\`js const HIGH_TEMPERATURES = {   yesterday: 75,   today: 77,   tomorrow: 80 };  const { today, tomorrow } = HIGH_TEMPERATURES; \`\`\`  </section>",
         },
         "contest": Object {
           "challenges": Array [
@@ -307,21 +307,44 @@ process.stdin.on(\\"end\\", (_) => {
 function readLine() {
     return inputString[currentLine++];
 }
+
 // Complete the jumpingOnClouds function below.
 function jumpingOnClouds(c) {
-    return 1;
+
 }
 
 function main() {
+    const n = parseInt(readLine(), 10);
     const c = readLine().split(\\" \\")
                         .map((cTemp) => parseInt(cTemp, 10));
     let result = jumpingOnClouds(c);
     parentPort.postMessage(result);
 }",
         "content": Object {
-          "inputSample": "Qwdqwd",
-          "outputSample": "QWdqwd",
-          "problem": "asb",
+          "inputSample": "<pre class=\\"highlight\\">
+3
+1 2 3
+</pre>",
+          "outputSample": "<pre class=\\"highlight\\">
+Array is sorted in 0 swaps.
+First Element: 1
+Last Element: 3
+</pre>",
+          "problem": "Consider the following version of Bubble Sort:
+
+<pre><code>for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n - 1; j++) {
+        // Swap adjacent elements if they are in decreasing order
+        if (a[j] > a[j + 1]) {
+            swap(a[j], a[j + 1]);
+        }
+    }
+}</code></pre>
+
+Given an array of integers, sort the array in ascending order using the Bubble Sort algorithm above. Once sorted, print the following three lines:
+  <ul><li>Array is sorted in numSwaps swaps., where <strong>numSwaps</strong> is the number of swaps that took place.</li>
+  <li>First Element: firstElement, where <strong>firstElement</strong> is the first element in the sorted array.</li>
+  <li>Last Element: lastElement, where <strong>lastElement</strong> is the last element in the sorted array.</li></ul>",
         },
         "contest": Object {
           "challenges": Array [
@@ -347,32 +370,19 @@ function main() {
         "points": 100,
         "testCases": Array [
           Object {
-            "testString": "assert.strictEqual(result,10)",
-            "text": "Must be 10",
-          },
-          Object {
-            "testString": "assert.strictEqual(result,9)",
-            "text": "Must be 9",
-          },
-          Object {
-            "testString": "assert.strictEqual(result,1)",
-            "text": "Must be 1",
+            "testString": "assert.strictEqual(result,2)",
+            "text": "Must be 2",
           },
           Object {
             "testString": "assert.strictEqual(result,3)",
             "text": "Must be 3",
           },
-          Object {
-            "testString": "assert.strictEqual(result,100)",
-            "text": "Must be 100",
-          },
         ],
         "testInputs": Array [
-          "2\\\\n1 10",
-          "3\\\\n1 8 9",
-          "4\\\\n1 1 1 1",
-          "5\\\\n3 1 2 1 1",
-          "6\\\\n1 100 99 95 10 -20",
+          "5
+1 2 3 4 5",
+          "6
+1 2 3 4 5 6",
         ],
         "title": "Bubble Sort",
       },
@@ -391,99 +401,7 @@ function main() {
 exports[`Queries Challenge should return single challenge with provided ID 1`] = `
 Object {
   "data": Object {
-    "getChallenge": Object {
-      "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
-const fs = require(\\"fs\\");
-process.stdin.resume();
-process.stdin.setEncoding(\\"utf-8\\");
-
-let inputString = \\"\\";
-let currentLine = 0;
-
-process.stdin.on(\\"data\\", (inputStdin) => {
-    inputString += inputStdin;
-});
-
-process.stdin.on(\\"end\\", (_) => {
-    inputString = inputString
-                            .replace(/s*$/, \\"\\")
-                            .split(\\"\\\\n\\")
-                            .map((str) => str.replace(/s*$/, \\"\\"));
-    main();
-});
-
-function readLine() {
-    return inputString[currentLine++];
-}
-// Complete the jumpingOnClouds function below.
-function jumpingOnClouds(c) {
-    return 1;
-}
-
-function main() {
-    const c = readLine().split(\\" \\")
-                        .map((cTemp) => parseInt(cTemp, 10));
-    let result = jumpingOnClouds(c);
-    parentPort.postMessage(result);
-}",
-      "content": Object {
-        "inputSample": "Qwdqwd",
-        "outputSample": "QWdqwd",
-        "problem": "asb",
-      },
-      "contest": Object {
-        "challenges": Array [
-          Object {
-            "id": "5ecbf96716adcf33089b9198",
-          },
-          Object {
-            "id": "5ecdd0681e38df1562b67a93",
-          },
-          Object {
-            "id": "5ecdd07d1e38df1562b67a94",
-          },
-          Object {
-            "id": "5ecdd0871e38df1562b67a95",
-          },
-        ],
-        "id": "5ecbf68781de4e2d392e22c3",
-        "name": "Sort Algorithm",
-      },
-      "id": "5ecbf96716adcf33089b9198",
-      "level": "hard",
-      "passedUser": Array [],
-      "points": 100,
-      "testCases": Array [
-        Object {
-          "testString": "assert.strictEqual(result,10)",
-          "text": "Must be 10",
-        },
-        Object {
-          "testString": "assert.strictEqual(result,9)",
-          "text": "Must be 9",
-        },
-        Object {
-          "testString": "assert.strictEqual(result,1)",
-          "text": "Must be 1",
-        },
-        Object {
-          "testString": "assert.strictEqual(result,3)",
-          "text": "Must be 3",
-        },
-        Object {
-          "testString": "assert.strictEqual(result,100)",
-          "text": "Must be 100",
-        },
-      ],
-      "testInputs": Array [
-        "2\\\\n1 10",
-        "3\\\\n1 8 9",
-        "4\\\\n1 1 1 1",
-        "5\\\\n3 1 2 1 1",
-        "6\\\\n1 100 99 95 10 -20",
-      ],
-      "title": "Merge Sort",
-    },
+    "getChallenge": null,
   },
   "errors": undefined,
   "extensions": undefined,
@@ -544,7 +462,7 @@ function main() {
             "content": Object {
               "inputSample": "Qwdqwd",
               "outputSample": "QWdqwd",
-              "problem": "asb",
+              "problem": "--- id: 5cfa550e84205a357704ccb6 title: Use Destructuring Assignment to Extract Values from Objects challengeType: 1 isHidden: false forumTopicId: 301216 ---  ## Description <section id='description'> <dfn>Destructuring assignment</dfn> is special syntax introduced in ES6, for neatly assigning values taken directly from an object.  Consider the following ES5 code:  \`\`\`js const user = { name: 'John Doe', age: 34 };  const name = user.name; // name = 'John Doe' const age = user.age; // age = 34 \`\`\`  Here's an equivalent assignment statement using the ES6 destructuring syntax:  \`\`\`js const { name, age } = user; // name = 'John Doe', age = 34 \`\`\`  Here, the <code>name</code> and <code>age</code> variables will be created and assigned the values of their respective values from the <code>user</code> object. You can see how much cleaner this is.  You can extract as many or few values from the object as you want. </section>  ## Instructions <section id='instructions'> Replace the two assignments with an equivalent destructuring assignment. It should still assign the variables <code>today</code> and <code>tomorrow</code> the values of <code>today</code> and <code>tomorrow</code> from the <code>HIGH_TEMPERATURES</code> object. </section>  ## Tests <section id='tests'>  \`\`\`yml tests:   - text: You should remove the ES5 assignment syntax.     testString: assert(!removeJSComments(code).match(/today\\\\s*=\\\\s*HIGH_TEMPERATURES\\\\.(today|tomorrow)/g))   - text: You should use destructuring to create the <code>today</code> variable.     testString: assert(removeJSComments(code).match(/(var|let|const)\\\\s*{\\\\s*(today[^}]*|[^,]*,\\\\s*today)\\\\s*}\\\\s*=\\\\s*HIGH_TEMPERATURES(;|\\\\s+|\\\\/\\\\/)/g));   - text: You should use destructuring to create the <code>tomorrow</code> variable.     testString: assert(removeJSComments(code).match(/(var|let|const)\\\\s*{\\\\s*(tomorrow[^}]*|[^,]*,\\\\s*tomorrow)\\\\s*}\\\\s*=\\\\s*HIGH_TEMPERATURES(;|\\\\s+|\\\\/\\\\/)/g));   - text: <code>today</code> should be equal to <code>77</code> and <code>tomorrow</code> should be equal to <code>80</code>.     testString: assert(today === 77 && tomorrow === 80);  \`\`\`  </section>  ## Challenge Seed <section id='challengeSeed'> <div id='js-seed'>  \`\`\`js const HIGH_TEMPERATURES = {   yesterday: 75,   today: 77,   tomorrow: 80 };  // Only change code below this line  const today = HIGH_TEMPERATURES.today; const tomorrow = HIGH_TEMPERATURES.tomorrow;  // Only change code above this line \`\`\`  </div>  ### After Test <div id='js-teardown'>  \`\`\`js const removeJSComments = str => str.replace(/\\\\/\\\\*[\\\\s\\\\S]*?\\\\*\\\\/|\\\\/\\\\/.*$/gm, ''); \`\`\`  </div>  </section>  ## Solution <section id='solution'>  \`\`\`js const HIGH_TEMPERATURES = {   yesterday: 75,   today: 77,   tomorrow: 80 };  const { today, tomorrow } = HIGH_TEMPERATURES; \`\`\`  </section>",
             },
             "contest": Object {
               "challenges": Array [
@@ -809,21 +727,44 @@ process.stdin.on(\\"end\\", (_) => {
 function readLine() {
     return inputString[currentLine++];
 }
+
 // Complete the jumpingOnClouds function below.
 function jumpingOnClouds(c) {
-    return 1;
+
 }
 
 function main() {
+    const n = parseInt(readLine(), 10);
     const c = readLine().split(\\" \\")
                         .map((cTemp) => parseInt(cTemp, 10));
     let result = jumpingOnClouds(c);
     parentPort.postMessage(result);
 }",
             "content": Object {
-              "inputSample": "Qwdqwd",
-              "outputSample": "QWdqwd",
-              "problem": "asb",
+              "inputSample": "<pre class=\\"highlight\\">
+3
+1 2 3
+</pre>",
+              "outputSample": "<pre class=\\"highlight\\">
+Array is sorted in 0 swaps.
+First Element: 1
+Last Element: 3
+</pre>",
+              "problem": "Consider the following version of Bubble Sort:
+
+<pre><code>for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n - 1; j++) {
+        // Swap adjacent elements if they are in decreasing order
+        if (a[j] > a[j + 1]) {
+            swap(a[j], a[j + 1]);
+        }
+    }
+}</code></pre>
+
+Given an array of integers, sort the array in ascending order using the Bubble Sort algorithm above. Once sorted, print the following three lines:
+  <ul><li>Array is sorted in numSwaps swaps., where <strong>numSwaps</strong> is the number of swaps that took place.</li>
+  <li>First Element: firstElement, where <strong>firstElement</strong> is the first element in the sorted array.</li>
+  <li>Last Element: lastElement, where <strong>lastElement</strong> is the last element in the sorted array.</li></ul>",
             },
             "contest": Object {
               "challenges": Array [
@@ -849,32 +790,19 @@ function main() {
             "points": 100,
             "testCases": Array [
               Object {
-                "testString": "assert.strictEqual(result,10)",
-                "text": "Must be 10",
-              },
-              Object {
-                "testString": "assert.strictEqual(result,9)",
-                "text": "Must be 9",
-              },
-              Object {
-                "testString": "assert.strictEqual(result,1)",
-                "text": "Must be 1",
+                "testString": "assert.strictEqual(result,2)",
+                "text": "Must be 2",
               },
               Object {
                 "testString": "assert.strictEqual(result,3)",
                 "text": "Must be 3",
               },
-              Object {
-                "testString": "assert.strictEqual(result,100)",
-                "text": "Must be 100",
-              },
             ],
             "testInputs": Array [
-              "2\\\\n1 10",
-              "3\\\\n1 8 9",
-              "4\\\\n1 1 1 1",
-              "5\\\\n3 1 2 1 1",
-              "6\\\\n1 100 99 95 10 -20",
+              "5
+1 2 3 4 5",
+              "6
+1 2 3 4 5 6",
             ],
             "title": "Bubble Sort",
           },
@@ -906,387 +834,10 @@ function main() {
 
 exports[`Queries Contest should return single contest with provided ID 1`] = `
 Object {
-  "data": Object {
-    "getContest": Object {
-      "challenges": Array [
-        Object {
-          "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
-const fs = require(\\"fs\\");
-process.stdin.resume();
-process.stdin.setEncoding(\\"utf-8\\");
-
-let inputString = \\"\\";
-let currentLine = 0;
-
-process.stdin.on(\\"data\\", (inputStdin) => {
-    inputString += inputStdin;
-});
-
-process.stdin.on(\\"end\\", (_) => {
-    inputString = inputString
-                            .replace(/s*$/, \\"\\")
-                            .split(\\"\\\\n\\")
-                            .map((str) => str.replace(/s*$/, \\"\\"));
-    main();
-});
-
-function readLine() {
-    return inputString[currentLine++];
-}
-// Complete the jumpingOnClouds function below.
-function jumpingOnClouds(c) {
-    return 1;
-}
-
-function main() {
-    const c = readLine().split(\\" \\")
-                        .map((cTemp) => parseInt(cTemp, 10));
-    let result = jumpingOnClouds(c);
-    parentPort.postMessage(result);
-}",
-          "content": Object {
-            "inputSample": "Qwdqwd",
-            "outputSample": "QWdqwd",
-            "problem": "asb",
-          },
-          "contest": Object {
-            "challenges": Array [
-              Object {
-                "id": "5ecbf96716adcf33089b9198",
-              },
-              Object {
-                "id": "5ecdd0681e38df1562b67a93",
-              },
-              Object {
-                "id": "5ecdd07d1e38df1562b67a94",
-              },
-              Object {
-                "id": "5ecdd0871e38df1562b67a95",
-              },
-            ],
-            "id": "5ecbf68781de4e2d392e22c3",
-            "name": "Sort Algorithm",
-          },
-          "id": "5ecbf96716adcf33089b9198",
-          "level": "hard",
-          "passedUser": Array [],
-          "points": 100,
-          "testCases": Array [
-            Object {
-              "testString": "assert.strictEqual(result,10)",
-              "text": "Must be 10",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,9)",
-              "text": "Must be 9",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,1)",
-              "text": "Must be 1",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,3)",
-              "text": "Must be 3",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,100)",
-              "text": "Must be 100",
-            },
-          ],
-          "testInputs": Array [
-            "2\\\\n1 10",
-            "3\\\\n1 8 9",
-            "4\\\\n1 1 1 1",
-            "5\\\\n3 1 2 1 1",
-            "6\\\\n1 100 99 95 10 -20",
-          ],
-          "title": "Merge Sort",
-        },
-        Object {
-          "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
-const fs = require(\\"fs\\");
-process.stdin.resume();
-process.stdin.setEncoding(\\"utf-8\\");
-
-let inputString = \\"\\";
-let currentLine = 0;
-
-process.stdin.on(\\"data\\", (inputStdin) => {
-    inputString += inputStdin;
-});
-
-process.stdin.on(\\"end\\", (_) => {
-    inputString = inputString
-                            .replace(/s*$/, \\"\\")
-                            .split(\\"\\\\n\\")
-                            .map((str) => str.replace(/s*$/, \\"\\"));
-    main();
-});
-
-function readLine() {
-    return inputString[currentLine++];
-}
-// Complete the jumpingOnClouds function below.
-function jumpingOnClouds(c) {
-    return 1;
-}
-
-function main() {
-    const c = readLine().split(\\" \\")
-                        .map((cTemp) => parseInt(cTemp, 10));
-    let result = jumpingOnClouds(c);
-    parentPort.postMessage(result);
-}",
-          "content": Object {
-            "inputSample": "Qwdqwd",
-            "outputSample": "QWdqwd",
-            "problem": "asb",
-          },
-          "contest": Object {
-            "challenges": Array [
-              Object {
-                "id": "5ecbf96716adcf33089b9198",
-              },
-              Object {
-                "id": "5ecdd0681e38df1562b67a93",
-              },
-              Object {
-                "id": "5ecdd07d1e38df1562b67a94",
-              },
-              Object {
-                "id": "5ecdd0871e38df1562b67a95",
-              },
-            ],
-            "id": "5ecbf68781de4e2d392e22c3",
-            "name": "Sort Algorithm",
-          },
-          "id": "5ecdd0681e38df1562b67a93",
-          "level": "easy",
-          "passedUser": Array [],
-          "points": 100,
-          "testCases": Array [
-            Object {
-              "testString": "assert.strictEqual(result,10)",
-              "text": "Must be 10",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,9)",
-              "text": "Must be 9",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,1)",
-              "text": "Must be 1",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,3)",
-              "text": "Must be 3",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,100)",
-              "text": "Must be 100",
-            },
-          ],
-          "testInputs": Array [
-            "2\\\\n1 10",
-            "3\\\\n1 8 9",
-            "4\\\\n1 1 1 1",
-            "5\\\\n3 1 2 1 1",
-            "6\\\\n1 100 99 95 10 -20",
-          ],
-          "title": "Selection Sort",
-        },
-        Object {
-          "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
-const fs = require(\\"fs\\");
-process.stdin.resume();
-process.stdin.setEncoding(\\"utf-8\\");
-
-let inputString = \\"\\";
-let currentLine = 0;
-
-process.stdin.on(\\"data\\", (inputStdin) => {
-    inputString += inputStdin;
-});
-
-process.stdin.on(\\"end\\", (_) => {
-    inputString = inputString
-                            .replace(/s*$/, \\"\\")
-                            .split(\\"\\\\n\\")
-                            .map((str) => str.replace(/s*$/, \\"\\"));
-    main();
-});
-
-function readLine() {
-    return inputString[currentLine++];
-}
-// Complete the jumpingOnClouds function below.
-function jumpingOnClouds(c) {
-    return 1;
-}
-
-function main() {
-    const c = readLine().split(\\" \\")
-                        .map((cTemp) => parseInt(cTemp, 10));
-    let result = jumpingOnClouds(c);
-    parentPort.postMessage(result);
-}",
-          "content": Object {
-            "inputSample": "Qwdqwd",
-            "outputSample": "QWdqwd",
-            "problem": "asb",
-          },
-          "contest": Object {
-            "challenges": Array [
-              Object {
-                "id": "5ecbf96716adcf33089b9198",
-              },
-              Object {
-                "id": "5ecdd0681e38df1562b67a93",
-              },
-              Object {
-                "id": "5ecdd07d1e38df1562b67a94",
-              },
-              Object {
-                "id": "5ecdd0871e38df1562b67a95",
-              },
-            ],
-            "id": "5ecbf68781de4e2d392e22c3",
-            "name": "Sort Algorithm",
-          },
-          "id": "5ecdd07d1e38df1562b67a94",
-          "level": "hard",
-          "passedUser": Array [],
-          "points": 100,
-          "testCases": Array [
-            Object {
-              "testString": "assert.strictEqual(result,10)",
-              "text": "Must be 10",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,9)",
-              "text": "Must be 9",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,1)",
-              "text": "Must be 1",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,3)",
-              "text": "Must be 3",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,100)",
-              "text": "Must be 100",
-            },
-          ],
-          "testInputs": Array [
-            "2\\\\n1 10",
-            "3\\\\n1 8 9",
-            "4\\\\n1 1 1 1",
-            "5\\\\n3 1 2 1 1",
-            "6\\\\n1 100 99 95 10 -20",
-          ],
-          "title": "Quick Sort",
-        },
-        Object {
-          "challengeSeed": "const { parentPort, workerData } = require(\\"worker_threads\\");
-const fs = require(\\"fs\\");
-process.stdin.resume();
-process.stdin.setEncoding(\\"utf-8\\");
-
-let inputString = \\"\\";
-let currentLine = 0;
-
-process.stdin.on(\\"data\\", (inputStdin) => {
-    inputString += inputStdin;
-});
-
-process.stdin.on(\\"end\\", (_) => {
-    inputString = inputString
-                            .replace(/s*$/, \\"\\")
-                            .split(\\"\\\\n\\")
-                            .map((str) => str.replace(/s*$/, \\"\\"));
-    main();
-});
-
-function readLine() {
-    return inputString[currentLine++];
-}
-// Complete the jumpingOnClouds function below.
-function jumpingOnClouds(c) {
-    return 1;
-}
-
-function main() {
-    const c = readLine().split(\\" \\")
-                        .map((cTemp) => parseInt(cTemp, 10));
-    let result = jumpingOnClouds(c);
-    parentPort.postMessage(result);
-}",
-          "content": Object {
-            "inputSample": "Qwdqwd",
-            "outputSample": "QWdqwd",
-            "problem": "asb",
-          },
-          "contest": Object {
-            "challenges": Array [
-              Object {
-                "id": "5ecbf96716adcf33089b9198",
-              },
-              Object {
-                "id": "5ecdd0681e38df1562b67a93",
-              },
-              Object {
-                "id": "5ecdd07d1e38df1562b67a94",
-              },
-              Object {
-                "id": "5ecdd0871e38df1562b67a95",
-              },
-            ],
-            "id": "5ecbf68781de4e2d392e22c3",
-            "name": "Sort Algorithm",
-          },
-          "id": "5ecdd0871e38df1562b67a95",
-          "level": "easy",
-          "passedUser": Array [],
-          "points": 100,
-          "testCases": Array [
-            Object {
-              "testString": "assert.strictEqual(result,10)",
-              "text": "Must be 10",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,9)",
-              "text": "Must be 9",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,1)",
-              "text": "Must be 1",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,3)",
-              "text": "Must be 3",
-            },
-            Object {
-              "testString": "assert.strictEqual(result,100)",
-              "text": "Must be 100",
-            },
-          ],
-          "testInputs": Array [
-            "2\\\\n1 10",
-            "3\\\\n1 8 9",
-            "4\\\\n1 1 1 1",
-            "5\\\\n3 1 2 1 1",
-            "6\\\\n1 100 99 95 10 -20",
-          ],
-          "title": "Bubble Sort",
-        },
-      ],
-      "id": "5ecbf68781de4e2d392e22c3",
-      "name": "Sort Algorithm",
-    },
-  },
-  "errors": undefined,
+  "data": null,
+  "errors": Array [
+    [GraphQLError: Cannot return null for non-nullable field Query.getContest.],
+  ],
   "extensions": undefined,
   "http": Object {
     "headers": Headers {

@@ -1,11 +1,12 @@
 import { Contest, validateContest } from "../models/contest";
 import { Challenge } from "../models/challenge";
 import mongoose from "mongoose";
+import { slugify } from "../utils/utilities";
 
 const contestResolvers = {
   Query: {
     getContest: async (parent: any, args: any, context: any) => {
-      return await Contest.findById(args.id);
+      return await Contest.findOne({ slug: args.slug });
     },
     getContests: async (parent: any, args: any, context: any) => {
       return await Contest.find({});
@@ -24,10 +25,22 @@ const contestResolvers = {
       if (error) throw new Error(error.details[0].message);
 
       // Check name unique
-      let contest = await Contest.findOne({ name });
+      let contest = await Contest.findOne({
+        name,
+      });
       if (contest) throw new Error(`Name of contest is already taken`);
 
-      contest = new Contest({ name });
+      // Create a unique slug
+      const slug = slugify(name);
+      const checkSlug = await Contest.findOne({
+        slug,
+      });
+      if (checkSlug) throw new Error(`Contest's name creates an existed slug`);
+
+      contest = new Contest({
+        name,
+        slug,
+      });
       return await contest.save();
     },
     editContest: async (parent: any, args: any, context: any, info: any) => {
@@ -45,11 +58,24 @@ const contestResolvers = {
       // Check name unique
       let uniqueContest = await Contest.findOne({
         name,
-        _id: { $nin: [args.contestId] },
+        _id: {
+          $nin: [args.contestId],
+        },
       });
       if (uniqueContest) throw new Error(`Name of contest is already taken`);
 
+      // Create a unique slug
+      const slug = slugify(name);
+      const checkSlug = await Contest.findOne({
+        slug,
+        _id: {
+          $nin: [args.contestId],
+        },
+      });
+      if (checkSlug) throw new Error(`Contest's name creates an existed slug`);
+
       contest.name = name;
+      contest.slug = slug;
       return await contest.save();
     },
   },
