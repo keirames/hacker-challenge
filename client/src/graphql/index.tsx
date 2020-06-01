@@ -13,6 +13,7 @@ export interface User {
 export interface Contest {
   id: string;
   name: string;
+  slug: string;
   challenges: Challenge[];
 }
 
@@ -30,6 +31,7 @@ export interface Content {
 export interface Challenge {
   id: string;
   title: string;
+  slug: string;
   content: Content;
   level: string;
   points: number;

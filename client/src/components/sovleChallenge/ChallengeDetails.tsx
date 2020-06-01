@@ -67,16 +67,10 @@ const AntTab = withStyles((theme: Theme) =>
 )((props: { label: string }) => <Tab {...props} />);
 
 const ChallengeDetails: React.FC<IProps> = (props) => {
-  const { title } = props.challenge;
-
   const [tabValue, setTabValue] = useState<number>(0);
 
   return (
     <div style={props.style}>
-      <SHeader>
-        Breedcum
-        <Typography variant="h4">{title}</Typography>
-      </SHeader>
       <Tabs
         value={tabValue}
         onChange={(e: React.ChangeEvent<{}>, value: number) =>
@@ -95,13 +89,5 @@ const ChallengeDetails: React.FC<IProps> = (props) => {
     </div>
   );
 };
-
-const SHeader = styled.div`
-  box-shadow: ${({ theme }: { theme: STheme }) => theme.shadows[2]};
-  padding: 20px;
-  margin: 10px 0;
-  background: ${({ theme }: { theme: STheme }) =>
-    theme.palette.background.white};
-`;
 
 export default ChallengeDetails;

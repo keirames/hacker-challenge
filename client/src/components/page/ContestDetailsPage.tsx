@@ -19,7 +19,7 @@ export interface ILevelFilter {
 }
 
 interface ContestVars {
-  id: string;
+  slug: string;
 }
 
 interface ContestData {
@@ -27,11 +27,12 @@ interface ContestData {
 }
 
 const GET_CONTEST = gql`
-  query GetContest($id: ID!) {
-    getContest(id: $id) {
+  query GetContest($slug: String!) {
+    getContest(slug: $slug) {
       challenges {
         id
         title
+        slug
         level
         points
       }
@@ -39,7 +40,7 @@ const GET_CONTEST = gql`
   }
 `;
 
-//TODO: Find away to refactore this interfae
+//TODO: Find a way to refactore this interfae
 interface UserData {
   getMe: User;
 }
@@ -63,13 +64,13 @@ const GET_ME = gql`
 `;
 
 const ContestDetailsPage: React.FC = (props) => {
-  const { id } = useParams();
+  const { slug } = useParams();
 
   const [challenges, setChallenges] = useState<Challenge[]>([]);
 
   const { data, loading, error } = useQuery<ContestData, ContestVars>(
     GET_CONTEST,
-    { variables: { id } }
+    { variables: { slug } }
   );
   const { data: userData } = useQuery<UserData>(GET_ME);
 

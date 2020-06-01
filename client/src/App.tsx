@@ -71,8 +71,13 @@ const App: React.FC = () => {
           component={() => <AuthPage type="signUp" />}
         />
         <NavRoute exact path="/contests" component={MainPage} />
-        <NavRoute exact path="/contests/:id" component={ContestDetailsPage} />
-        <NavRoute exact path="/challenges/:id" component={ChallengePage} />
+        <NavRoute exact path="/contests/:slug" component={ContestDetailsPage} />
+        {/* <NavRoute exact path="/challenges/:slug" component={ChallengePage} /> */}
+        <NavRoute
+          exact
+          path="/contests/:slug/:slug"
+          component={ChallengePage}
+        />
         <NavRoute exact path="/practice" component={MainPage} />
         <NavRoute exact path="/rick" component={MyEditor} />
         <Redirect exact from="/" to="/contests" />

@@ -16,14 +16,15 @@ interface ChallengeData {
 }
 
 interface ChallengeVars {
-  id: string;
+  slug: string;
 }
 
 const GET_CHALLENGE = gql`
-  query GetChallenge($id: ID!) {
-    getChallenge(id: $id) {
+  query GetChallenge($slug: String!) {
+    getChallenge(slug: $slug) {
       id
       title
+      slug
       content {
         problem
         inputSample
@@ -45,13 +46,11 @@ const GET_CHALLENGE = gql`
 `;
 
 const ChallengePage: React.FC<IProps> = (props) => {
-  const { style = {} } = props;
-
-  const { id } = useParams();
+  const { slug } = useParams();
 
   const { data, loading, error } = useQuery<ChallengeData, ChallengeVars>(
     GET_CHALLENGE,
-    { variables: { id } }
+    { variables: { slug } }
   );
 
   if (!data?.getChallenge) return null;

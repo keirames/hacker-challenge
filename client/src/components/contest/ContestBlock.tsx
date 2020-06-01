@@ -4,19 +4,21 @@ import { STheme } from "../../theme";
 import { Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-type Props = {
+//! This interface is common use, need refactor
+interface IProps {
   contest: {
     id: string;
     name: string;
+    slug: string;
   };
-};
+}
 
-const CategoryBlock: React.FC<Props> = ({ contest }) => {
-  const { id, name } = contest;
+const CategoryBlock: React.FC<IProps> = ({ contest }) => {
+  const { name, slug } = contest;
 
   return (
     <Link
-      to={`contests/${id}`}
+      to={`contests/${slug}`}
       style={{ textDecoration: "none", color: "black" }}
     >
       <SContestBlock>
