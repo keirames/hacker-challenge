@@ -71,17 +71,6 @@ export const typeDefs = gql`
     challenges: [Challenge!]!
   }
 
-  # getUser & getChallenge dont throw error if id wrong
-  type Query {
-    getChallenge(slug: String!): Challenge
-    getChallenges: [Challenge!]!
-    getUser(id: ID!): User
-    getUsers: [User!]!
-    getMe: User!
-    getContest(slug: String!): Contest!
-    getContests: [Contest!]!
-  }
-
   input UserInput {
     username: String!
     password: String!
@@ -113,6 +102,17 @@ export const typeDefs = gql`
 
   input ContestInput {
     name: String!
+  }
+
+  # getUser & getChallenge dont throw error if id wrong
+  type Query {
+    getChallenge(slug: String!): Challenge
+    getChallenges: [Challenge!]!
+    getUser(id: ID!): User
+    getUsers: [User!]!
+    getMe: User!
+    getContest(slug: String!): Contest!
+    getContests: [Contest!]!
   }
 
   type Mutation {

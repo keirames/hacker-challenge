@@ -7,7 +7,7 @@ interface IContest extends Document {
 
 const contestSchema: Schema = new Schema({
   name: { type: String, unique: true, minlength: 5, required: true },
-  slog: { type: String, unique: true, required: true },
+  slug: { type: String, unique: true, required: true },
 });
 
 const Contest: Model<IContest> = model<IContest>("Contest", contestSchema);
