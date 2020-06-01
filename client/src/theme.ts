@@ -7,6 +7,11 @@ export const theme = {
     },
   },
   palette: {
+    background: {
+      black: "#000",
+      white: "#fff",
+      blue: "#F7FAFF",
+    },
     common: {
       black: "#000",
       white: "#fff",
@@ -44,6 +49,11 @@ export interface STheme {
     };
   };
   palette: {
+    background: {
+      black: string;
+      white: string;
+      blue: string;
+    };
     common: {
       black: string;
       white: string;

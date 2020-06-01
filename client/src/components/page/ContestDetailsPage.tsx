@@ -32,7 +32,6 @@ const GET_CONTEST = gql`
       challenges {
         id
         title
-        content
         level
         points
       }

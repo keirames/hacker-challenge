@@ -21,16 +21,38 @@ export interface TestCase {
   testString: string;
 }
 
+export interface Content {
+  problem: string;
+  inputSample: string;
+  outputSample: string;
+}
+
 export interface Challenge {
   id: string;
   title: string;
-  content: string;
+  content: Content;
   level: string;
   points: number;
   contest: Contest;
   testCases: TestCase[];
-  testInputs: String[];
-  challengeSeed: String;
+  testInputs: string[];
+  challengeSeed: string;
   passedUser: User[];
   isSolved: boolean;
+}
+
+//! actual & expected i think will better to be a string
+interface TestedResultError {
+  message: string;
+  actual: number;
+  expected: number;
+}
+
+export interface TestedResult {
+  passed: boolean;
+  assert: TestedResultError;
+}
+
+export interface Answer {
+  testedResults: TestedResult[];
 }
