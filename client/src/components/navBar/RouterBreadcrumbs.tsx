@@ -22,9 +22,13 @@ const RouterBreadcrumbs: React.FC = () => {
           const to = `/${pathnames.slice(0, index + 1).join("/")}`;
 
           return last ? (
-            <STypography variant="body1">{path}</STypography>
+            <STypography key={index} variant="body1">
+              {path}
+            </STypography>
           ) : (
-            <SLink to={to}>{path}</SLink>
+            <SLink key={index} to={to}>
+              {path}
+            </SLink>
           );
         })}
       </Breadcrumbs>
