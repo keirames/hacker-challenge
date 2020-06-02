@@ -14,7 +14,7 @@ const Editor: React.FC<{ code: string; onCode: (value: string) => void }> = ({
         mode="javascript"
         theme="tomorrow"
         name="UNIQUE_ID_OF_DIV"
-        onLoad={() => console.log("i loaded")}
+        onLoad={() => {}}
         onChange={(value: string) => onCode(value)}
         fontSize={18}
         showPrintMargin={true}
