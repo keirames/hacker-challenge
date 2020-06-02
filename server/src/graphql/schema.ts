@@ -32,6 +32,7 @@ export const typeDefs = gql`
   type TestedResult {
     passed: Boolean!
     assert: TestedResultError
+    time: Int
   }
 
   type Answer {

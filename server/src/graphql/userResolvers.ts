@@ -4,6 +4,7 @@ import { Challenge } from "../models/challenge";
 import { sign } from "jsonwebtoken";
 import mongoose from "mongoose";
 import executeSolution from "./utils/executeSolution";
+import executeSingleSolution from "./utils/executeSingleSolution";
 const bcrypt = require("bcrypt");
 
 const userResolvers = {
@@ -186,7 +187,7 @@ const userResolvers = {
         testStrings,
         answer,
       });
-      // console.log(result);
+
       if (executeResult.error) return executeResult.error;
       return executeResult;
     },
