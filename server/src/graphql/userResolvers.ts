@@ -165,15 +165,12 @@ const userResolvers = {
       return user.save();
     },
     submitAnswer: async (parent: any, args: any, context: any, info: any) => {
-      const { challengeId, answer } = args;
+      const { challengeSlug, answer } = args;
 
       const user = await authenticateUser(context);
 
-      if (!mongoose.Types.ObjectId.isValid(challengeId))
-        throw new Error(`Invalid challenge id`);
-
-      let challenge = await Challenge.findById(challengeId);
-      if (!challenge) throw new Error(`Invalid challenge id`);
+      let challenge = await Challenge.findOne({ slug: challengeSlug });
+      if (!challenge) throw new Error(`Invalid challenge slug`);
 
       const testInputs: any[] = challenge.testInputs;
       const testStrings: any[] = [];

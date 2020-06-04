@@ -126,6 +126,6 @@ export const typeDefs = gql`
     addOrRemoveLikedChallenges(userId: ID!, challengeId: ID!): [ID!]!
     addContest(contest: ContestInput!): Contest!
     editContest(contestId: ID!, contest: ContestInput!): Contest!
-    submitAnswer(challengeId: ID!, answer: String!): Answer!
+    submitAnswer(challengeSlug: String!, answer: String!): Answer!
   }
 `;
