@@ -32,6 +32,9 @@ const GET_CHALLENGE = gql`
       }
       level
       points
+      passedUser {
+        username
+      }
       contest {
         name
       }
@@ -58,11 +61,15 @@ const ChallengePage: React.FC<IProps> = (props) => {
   return (
     <SChallengePage style={props.style}>
       <Grid container spacing={5}>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
           <ChallengeDetails challenge={data.getChallenge} />
         </Grid>
-        <Grid item xs={4}>
-          <ScoreTable />
+        <Grid item xs={3}>
+          <ScoreTable
+            level={data.getChallenge.level}
+            points={data.getChallenge.points}
+            passedUser={data.getChallenge.passedUser.length}
+          />
         </Grid>
       </Grid>
     </SChallengePage>
