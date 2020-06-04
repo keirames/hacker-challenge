@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { TestCase, TestedResult } from "../../graphql";
 import { STheme } from "../../theme";
@@ -6,15 +6,30 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "@material-ui/core";
 
 interface IProps {
+  loading: boolean;
   testCase: TestCase;
   testedResult: TestedResult | undefined;
 }
 
-const TestBlock: React.FC<IProps> = ({ testCase, testedResult }) => {
+const TestBlock: React.FC<IProps> = ({ loading, testCase, testedResult }) => {
+  const [selfLoading, setSelfLoading] = useState(false);
+
+  useEffect(() => {
+    let delay: any = null;
+    if (loading) setSelfLoading(true);
+    else {
+      const time = testedResult?.time || 0;
+      delay = setTimeout(() => {
+        setSelfLoading(false);
+      }, time);
+    }
+    return () => clearTimeout(delay);
+  }, [loading, testedResult]);
+
   const MyIcon: React.FC<{ passed: boolean }> = ({ passed }) => {
     return (
       <SFontAwesomeIcon
-        passed={passed}
+        passed={passed ? 1 : 0}
         icon={["far", passed ? "check-circle" : "times-circle"]}
         size="2x"
       />
@@ -23,8 +38,10 @@ const TestBlock: React.FC<IProps> = ({ testCase, testedResult }) => {
 
   return (
     <STestBlock>
-      <SColor passed={testedResult?.passed} />
-      {!testedResult ? (
+      <SColor passed={testedResult?.passed} selfLoading={selfLoading} />
+      {selfLoading ? (
+        <FontAwesomeIcon icon="circle-notch" spin size="2x" color="#3f51b5" />
+      ) : !testedResult ? (
         <FontAwesomeIcon icon={["far", "circle"]} size="2x" />
       ) : (
         <MyIcon passed={testedResult.passed} />
@@ -54,19 +71,31 @@ const STestBlock = styled.div`
   }
 `;
 
-const SColor = styled.div<{ passed: boolean | undefined }>`
+const SColor = styled.div`
   align-self: stretch;
-  background-color: ${({ theme, passed }) =>
-    passed ? theme.palette.common.green : theme.palette.common.red};
+  background-color: ${({
+    theme,
+    passed,
+    selfLoading,
+  }: {
+    theme: STheme;
+    passed: boolean | undefined;
+    selfLoading: boolean;
+  }) =>
+    selfLoading || passed === undefined
+      ? theme.palette.common.blue
+      : passed
+      ? theme.palette.common.darkGreen
+      : theme.palette.common.red};
   height: 100%;
   width: 8px;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 `;
 
-const SFontAwesomeIcon = styled(FontAwesomeIcon)<{ passed?: boolean }>`
-  color: ${({ theme, passed }) =>
-    passed ? theme.palette.common.green : theme.palette.common.red};
+const SFontAwesomeIcon = styled(FontAwesomeIcon)`
+  color: ${({ theme, passed }: { theme: STheme; passed: number }) =>
+    passed ? theme.palette.common.darkGreen : theme.palette.common.red};
 `;
 
 export default TestBlock;

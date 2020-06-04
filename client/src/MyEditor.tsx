@@ -15,9 +15,10 @@ const EDIT_CHALLENGE = gql`
 `;
 
 const GET_CHALLENGE = gql`
-  query GetChallenge($id: ID!) {
-    getChallenge(id: $id) {
+  query GetChallenge($slug: String!) {
+    getChallenge(slug: $slug) {
       id
+      slug
       title
       content {
         problem
@@ -44,7 +45,9 @@ export const MyEditor: React.FC = (props) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const { data } = useQuery<{ getChallenge: Challenge }>(GET_CHALLENGE, {
-    variables: { id: "5ecdd0871e38df1562b67a95" },
+    variables: {
+      slug: "test",
+    },
   });
 
   const [editChallenge] = useMutation(EDIT_CHALLENGE);
@@ -56,9 +59,9 @@ export const MyEditor: React.FC = (props) => {
         challenge: {
           title: data?.getChallenge.title,
           content: {
-            // problem: data?.getChallenge.content.problem,
+            problem: data?.getChallenge.content.problem,
             // problem: stateToHTML(editorState.getCurrentContent()),
-            problem: value,
+            // problem: value,
             inputSample: data?.getChallenge.content.inputSample,
             outputSample: data?.getChallenge.content.outputSample,
             // outputSample: value,
@@ -69,8 +72,44 @@ export const MyEditor: React.FC = (props) => {
           testCases: [
             { text: "Must be 2", testString: "assert.strictEqual(result,2)" },
             { text: "Must be 3", testString: "assert.strictEqual(result,3)" },
+            { text: "Must be 4", testString: "assert.strictEqual(result,4)" },
+            { text: "Must be 5", testString: "assert.strictEqual(result,5)" },
+            {
+              text: "Must be 100",
+              testString: "assert.strictEqual(result,100)",
+            },
+            {
+              text: "Must be 1000",
+              testString: "assert.strictEqual(result,1000)",
+            },
+            {
+              text: "Must be 999",
+              testString: "assert.strictEqual(result,999)",
+            },
+            {
+              text: "Must be -10",
+              testString: "assert.strictEqual(result,-10)",
+            },
+            {
+              text: "Must be -100",
+              testString: "assert.strictEqual(result,-100)",
+            },
+            {
+              text: "Must be -999",
+              testString: "assert.strictEqual(result,-999)",
+            },
           ],
-          testInputs: ["5\n1 2 3 4 5", "6\n1 2 3 4 5 6"],
+          testInputs: [
+            "5\n1 2 1 1 1",
+            "6\n1 2 3 2 1 1",
+            "6\n1 2 3 4 4 4",
+            "6\n1 2 3 4 5 -10",
+            "6\n1 2 3 4 -101 100",
+            "6\n1 2 3 4 -1001 1000",
+            "6\n1 2 3 998 999 998",
+            "6\n-100 -102 -103 -104 -105 -106",
+            "6\n-1000 -2000 -3000 -999 -5000 -6000",
+          ],
           challengeSeed: data?.getChallenge.challengeSeed,
           // challengeSeed: value,
         },

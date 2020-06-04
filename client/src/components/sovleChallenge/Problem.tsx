@@ -7,12 +7,14 @@ import Editor from "./Editor";
 import TestTable from "./TestTable";
 import { useMutation, gql } from "@apollo/client";
 import ProblemContent from "./ProblemContent";
+import { useParams } from "react-router-dom";
 
 const SUBMIT_ANSWER = gql`
-  mutation SubmitAnswer($challengeId: ID!, $answer: String!) {
-    submitAnswer(challengeId: $challengeId, answer: $answer) {
+  mutation SubmitAnswer($challengeSlug: String!, $answer: String!) {
+    submitAnswer(challengeSlug: $challengeSlug, answer: $answer) {
       testedResults {
         passed
+        time
         assert {
           message
           actual
@@ -29,7 +31,7 @@ interface IProps {
 }
 
 interface SubmitAnswerInput {
-  challengeId: string;
+  challengeSlug: string;
   answer: string;
 }
 
@@ -38,9 +40,10 @@ const Problem: React.FC<IProps> = (props) => {
 
   const { content, challengeSeed, testCases, testInputs } = challenge;
 
+  const { slug } = useParams();
   const [code, setCode] = useState<string>(challengeSeed);
 
-  const [submitAnswer, { error, data }] = useMutation<
+  const [submitAnswer, { error, data, loading }] = useMutation<
     { submitAnswer: Answer },
     SubmitAnswerInput
   >(SUBMIT_ANSWER);
@@ -51,7 +54,7 @@ const Problem: React.FC<IProps> = (props) => {
 
   const handleSubmit = () => {
     submitAnswer({
-      variables: { challengeId: "5ecdd0871e38df1562b67a95", answer: code },
+      variables: { challengeSlug: slug, answer: code },
     });
   };
 
@@ -65,6 +68,7 @@ const Problem: React.FC<IProps> = (props) => {
         Submit Code
       </SButton>
       <TestTable
+        loading={loading}
         testedResults={data?.submitAnswer.testedResults || []}
         testCases={testCases}
         testInputs={testInputs}

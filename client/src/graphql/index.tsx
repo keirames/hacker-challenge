@@ -52,6 +52,7 @@ interface TestedResultError {
 
 export interface TestedResult {
   passed: boolean;
+  time: number;
   assert: TestedResultError;
 }
 
