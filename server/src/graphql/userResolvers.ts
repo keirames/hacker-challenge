@@ -184,6 +184,19 @@ const userResolvers = {
         answer,
       });
 
+      // If you successfully solve challenge
+      if (!user.solvedChallenges.includes(challenge.id)) {
+        const isPassedChallenge =
+          executeResult.testedResults?.filter((t) => t.passed).length ===
+          challenge.testCases.length;
+
+        if (isPassedChallenge) {
+          user.solvedChallenges.push(challenge.id);
+          user.totalPoints += challenge.points;
+          await user.save();
+        }
+      }
+
       if (executeResult.error) return executeResult.error;
       return executeResult;
     },
