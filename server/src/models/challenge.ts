@@ -1,19 +1,30 @@
 import { model, Schema, Model, Document } from "mongoose";
 import Joi from "@hapi/joi";
 
-interface IChallenge extends Document {
-  title: String;
-  slug: String;
-  content: Object;
-  level: String;
-  points: Number;
-  contest: String;
-  testCases: [Object];
-  testInputs: [String];
-  challengeSeed: String;
+export interface Content extends Document {
+  problem: string;
+  inputSample: string;
+  outputSample: string;
 }
 
-const challengeSchema: Schema = new Schema({
+export interface TestCase extends Document {
+  text: string;
+  testString: string;
+}
+
+export interface Challenge extends Document {
+  title: string;
+  slug: string;
+  content: Content;
+  level: string;
+  points: number;
+  contest: string;
+  testCases: TestCase[];
+  testInputs: string[];
+  challengeSeed: string;
+}
+
+export const challengeSchema: Schema = new Schema({
   title: { type: String, required: true, unique: true },
   slug: { type: String, required: true, unique: true },
   content: {
@@ -81,12 +92,12 @@ const challengeSchema: Schema = new Schema({
   },
 });
 
-const Challenge: Model<IChallenge> = model<IChallenge>(
+export const Challenge: Model<Challenge> = model<Challenge>(
   "Challenge",
   challengeSchema
 );
 
-const validateChallenge = (challenge: any) => {
+export const validateChallenge = (challenge: any) => {
   const schema = Joi.object({
     title: Joi.string().min(5).max(255).required(),
     content: Joi.object({
@@ -110,5 +121,3 @@ const validateChallenge = (challenge: any) => {
   });
   return schema.validate(challenge);
 };
-
-export { challengeSchema, Challenge, validateChallenge };
