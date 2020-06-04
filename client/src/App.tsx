@@ -11,6 +11,7 @@ import ContestDetailsPage from "./components/page/ContestDetailsPage";
 import ChallengePage from "./components/page/ChallengePage";
 import { MyEditor } from "./MyEditor";
 import { STheme } from "./theme";
+import Footer from "./components/footer/Footer";
 
 const App: React.FC = () => {
   const { client } = useQuery(GET_USER_CLIENT);
@@ -36,6 +37,7 @@ const App: React.FC = () => {
       <Route exact={exact} path={path}>
         <NavBar />
         <Component />
+        <Footer />
       </Route>
     ),
     []
@@ -53,7 +55,6 @@ const App: React.FC = () => {
       ) : (
         <Component />
       )}
-      ;
     </Route>
   );
 
