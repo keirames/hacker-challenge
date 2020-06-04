@@ -8,6 +8,8 @@ import TestTable from "./TestTable";
 import { useMutation, gql } from "@apollo/client";
 import ProblemContent from "./ProblemContent";
 import { useParams } from "react-router-dom";
+import Congratulation from "./Congratulation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const SUBMIT_ANSWER = gql`
   mutation SubmitAnswer($challengeSlug: String!, $answer: String!) {
@@ -64,9 +66,19 @@ const Problem: React.FC<IProps> = (props) => {
     <SProblem style={style} {...other}>
       <ProblemContent content={content} />
       <Editor code={code} onCode={handleCode} />
-      <SButton variant="contained" color="primary" onClick={handleSubmit}>
+      <SButton
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        startIcon={loading ? <FontAwesomeIcon icon="spinner" spin /> : null}
+        disabled={loading}
+      >
         Submit Code
       </SButton>
+      <Congratulation
+        testedResults={data?.submitAnswer.testedResults || []}
+        testCases={testCases}
+      />
       <TestTable
         loading={loading}
         testedResults={data?.submitAnswer.testedResults || []}

@@ -61,7 +61,7 @@ const ChallengePage: React.FC<IProps> = (props) => {
   return (
     <SChallengePage style={props.style}>
       <Grid container spacing={5}>
-        <Grid item xs={9}>
+        <Grid item xs={8}>
           <ChallengeDetails challenge={data.getChallenge} />
         </Grid>
         <Grid item xs={3}>
