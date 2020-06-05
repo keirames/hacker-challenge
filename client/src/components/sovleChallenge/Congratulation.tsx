@@ -6,11 +6,18 @@ import { STheme } from "../../theme";
 import { Link } from "react-router-dom";
 
 interface IProps {
+  challengeSlug: string;
+  answer: string;
   testedResults: TestedResult[];
   testCases: TestCase[];
 }
 
-const Congratulation: React.FC<IProps> = ({ testedResults, testCases }) => {
+const Congratulation: React.FC<IProps> = ({
+  challengeSlug,
+  answer,
+  testedResults,
+  testCases,
+}) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -25,7 +32,18 @@ const Congratulation: React.FC<IProps> = ({ testedResults, testCases }) => {
     } else setVisible(false);
   }, [testCases.length, testedResults]);
 
-  if (visible) return null;
+  if (!visible) return null;
+
+  if (visible) {
+    let answers: { answer: string; challengeSlug: string }[] =
+      JSON.parse(localStorage.getItem("answers") as any) || [];
+
+    const found = answers.find((a) => a.challengeSlug === challengeSlug);
+    if (found) found.answer = answer;
+    else answers.push({ answer, challengeSlug });
+
+    localStorage.setItem("answers", JSON.stringify(answers));
+  }
 
   return (
     <SCongrats>

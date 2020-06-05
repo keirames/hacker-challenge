@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Challenge } from "../../graphql";
 import {
-  Typography,
   Tabs,
   Tab,
   Box,
@@ -9,8 +8,6 @@ import {
   withStyles,
   createStyles,
 } from "@material-ui/core";
-import styled from "styled-components";
-import { STheme } from "../../theme";
 import Problem from "./Problem";
 import Submissions from "./Submissions";
 

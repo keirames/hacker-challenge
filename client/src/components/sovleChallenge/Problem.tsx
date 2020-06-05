@@ -60,6 +60,18 @@ const Problem: React.FC<IProps> = (props) => {
     });
   };
 
+  //TODO: Remove in future
+  React.useEffect(() => {
+    let answers = localStorage.getItem("answers") as any;
+    if (answers) {
+      answers = JSON.parse(answers);
+      const found = answers.find((a: any) => a.challengeSlug === slug);
+      if (found) {
+        setCode(found.answer);
+      }
+    }
+  }, [slug]);
+
   if (error) return <div></div>;
 
   return (
@@ -76,6 +88,8 @@ const Problem: React.FC<IProps> = (props) => {
         Submit Code
       </SButton>
       <Congratulation
+        challengeSlug={slug}
+        answer={code}
         testedResults={data?.submitAnswer.testedResults || []}
         testCases={testCases}
       />
