@@ -57,7 +57,8 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
             worker.on("error", reject);
             worker.on("exit", (code) => {
               if (code !== 0)
-                reject(new Error(`Worker stopped with exit code ${code}`));
+                // resolve(new Error(`Compiler has terminated`));
+                resolve({ value: new Error(`Compiler has terminated`) });
             });
           })
       )
@@ -66,6 +67,16 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
     const testedResults = results.map((result, index) => {
       const args = ["assert", "result"];
       const test = new Function(...args, `return ${testStrings[index]}`);
+
+      // If the worker exit
+      if (result.value.stack && result.value.message) {
+        return {
+          passed: false,
+          assert: { message: result.value.message },
+          time: 0,
+        };
+      }
+
       try {
         test(assert, result.value);
         return { passed: true, time: result.timeConsumed };
@@ -86,7 +97,7 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
   } catch (error) {
     // Graphql auto set "data": null if there is error
     // return { error, testedResults: [] };
-    return { error };
+    return { error: "Error" };
   }
 };
 

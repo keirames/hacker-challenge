@@ -25,8 +25,8 @@ export const typeDefs = gql`
 
   type TestedResultError {
     message: String!
-    actual: Int!
-    expected: Int!
+    actual: Int
+    expected: Int
   }
 
   type TestedResult {
