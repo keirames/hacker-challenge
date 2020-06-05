@@ -82,7 +82,9 @@ const Problem: React.FC<IProps> = (props) => {
         variant="contained"
         color="primary"
         onClick={handleSubmit}
-        startIcon={loading ? <FontAwesomeIcon icon="spinner" spin /> : null}
+        startIcon={
+          loading ? <FontAwesomeIcon icon="circle-notch" spin /> : null
+        }
         disabled={loading}
       >
         Submit Code
