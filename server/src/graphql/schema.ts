@@ -19,20 +19,20 @@ export const typeDefs = gql`
 
   type Content {
     problem: String
-    constraints: String
-    inputFormat: String
-    outputFormat: String
+    inputSample: String
+    outputSample: String
   }
 
   type TestedResultError {
     message: String!
-    actual: Int!
-    expected: Int!
+    actual: Int
+    expected: Int
   }
 
   type TestedResult {
     passed: Boolean!
     assert: TestedResultError
+    time: Int
   }
 
   type Answer {
@@ -42,6 +42,7 @@ export const typeDefs = gql`
   type Challenge {
     id: ID!
     title: String!
+    slug: String!
     content: Content!
     level: String!
     points: Int!
@@ -67,18 +68,8 @@ export const typeDefs = gql`
   type Contest {
     id: ID!
     name: String!
+    slug: String!
     challenges: [Challenge!]!
-  }
-
-  # getUser & getChallenge dont throw error if id wrong
-  type Query {
-    getChallenge(id: ID!): Challenge
-    getChallenges: [Challenge!]!
-    getUser(id: ID!): User
-    getUsers: [User!]!
-    getMe: User!
-    getContest(id: ID!): Contest!
-    getContests: [Contest!]!
   }
 
   input UserInput {
@@ -95,9 +86,8 @@ export const typeDefs = gql`
 
   input ContentInput {
     problem: String
-    constraints: String
-    inputFormat: String
-    outputFormat: String
+    inputSample: String
+    outputSample: String
   }
 
   input ChallengeInput {
@@ -115,6 +105,17 @@ export const typeDefs = gql`
     name: String!
   }
 
+  # getUser & getChallenge dont throw error if id wrong
+  type Query {
+    getChallenge(slug: String!): Challenge
+    getChallenges: [Challenge!]!
+    getUser(id: ID!): User
+    getUsers: [User!]!
+    getMe: User!
+    getContest(slug: String!): Contest!
+    getContests: [Contest!]!
+  }
+
   type Mutation {
     login(username: String!, password: String!): String!
     register(user: UserInput!): AuthPayload!
@@ -125,6 +126,6 @@ export const typeDefs = gql`
     addOrRemoveLikedChallenges(userId: ID!, challengeId: ID!): [ID!]!
     addContest(contest: ContestInput!): Contest!
     editContest(contestId: ID!, contest: ContestInput!): Contest!
-    submitAnswer(challengeId: ID!, answer: String!): Answer!
+    submitAnswer(challengeSlug: String!, answer: String!): Answer!
   }
 `;

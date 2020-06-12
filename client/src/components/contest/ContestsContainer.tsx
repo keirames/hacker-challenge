@@ -9,6 +9,7 @@ export const GET_CONTESTS = gql`
     getContests {
       id
       name
+      slug
     }
   }
 `;

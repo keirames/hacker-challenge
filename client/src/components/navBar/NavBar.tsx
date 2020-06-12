@@ -9,27 +9,31 @@ import UserOptions from "./UserOptions";
 import { GET_USER_CLIENT } from "../../mutations";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
+import RouterBreadcrumbs from "./RouterBreadcrumbs";
 
 const NavBar: React.FC = (props) => {
   const { data } = useQuery(GET_USER_CLIENT);
 
   return (
-    <SNavBar>
-      <Logo />
-      <Links />
-      <Hidden lgUp>
-        <Burger />
-      </Hidden>
-      {data?.user ? (
-        <UserOptions />
-      ) : (
-        <Link to="/signIn" style={{ textDecoration: "none" }}>
-          <Button variant="contained" color="primary" size="small">
-            Sign In
-          </Button>
-        </Link>
-      )}
-    </SNavBar>
+    <>
+      <SNavBar>
+        <Logo />
+        <Links />
+        <Hidden lgUp>
+          <Burger />
+        </Hidden>
+        {data?.user ? (
+          <UserOptions />
+        ) : (
+          <Link to="/signIn" style={{ textDecoration: "none" }}>
+            <Button variant="contained" color="primary" size="small">
+              Sign In
+            </Button>
+          </Link>
+        )}
+      </SNavBar>
+      <RouterBreadcrumbs />
+    </>
   );
 };
 

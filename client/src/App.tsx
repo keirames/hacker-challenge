@@ -9,6 +9,9 @@ import { getCurrentUser } from "./services/authService";
 import NavBar from "./components/navBar/NavBar";
 import ContestDetailsPage from "./components/page/ContestDetailsPage";
 import ChallengePage from "./components/page/ChallengePage";
+import { MyEditor } from "./MyEditor";
+import { STheme } from "./theme";
+import Footer from "./components/footer/Footer";
 
 const App: React.FC = () => {
   const { client } = useQuery(GET_USER_CLIENT);
@@ -34,6 +37,7 @@ const App: React.FC = () => {
       <Route exact={exact} path={path}>
         <NavBar />
         <Component />
+        <Footer />
       </Route>
     ),
     []
@@ -51,7 +55,6 @@ const App: React.FC = () => {
       ) : (
         <Component />
       )}
-      ;
     </Route>
   );
 
@@ -69,9 +72,15 @@ const App: React.FC = () => {
           component={() => <AuthPage type="signUp" />}
         />
         <NavRoute exact path="/contests" component={MainPage} />
-        <NavRoute exact path="/contests/:id" component={ContestDetailsPage} />
-        <NavRoute exact path="/challenges/:id" component={ChallengePage} />
+        <NavRoute exact path="/contests/:slug" component={ContestDetailsPage} />
+        {/* <NavRoute exact path="/challenges/:slug" component={ChallengePage} /> */}
+        <NavRoute
+          exact
+          path="/contests/:slug/:slug"
+          component={ChallengePage}
+        />
         <NavRoute exact path="/practice" component={MainPage} />
+        <NavRoute exact path="/rick" component={MyEditor} />
         <Redirect exact from="/" to="/contests" />
         <Redirect to="/contests" />
       </Switch>
@@ -81,4 +90,7 @@ const App: React.FC = () => {
 
 export default App;
 
-const SApp = styled.div``;
+const SApp = styled.div`
+  background-color: ${({ theme }: { theme: STheme }) =>
+    theme.palette.background.blue};
+`;

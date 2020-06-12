@@ -35,21 +35,30 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
   });
 
   try {
-    const results = await Promise.all(
+    const results: {
+      value: any;
+      timeConsumed: any;
+    }[] = await Promise.all(
       testInputs.map(
         (testInput: string) =>
           new Promise((resolve, reject) => {
+            const timeStart = new Date().getTime();
+
             const worker = new Worker(strictFileId, { stdin: true });
 
             const workerWriter = worker.stdin;
             workerWriter?.write(testInput, "utf8");
             workerWriter?.end();
 
-            worker.on("message", resolve);
+            worker.on("message", (value) => {
+              const timeConsumed = new Date().getTime() - timeStart;
+              return resolve({ value, timeConsumed });
+            });
             worker.on("error", reject);
             worker.on("exit", (code) => {
               if (code !== 0)
-                reject(new Error(`Worker stopped with exit code ${code}`));
+                // resolve(new Error(`Compiler has terminated`));
+                resolve({ value: new Error(`Compiler has terminated`) });
             });
           })
       )
@@ -58,12 +67,26 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
     const testedResults = results.map((result, index) => {
       const args = ["assert", "result"];
       const test = new Function(...args, `return ${testStrings[index]}`);
+
+      // If the worker exit
+      if (result.value.stack && result.value.message) {
+        return {
+          passed: false,
+          assert: { message: result.value.message },
+          time: 0,
+        };
+      }
+
       try {
-        test(assert, result);
-        return { passed: true };
+        test(assert, result.value);
+        return { passed: true, time: result.timeConsumed };
       } catch (error) {
         const { message, actual, expected } = error;
-        return { passed: false, assert: { message, actual, expected } };
+        return {
+          passed: false,
+          assert: { message, actual, expected },
+          time: result.timeConsumed,
+        };
       }
     });
 
@@ -74,7 +97,7 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
   } catch (error) {
     // Graphql auto set "data": null if there is error
     // return { error, testedResults: [] };
-    return { error };
+    return { error: "Error" };
   }
 };
 

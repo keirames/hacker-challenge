@@ -1,8 +1,32 @@
 import { model, Schema, Model, Document } from "mongoose";
 import Joi from "@hapi/joi";
 
-const challengeSchema: Schema = new Schema({
+export interface Content extends Document {
+  problem: string;
+  inputSample: string;
+  outputSample: string;
+}
+
+export interface TestCase extends Document {
+  text: string;
+  testString: string;
+}
+
+export interface Challenge extends Document {
+  title: string;
+  slug: string;
+  content: Content;
+  level: string;
+  points: number;
+  contest: string;
+  testCases: TestCase[];
+  testInputs: string[];
+  challengeSeed: string;
+}
+
+export const challengeSchema: Schema = new Schema({
   title: { type: String, required: true, unique: true },
+  slug: { type: String, required: true, unique: true },
   content: {
     problem: {
       type: String,
@@ -10,19 +34,13 @@ const challengeSchema: Schema = new Schema({
       required: true,
       trim: true,
     },
-    constraints: {
+    inputSample: {
       type: String,
       default: "",
       required: true,
       trim: true,
     },
-    inputFormat: {
-      type: String,
-      default: "",
-      required: true,
-      trim: true,
-    },
-    outputFormat: {
+    outputSample: {
       type: String,
       default: "",
       required: true,
@@ -74,30 +92,18 @@ const challengeSchema: Schema = new Schema({
   },
 });
 
-interface IChallenge extends Document {
-  title: String;
-  content: String;
-  level: String;
-  points: Number;
-  contest: String;
-  testCases: [Object];
-  testInputs: [String];
-  challengeSeed: String;
-}
-
-const Challenge: Model<IChallenge> = model<IChallenge>(
+export const Challenge: Model<Challenge> = model<Challenge>(
   "Challenge",
   challengeSchema
 );
 
-const validateChallenge = (challenge: any) => {
+export const validateChallenge = (challenge: any) => {
   const schema = Joi.object({
     title: Joi.string().min(5).max(255).required(),
     content: Joi.object({
       problem: Joi.string(),
-      constraints: Joi.string(),
-      inputFormat: Joi.string(),
-      outputFormat: Joi.string(),
+      inputSample: Joi.string(),
+      outputSample: Joi.string(),
     }),
     level: Joi.string().required(),
     points: Joi.number().min(0),
@@ -115,5 +121,3 @@ const validateChallenge = (challenge: any) => {
   });
   return schema.validate(challenge);
 };
-
-export { challengeSchema, Challenge, validateChallenge };

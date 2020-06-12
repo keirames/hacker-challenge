@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Container } from "@material-ui/core";
+import { Container, Grid } from "@material-ui/core";
 import ChallengeDetails from "../sovleChallenge/ChallengeDetails";
 import ScoreTable from "../sovleChallenge/ScoreTable";
 import { gql, useQuery } from "@apollo/client";
@@ -16,17 +16,25 @@ interface ChallengeData {
 }
 
 interface ChallengeVars {
-  id: string;
+  slug: string;
 }
 
 const GET_CHALLENGE = gql`
-  query GetChallenge($id: ID!) {
-    getChallenge(id: $id) {
+  query GetChallenge($slug: String!) {
+    getChallenge(slug: $slug) {
       id
       title
-      content
+      slug
+      content {
+        problem
+        inputSample
+        outputSample
+      }
       level
       points
+      passedUser {
+        username
+      }
       contest {
         name
       }
@@ -41,19 +49,29 @@ const GET_CHALLENGE = gql`
 `;
 
 const ChallengePage: React.FC<IProps> = (props) => {
-  const { id } = useParams();
+  const { slug } = useParams();
 
   const { data, loading, error } = useQuery<ChallengeData, ChallengeVars>(
     GET_CHALLENGE,
-    { variables: { id } }
+    { variables: { slug } }
   );
 
   if (!data?.getChallenge) return null;
 
   return (
     <SChallengePage style={props.style}>
-      <ChallengeDetails challenge={data.getChallenge} />
-      {/* <ScoreTable /> */}
+      <Grid container spacing={5}>
+        <Grid item xs={8}>
+          <ChallengeDetails challenge={data.getChallenge} />
+        </Grid>
+        <Grid item xs={3}>
+          <ScoreTable
+            level={data.getChallenge.level}
+            points={data.getChallenge.points}
+            passedUser={data.getChallenge.passedUser.length}
+          />
+        </Grid>
+      </Grid>
     </SChallengePage>
   );
 };

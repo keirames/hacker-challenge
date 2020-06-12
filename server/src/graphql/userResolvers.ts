@@ -165,15 +165,12 @@ const userResolvers = {
       return user.save();
     },
     submitAnswer: async (parent: any, args: any, context: any, info: any) => {
-      const { challengeId, answer } = args;
+      const { challengeSlug, answer } = args;
 
       const user = await authenticateUser(context);
 
-      if (!mongoose.Types.ObjectId.isValid(challengeId))
-        throw new Error(`Invalid challenge id`);
-
-      let challenge = await Challenge.findById(challengeId);
-      if (!challenge) throw new Error(`Invalid challenge id`);
+      let challenge = await Challenge.findOne({ slug: challengeSlug });
+      if (!challenge) throw new Error(`Invalid challenge slug`);
 
       const testInputs: any[] = challenge.testInputs;
       const testStrings: any[] = [];
@@ -186,7 +183,20 @@ const userResolvers = {
         testStrings,
         answer,
       });
-      // console.log(result);
+
+      // If you successfully solve challenge
+      if (!user.solvedChallenges.includes(challenge.id)) {
+        const isPassedChallenge =
+          executeResult.testedResults?.filter((t) => t.passed).length ===
+          challenge.testCases.length;
+
+        if (isPassedChallenge) {
+          user.solvedChallenges.push(challenge.id);
+          user.totalPoints += challenge.points;
+          await user.save();
+        }
+      }
+
       if (executeResult.error) return executeResult.error;
       return executeResult;
     },

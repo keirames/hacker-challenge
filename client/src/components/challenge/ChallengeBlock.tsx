@@ -4,13 +4,13 @@ import styled from "styled-components";
 import { STheme } from "../../theme";
 import { Typography, Button } from "@material-ui/core";
 import Level from "./Level";
-import { useHistory } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
-  const { id, title, points, level, isSolved } = challenge;
+  const { slug, title, points, level, isSolved } = challenge;
 
-  const { push } = useHistory();
+  const { pathname } = useLocation();
 
   const SolvedBtn = () => (
     <Button
@@ -27,9 +27,9 @@ const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
       Solve Challenge
     </SButton>
   );
-
+  // onClick={() => push(`/contests/sort-algorithm/test`)}
   return (
-    <SChallengeBlock onClick={() => push(`/challenges/${id}`)}>
+    <SChallengeBlock>
       <div>
         <Typography variant="h5" style={{ marginBottom: "5px" }}>
           {title}
@@ -42,7 +42,9 @@ const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
           , Max Score: {points}
         </Typography>
       </div>
-      {isSolved ? <SolvedBtn /> : <UnsolvedBtn />}
+      <Link to={`${pathname}/${slug}`} style={{ textDecoration: "none" }}>
+        {isSolved ? <SolvedBtn /> : <UnsolvedBtn />}
+      </Link>
     </SChallengeBlock>
   );
 };

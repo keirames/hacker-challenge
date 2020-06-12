@@ -1,7 +1,18 @@
 import { model, Schema, Model, Document } from "mongoose";
 import Joi from "@hapi/joi";
 
-const userSchema: Schema = new Schema({
+export interface User extends Document {
+  username: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  isPremium: boolean;
+  solvedChallenges: string[];
+  likedChallenges: string[];
+  totalPoints: number;
+}
+
+export const userSchema: Schema = new Schema({
   username: {
     type: String,
     required: true,
@@ -32,20 +43,9 @@ const userSchema: Schema = new Schema({
   },
 });
 
-interface IUser extends Document {
-  username: String;
-  password: String;
-  firstname: String;
-  lastname: String;
-  isPremium: Boolean;
-  solvedChallenges: String[];
-  likedChallenges: String[];
-  totalPoints: Number;
-}
+export const User: Model<User> = model<User>("User", userSchema);
 
-const User: Model<IUser> = model<IUser>("User", userSchema);
-
-const validateUser = (user: any) => {
+export const validateUser = (user: any) => {
   const schema = Joi.object({
     username: Joi.string().min(5).max(255).required(),
     password: Joi.string().min(5).max(255).required(),
@@ -54,5 +54,3 @@ const validateUser = (user: any) => {
   });
   return schema.validate(user);
 };
-
-export { User, userSchema, validateUser };

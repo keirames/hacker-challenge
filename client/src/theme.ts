@@ -7,6 +7,11 @@ export const theme = {
     },
   },
   palette: {
+    background: {
+      black: "#000",
+      white: "#fff",
+      blue: "#F7FAFF",
+    },
     common: {
       black: "#000",
       white: "#fff",
@@ -19,6 +24,9 @@ export const theme = {
       red: "#FF4646",
       lightRed: "#FF6E6E",
       orange: "#f59b42",
+      darkBlue: "#3f51b5",
+      blue: "#097bbf",
+      darkCyan: "#738f93",
     },
   },
   shadows: {
@@ -44,6 +52,11 @@ export interface STheme {
     };
   };
   palette: {
+    background: {
+      black: string;
+      white: string;
+      blue: string;
+    };
     common: {
       black: string;
       white: string;
@@ -56,6 +69,9 @@ export interface STheme {
       orange: string;
       grey: string;
       lightGrey: string;
+      blue: string;
+      darkBlue: string;
+      darkCyan: string;
     };
   };
   shadows: {

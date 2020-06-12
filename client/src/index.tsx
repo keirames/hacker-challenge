@@ -16,6 +16,7 @@ import { theme } from "./theme";
 import { BrowserRouter } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
 import { getJwt } from "./services/authService";
 
 const httpLink = createHttpLink({
@@ -38,7 +39,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-library.add(fas);
+library.add(fas, far);
 
 ReactDOM.render(
   <React.StrictMode>
