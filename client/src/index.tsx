@@ -2,14 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-// import { ApolloProvider } from "@apollo/react-hooks";
-import { setContext } from "@apollo/link-context";
 import {
   createHttpLink,
-  ApolloClient,
   InMemoryCache,
   ApolloProvider,
+  ApolloClient,
 } from "@apollo/client";
+import { setContext } from "@apollo/link-context";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./theme";
