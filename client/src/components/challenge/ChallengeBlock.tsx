@@ -1,7 +1,7 @@
 import React from "react";
 import { Challenge } from "../../graphql";
 import styled from "styled-components";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 import { Typography, Button } from "@material-ui/core";
 import Level from "./Level";
 import { Link, useLocation } from "react-router-dom";

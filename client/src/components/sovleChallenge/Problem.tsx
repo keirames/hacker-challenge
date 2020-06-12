@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import styled from "styled-components";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 import { Challenge, Answer } from "../../graphql";
 import Editor from "./Editor";
 import TestTable from "./TestTable";

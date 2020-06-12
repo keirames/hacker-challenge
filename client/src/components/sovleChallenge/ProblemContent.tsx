@@ -2,7 +2,7 @@ import React from "react";
 import { Content } from "../../graphql";
 import styled from "styled-components";
 import { Typography } from "@material-ui/core";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 
 const ProblemContent: React.FC<{ content: Content }> = ({ content }) => {
   return (

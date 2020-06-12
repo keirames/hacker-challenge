@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Challenge } from "../../graphql";
 import ChallengeBlock from "./ChallengeBlock";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 
 const ChallengesContainer: React.FC<{
   challenges: Challenge[];

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 import { Popper, ClickAwayListener, Paper, Button } from "@material-ui/core";
 import { signOut } from "../../services/authService";
 

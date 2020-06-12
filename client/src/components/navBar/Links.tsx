@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 
 const Links: React.FC = (props) => {
   return (

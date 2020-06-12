@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 import { Typography, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 

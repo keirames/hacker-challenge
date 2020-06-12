@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 
 interface IProps {
   style?: React.CSSProperties;

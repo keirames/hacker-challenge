@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TestedResult, TestCase } from "../../graphql";
 import styled from "styled-components";
 import { Typography, Button } from "@material-ui/core";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 import { Link } from "react-router-dom";
 
 interface IProps {

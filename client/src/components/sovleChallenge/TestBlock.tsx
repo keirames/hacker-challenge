@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { TestCase, TestedResult } from "../../graphql";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Typography } from "@material-ui/core";
 

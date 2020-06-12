@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 import Logo from "./Logo";
 import Burger from "./Burger";
 import { Hidden, Button } from "@material-ui/core";

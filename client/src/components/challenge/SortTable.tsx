@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 import { ILevelFilter, IStatusFilter } from "../page/ContestDetailsPage";
 
 const GreenCheckBox = withStyles({

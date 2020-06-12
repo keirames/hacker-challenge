@@ -3,7 +3,7 @@ import { useLocation, Link } from "react-router-dom";
 import { Breadcrumbs, Typography, Container } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import styled from "styled-components";
-import { STheme } from "../../theme";
+import { STheme } from "../../theme/theme";
 
 const RouterBreadcrumbs: React.FC = () => {
   const location = useLocation();

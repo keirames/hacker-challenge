@@ -10,7 +10,7 @@ import NavBar from "./components/navBar/NavBar";
 import ContestDetailsPage from "./components/page/ContestDetailsPage";
 import ChallengePage from "./components/page/ChallengePage";
 import { MyEditor } from "./MyEditor";
-import { STheme } from "./theme";
+import { STheme } from "./theme/theme";
 import Footer from "./components/footer/Footer";
 
 const App: React.FC = () => {
