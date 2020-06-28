@@ -1,25 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { STheme } from "../../theme/theme";
 import { Button, Typography } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  navigateToSocialProvider,
-  getCookie,
-  signInWithJwt,
-  deleteCookie,
-} from "../../services/authService";
+import { navigateToSocialProvider } from "../../services/authService";
 
 const SocialPanel: React.FC = (props) => {
-  useEffect(() => {
-    const jwt = getCookie("Authentication");
-    if (jwt) {
-      signInWithJwt(jwt);
-      deleteCookie("Authentication");
-      // window.location.href = "/";
-    }
-  }, []);
-
   return (
     <SSocialPanel>
       <Typography variant="h5">Social Account</Typography>
