@@ -35,7 +35,7 @@ const LoginForm: React.FC = (props) => {
     LoginUserDetails
   >(LOGIN);
 
-  const handleSubmit = async (values: FormValues): Promise<void> => {
+  const handleSubmit = async (values: FormValues) => {
     const { username, password } = values;
 
     try {
@@ -115,7 +115,7 @@ const LoginForm: React.FC = (props) => {
 };
 
 const SLoginForm = styled.div`
-  width: 500px;
+  width: 400px;
   background-color: ${({ theme }) => theme.palette.common.white};
   padding: 20px;
   border-radius: 5px;
