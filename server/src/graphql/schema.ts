@@ -56,8 +56,7 @@ export const typeDefs = gql`
   # Noone can get password of an user
   type User {
     id: ID!
-    username: String!
-    # password: String
+    email: String!
     firstname: String!
     lastname: String!
     solvedChallenges: [Challenge!]!
@@ -73,10 +72,10 @@ export const typeDefs = gql`
   }
 
   input UserInput {
-    username: String!
+    email: String!
     password: String!
-    firstname: String!
-    lastname: String!
+    firstname: String
+    lastname: String
   }
 
   input TestCaseInput {
@@ -105,6 +104,12 @@ export const typeDefs = gql`
     name: String!
   }
 
+  input AuthData {
+    client_id: String!
+    code: String!
+    redirect_uri: String!
+  }
+
   # getUser & getChallenge dont throw error if id wrong
   type Query {
     getChallenge(slug: String!): Challenge
@@ -117,7 +122,8 @@ export const typeDefs = gql`
   }
 
   type Mutation {
-    login(username: String!, password: String!): String!
+    oAuth(data: AuthData!): String!
+    login(email: String!, password: String!): String!
     register(user: UserInput!): AuthPayload!
     editUser(userId: ID!, user: UserInput!): User!
     addChallenge(challenge: ChallengeInput!): Challenge!
