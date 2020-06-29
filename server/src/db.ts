@@ -8,6 +8,7 @@ const mongooseServer = () => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   })
     .then(() => console.log(`Connected to ${connectionString}`))
     .catch((err: { message: any }) =>

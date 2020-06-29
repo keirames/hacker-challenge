@@ -4,6 +4,9 @@ import { Challenge } from "../models/challenge";
 import { sign } from "jsonwebtoken";
 import mongoose from "mongoose";
 import executeSolution from "./utils/executeSolution";
+import FormData from "form-data";
+import fetch from "node-fetch";
+const passport = require("passport");
 const bcrypt = require("bcrypt");
 
 const userResolvers = {
@@ -66,29 +69,60 @@ const userResolvers = {
     },
   },
   Mutation: {
+    oAuth: async (parent: any, args: any, context: any, info: any) => {
+      const { client_id, code, redirect_uri } = args.data;
+
+      passport.authenticate("github");
+
+      const { googleId, email } = await authenticationWithGithub(
+        client_id,
+        code,
+        redirect_uri
+      );
+
+      let user = await User.findOne({ email, googleId });
+      // New user or user with only 1 authentication strategy
+      if (!user) {
+        user = await User.findOne({ email });
+        // User is already login with 1 of authentication strategies
+        if (user) {
+          // Add information
+          user.googleId = googleId;
+        } else {
+          // User is totally new
+          // Create new user
+        }
+      } else {
+        // User already login with this authentication strategy before
+      }
+
+      return "OK";
+    },
     login: async (parent: any, args: any, context: any, info: any) => {
-      const { username, password } = args;
+      const { email, password } = args;
 
       const { error } = validateUser({
-        username,
+        email,
         password,
         firstname: "validFirstName",
         lastname: "validLastName",
       });
       if (error) throw new Error(error.details[0].message);
 
-      const user = await User.findOne({ username });
-      if (!user) throw new Error(`Invalid username or password`);
+      const user = await User.findOne({ email });
+      if (!user) throw new Error(`Invalid email or password`);
 
-      const isValidPassword = await bcrypt.compare(password, user.password);
-      if (!isValidPassword) throw new Error(`Invalid username or password`);
+      const isValidPassword = await bcrypt.compare(
+        password,
+        user.account.password
+      );
+      if (!isValidPassword) throw new Error(`Invalid email or password`);
 
       //! Import config for privatekey later & generateAuthToken need in user schema
-      //? sign({...user}) => spread all unknown properties
       const token: string = sign(
         {
           id: user._id,
-          username: user.username,
+          email: user.email,
           firstname: user.firstname,
           lastname: user.lastname,
           totalPoints: user.totalPoints,
@@ -102,23 +136,23 @@ const userResolvers = {
       return token;
     },
     register: async (parent: any, args: any, context: any, info: any) => {
-      const { username, password, firstname, lastname } = args.user;
+      const { email, password, firstname, lastname } = args.user;
 
       const { error } = validateUser(args.user);
       if (error) throw new Error(error.details[0].message);
 
-      // If username already exist
-      let user = await User.findOne({ username });
-      if (user) throw new Error(`Username already taken`);
+      // If email already exist
+      let user = await User.findOne({ email });
+      if (user) throw new Error(`email already taken`);
 
       user = new User({
-        username,
+        email,
         password,
         firstname,
         lastname,
       });
 
-      user.password = await bcrypt.hash(user.password, 10);
+      user.account.password = await bcrypt.hash(user.account.password, 10);
       user = await user.save();
 
       //! Create generateToken for user schema (refactor)
@@ -126,7 +160,7 @@ const userResolvers = {
       const token = sign(
         {
           id: user._id,
-          username: user.username,
+          email: user.email,
           firstname: user.firstname,
           lastname: user.lastname,
           totalPoints: user.totalPoints,
@@ -143,10 +177,10 @@ const userResolvers = {
       // user.password = "you cannot get it";
       return { token, user };
     },
-    // ? How to create flexible InputUser graphql
+    //TODO How to create flexible InputUser graphql
     editUser: async (parent: any, args: any, context: any, info: any) => {
       const { userId } = args;
-      const { username = "", password = "", firstname, lastname } = args.user;
+      const { email = "", password = "", firstname, lastname } = args.user;
 
       const { error } = validateUser(args.user);
       if (error) throw new Error(error.details[0].message);
@@ -160,7 +194,7 @@ const userResolvers = {
       user.firstname = firstname;
       user.lastname = lastname;
       user = await user.save();
-      delete user.password;
+      delete user.account.password;
 
       return user.save();
     },
@@ -201,6 +235,60 @@ const userResolvers = {
       return executeResult;
     },
   },
+};
+
+const authenticationWithGithub = async (
+  client_id: string,
+  code: string,
+  redirect_uri: string
+) => {
+  const body = new FormData();
+  body.append("client_id", client_id);
+  body.append("client_secret", "46d128febde2ef7001671ee344761fda3e213f52");
+  body.append("code", code);
+  body.append("redirect_uri", redirect_uri);
+
+  try {
+    let googleId: number;
+
+    let response = await fetch(`https://github.com/login/oauth/access_token`, {
+      method: "POST",
+      body,
+    });
+
+    let params = new URLSearchParams(await response.text());
+    const access_token = params.get("access_token");
+    const scope = params.get("scope");
+    const token_type = params.get("token_type");
+
+    // Get googleId
+    response = await fetch(
+      `https://api.github.com/user?access_token=${access_token}&scope=${scope}&token_type=${token_type}`
+    );
+    const googleInfo = await response.json();
+    if (typeof googleInfo.id !== "number")
+      throw new Error("Cannot get google id");
+    googleId = googleInfo.id;
+
+    // Request to return data of a user that has been authenticated
+    response = await fetch(
+      `https://api.github.com/user/emails?access_token=${access_token}&scope=${scope}&token_type=${token_type}`
+    );
+
+    let data: any[] = await response.json();
+    for (let userIdentity of data) {
+      if (userIdentity.primary) {
+        if (typeof userIdentity.email !== "string")
+          throw new Error(`Cannot get user'email`);
+
+        const email: string = userIdentity.email;
+        return { googleId, email };
+      }
+    }
+    throw new Error(`Cannot get user'email`);
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 export default userResolvers;

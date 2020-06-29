@@ -59,3 +59,9 @@ export interface TestedResult {
 export interface Answer {
   testedResults: TestedResult[];
 }
+
+export interface AuthData {
+  client_id: string;
+  code: string;
+  redirect_uri: string;
+}

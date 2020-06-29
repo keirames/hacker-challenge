@@ -23,3 +23,27 @@ export const getCurrentUser = (): object | null => {
     return null;
   }
 };
+
+export const navigateToSocialProvider = (provider: string) => {
+  window.location.href = `http://localhost:3000/auth/${provider}`;
+};
+
+export const getCookie = (cookieName: string) => {
+  const name = `${cookieName}=`;
+  const decodedCookie = decodeURIComponent(document.cookie);
+  const cookieArr = decodedCookie.split(";");
+  for (let cookie of cookieArr) {
+    let c = cookie;
+    while (c.charAt(0) === " ") {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return null;
+};
+
+export const deleteCookie = (cookieName: string) => {
+  document.cookie = `${cookieName}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+};

@@ -147,7 +147,7 @@ const challengeResolvers = {
         user.solvedChallenges.splice(index, 1);
       }
       user = await user.save();
-      delete user.password;
+      delete user.account.password;
       return user.solvedChallenges;
     },
     addOrRemoveLikedChallenges: async (
@@ -176,7 +176,7 @@ const challengeResolvers = {
         user.likedChallenges.splice(index, 1);
       }
       user = await user.save();
-      delete user.password;
+      delete user.account.password;
       return user.likedChallenges;
     },
   },

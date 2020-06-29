@@ -51,7 +51,7 @@ const App: React.FC = () => {
   }) => (
     <Route {...rest}>
       {!getCurrentUser() ? (
-        <Redirect to={{ pathname: "/signIn" }} />
+        <Redirect to={{ pathname: "/signin" }} />
       ) : (
         <Component />
       )}
@@ -63,12 +63,12 @@ const App: React.FC = () => {
       <Switch>
         <Route
           exact
-          path="/signIn"
+          path="/signin"
           component={() => <AuthPage type="signIn" />}
         />
         <Route
           exact
-          path="/signUp"
+          path="/signup"
           component={() => <AuthPage type="signUp" />}
         />
         <NavRoute exact path="/contests" component={MainPage} />
