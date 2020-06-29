@@ -6,7 +6,7 @@ import { Grow, Paper } from "@material-ui/core";
 import SocialPanel from "../auth/SocialPanel";
 
 interface Props {
-  type: string;
+  type: "signIn" | "signUp";
 }
 
 const AuthPage: React.FC<Props> = (props) => {

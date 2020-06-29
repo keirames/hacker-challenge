@@ -107,7 +107,7 @@ const LoginForm: React.FC = (props) => {
       </Formik>
       <STo>
         <p>
-          Need an account ? <Link to={`register`}>Register</Link>
+          Need an account ? <Link to={`signup`}>Register</Link>
         </p>
       </STo>
     </SLoginForm>
