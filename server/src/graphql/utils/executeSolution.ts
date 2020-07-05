@@ -28,6 +28,7 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
     encoding: "utf8",
   });
   tempJSFile.on("open", () => {
+    // eslint-disable-next-line consistent-return
     tempJSFile.write(answer, (err) => {
       if (err) return err;
     });
@@ -47,7 +48,9 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
             const worker = new Worker(strictFileId, { stdin: true });
 
             const workerWriter = worker.stdin;
+            // eslint-disable-next-line no-unused-expressions
             workerWriter?.write(testInput, "utf8");
+            // eslint-disable-next-line no-unused-expressions
             workerWriter?.end();
 
             worker.on("message", (value) => {
@@ -56,16 +59,18 @@ const executeSolution = async (userId: string, testBuilder: TestBuilder) => {
             });
             worker.on("error", reject);
             worker.on("exit", (code) => {
-              if (code !== 0)
+              if (code !== 0) {
                 // resolve(new Error(`Compiler has terminated`));
-                resolve({ value: new Error(`Compiler has terminated`) });
+                resolve({ value: new Error("Compiler has terminated") });
+              }
             });
-          })
-      )
+          }),
+      ),
     );
 
     const testedResults = results.map((result, index) => {
       const args = ["assert", "result"];
+      // eslint-disable-next-line no-new-func
       const test = new Function(...args, `return ${testStrings[index]}`);
 
       // If the worker exit
