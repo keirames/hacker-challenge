@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Challenge, validateChallenge } from "../models/challenges";
-import { User } from "../models/users";
 import { Contest } from "../models/contests";
+import { User } from "../models/users";
 import { slugify } from "../utils/utilities";
 
 const challengeResolvers = {

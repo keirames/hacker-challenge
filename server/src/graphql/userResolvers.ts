@@ -5,8 +5,8 @@ import { authenticateUser } from "../utils/auth";
 import { Challenge } from "../models/challenges";
 import executeSolution from "./utils/executeSolution";
 
-const passport = require("passport");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 const userResolvers = {
   Query: {
