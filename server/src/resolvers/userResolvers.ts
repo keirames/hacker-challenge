@@ -3,7 +3,7 @@ import { sign } from "jsonwebtoken";
 import { User, validateUser } from "../models/users";
 import { authenticateUser } from "../utils/auth";
 import { Challenge } from "../models/challenges";
-import executeSolution from "./utils/executeSolution";
+import executeSolution from "../graphql/utils/executeSolution";
 
 const bcrypt = require("bcrypt");
 const passport = require("passport");
