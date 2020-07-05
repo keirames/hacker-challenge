@@ -98,27 +98,27 @@ challengeSchema.index({ title: 1, slug: 1 });
 
 export const Challenge = model<Challenge>("Challenge", challengeSchema);
 
-// export const validateChallenge = (challenge: any) => {
-//   const schema = Joi.object({
-//     title: Joi.string().min(5).max(255).required(),
-//     content: Joi.object({
-//       problem: Joi.string(),
-//       inputSample: Joi.string(),
-//       outputSample: Joi.string(),
-//     }),
-//     level: Joi.string().required(),
-//     points: Joi.number().min(0),
-//     contestId: Joi.string().required(),
-//     testCases: Joi.array()
-//       .required()
-//       .items(
-//         Joi.object({
-//           text: Joi.string().required(),
-//           testString: Joi.string().required(),
-//         }),
-//       ),
-//     testInputs: Joi.array().required(),
-//     challengeSeed: Joi.string(),
-//   });
-//   return schema.validate(challenge);
-// };
+export const validateChallenge = (challenge: any) => {
+  const schema = Joi.object({
+    title: Joi.string().min(5).max(255).required(),
+    content: Joi.object({
+      problem: Joi.string(),
+      inputSample: Joi.string(),
+      outputSample: Joi.string(),
+    }),
+    level: Joi.string().required(),
+    points: Joi.number().min(0),
+    contestId: Joi.string().required(),
+    testCases: Joi.array()
+      .required()
+      .items(
+        Joi.object({
+          text: Joi.string().required(),
+          testString: Joi.string().required(),
+        }),
+      ),
+    testInputs: Joi.array().required(),
+    challengeSeed: Joi.string(),
+  });
+  return schema.validate(challenge);
+};

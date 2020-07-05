@@ -60,12 +60,12 @@ userSchema.index(
   },
 );
 
-// export const validateUser = (user: any) => {
-//   const schema = Joi.object({
-//     email: Joi.string().email().min(5).max(255).required(),
-//     firstname: Joi.string().max(255),
-//     lastname: Joi.string().max(255),
-//     password: Joi.string().max(255),
-//   });
-//   return schema.validate(user);
-// };
+export const validateUser = (user: any) => {
+  const schema = Joi.object({
+    email: Joi.string().email().min(5).max(255).required(),
+    firstname: Joi.string().max(255),
+    lastname: Joi.string().max(255),
+    password: Joi.string().max(255),
+  });
+  return schema.validate(user);
+};
