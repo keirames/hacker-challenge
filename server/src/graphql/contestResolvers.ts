@@ -1,6 +1,6 @@
-import { Contest, validateContest } from "../models/contest";
-import { Challenge } from "../models/challenge";
 import mongoose from "mongoose";
+import { Contest, validateContest } from "../models/contests";
+import { Challenge } from "../models/challenges";
 import { slugify } from "../utils/utilities";
 
 const contestResolvers = {

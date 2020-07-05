@@ -5,7 +5,7 @@ import resolvers from "./graphql/resolvers";
 import mongooseServer from "./db";
 import { ApolloServer, AuthenticationError } from "apollo-server-express";
 import { sign } from "jsonwebtoken";
-import { User } from "./models/user";
+import { User } from "./models/users";
 const cors = require("cors");
 const passport = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;

@@ -1,6 +1,6 @@
-import { User, validateUser } from "../models/user";
+import { User, validateUser } from "../models/users";
 import { authenticateUser } from "../utils/auth";
-import { Challenge } from "../models/challenge";
+import { Challenge } from "../models/challenges";
 import { sign } from "jsonwebtoken";
 import mongoose from "mongoose";
 import executeSolution from "./utils/executeSolution";

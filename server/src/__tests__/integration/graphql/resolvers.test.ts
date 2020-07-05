@@ -5,7 +5,7 @@ import resolvers from "../../../graphql/resolvers";
 import mongooseServer from "../../../db";
 import { constructTestServer } from "../../__utils";
 import * as auth from "../../../utils/auth";
-import { User } from "../../../models/user";
+import { User } from "../../../models/users";
 import { sign } from "jsonwebtoken";
 
 // Connect to mongoDB

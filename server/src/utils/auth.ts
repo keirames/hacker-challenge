@@ -1,5 +1,5 @@
 import { verify } from "jsonwebtoken";
-import { User } from "../models/user";
+import { User } from "../models/users";
 import { AuthenticationError } from "apollo-server-express";
 
 const authenticateUser = async (context: any) => {

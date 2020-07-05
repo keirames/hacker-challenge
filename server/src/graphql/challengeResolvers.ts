@@ -1,6 +1,6 @@
-import { Challenge, validateChallenge } from "../models/challenge";
-import { User } from "../models/user";
-import { Contest } from "../models/contest";
+import { Challenge, validateChallenge } from "../models/challenges";
+import { User } from "../models/users";
+import { Contest } from "../models/contests";
 import mongoose from "mongoose";
 import { slugify } from "../utils/utilities";
 
