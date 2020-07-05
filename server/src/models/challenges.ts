@@ -15,18 +15,23 @@ export interface TestCase extends Document {
 export interface Challenge extends Document {
   title: string;
   slug: string;
+  contestId: string;
   content: Content;
   level: string;
   points: number;
-  contest: string;
   testCases: TestCase[];
   testInputs: string[];
   challengeSeed: string;
+  // passedUsers: ""
 }
 
 export const challengeSchema: Schema = new Schema({
   title: { type: String, required: true, unique: true },
   slug: { type: String, required: true, unique: true },
+  contestId: {
+    type: Schema.Types.ObjectId,
+    ref: "Contest",
+  },
   content: {
     problem: {
       type: String,
@@ -61,10 +66,6 @@ export const challengeSchema: Schema = new Schema({
     default: 0,
     min: 0,
   },
-  contest: {
-    type: Schema.Types.ObjectId,
-    ref: "Contest",
-  },
   testCases: [
     {
       text: {
@@ -92,32 +93,32 @@ export const challengeSchema: Schema = new Schema({
   },
 });
 
-export const Challenge: Model<Challenge> = model<Challenge>(
-  "Challenge",
-  challengeSchema
-);
+// Is this compound ?
+challengeSchema.index({ title: 1, slug: 1 });
 
-export const validateChallenge = (challenge: any) => {
-  const schema = Joi.object({
-    title: Joi.string().min(5).max(255).required(),
-    content: Joi.object({
-      problem: Joi.string(),
-      inputSample: Joi.string(),
-      outputSample: Joi.string(),
-    }),
-    level: Joi.string().required(),
-    points: Joi.number().min(0),
-    contestId: Joi.string().required(),
-    testCases: Joi.array()
-      .required()
-      .items(
-        Joi.object({
-          text: Joi.string().required(),
-          testString: Joi.string().required(),
-        })
-      ),
-    testInputs: Joi.array().required(),
-    challengeSeed: Joi.string(),
-  });
-  return schema.validate(challenge);
-};
+export const Challenge = model<Challenge>("Challenge", challengeSchema);
+
+// export const validateChallenge = (challenge: any) => {
+//   const schema = Joi.object({
+//     title: Joi.string().min(5).max(255).required(),
+//     content: Joi.object({
+//       problem: Joi.string(),
+//       inputSample: Joi.string(),
+//       outputSample: Joi.string(),
+//     }),
+//     level: Joi.string().required(),
+//     points: Joi.number().min(0),
+//     contestId: Joi.string().required(),
+//     testCases: Joi.array()
+//       .required()
+//       .items(
+//         Joi.object({
+//           text: Joi.string().required(),
+//           testString: Joi.string().required(),
+//         }),
+//       ),
+//     testInputs: Joi.array().required(),
+//     challengeSeed: Joi.string(),
+//   });
+//   return schema.validate(challenge);
+// };
