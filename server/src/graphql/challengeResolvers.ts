@@ -1,25 +1,21 @@
+import mongoose from "mongoose";
 import { Challenge, validateChallenge } from "../models/challenges";
 import { User } from "../models/users";
 import { Contest } from "../models/contests";
-import mongoose from "mongoose";
 import { slugify } from "../utils/utilities";
 
 const challengeResolvers = {
   Query: {
-    getChallenge: async (parent: any, args: any, context: any) => {
-      return await Challenge.findOne({ slug: args.slug });
-    },
-    getChallenges: async (parent: any, args: any, context: any) => {
-      return await Challenge.find({});
-    },
+    getChallenge: async (parent: any, args: any, context: any) =>
+      Challenge.findOne({ slug: args.slug }),
+    getChallenges: async (parent: any, args: any, context: any) =>
+      Challenge.find({}),
   },
   Challenge: {
-    passedUser: async (parent: any, args: any, context: any, info: any) => {
-      return await User.find({ solvedChallenges: parent.id }, "-password");
-    },
-    contest: async (parent: any, args: any, context: any, info: any) => {
-      return await Contest.findById(parent.contest);
-    },
+    passedUser: async (parent: any, args: any, context: any, info: any) =>
+      User.find({ solvedChallenges: parent.id }, "-password"),
+    contest: async (parent: any, args: any, context: any, info: any) =>
+      Contest.findById(parent.contest),
   },
   Mutation: {
     addChallenge: async (parent: any, args: any, context: any, info: any) => {
@@ -39,16 +35,16 @@ const challengeResolvers = {
 
       // If title exist
       let challenge = await Challenge.findOne({ title });
-      if (challenge) throw new Error(`Title is already taken`);
+      if (challenge) throw new Error("Title is already taken");
 
       // Create a unique slug
       const slug = slugify(title);
       const checkSlug = await Challenge.findOne({ slug });
-      if (checkSlug) throw new Error(`Title creates an existed slug`);
 
+      if (checkSlug) throw new Error("Title creates an existed slug");
       const contest = await Contest.findById(contestId);
-      if (!contest) throw new Error(`Invalid contest's id`);
 
+      if (!contest) throw new Error("Invalid contest's id");
       challenge = new Challenge({
         title,
         slug,
@@ -80,11 +76,12 @@ const challengeResolvers = {
       const { error } = validateChallenge(args.challenge);
       if (error) throw new Error(error.details[0].message);
 
-      if (!mongoose.Types.ObjectId.isValid(challengeId))
-        throw new Error(`Invalid challenge's id`);
+      if (!mongoose.Types.ObjectId.isValid(challengeId)) {
+        throw new Error("Invalid challenge's id");
+      }
 
       let challenge = await Challenge.findById(challengeId);
-      if (!challenge) throw new Error(`Invalid challenge's id`);
+      if (!challenge) throw new Error("Invalid challenge's id");
 
       const uniqueTitleChallenge = await Challenge.findOne({
         title,
@@ -92,8 +89,10 @@ const challengeResolvers = {
           $nin: [challengeId],
         },
       });
-      if (uniqueTitleChallenge)
-        throw new Error(`Challenge's title is already exist`);
+
+      if (uniqueTitleChallenge) {
+        throw new Error("Challenge's title is already exist");
+      }
 
       // Create a unique slug
       const slug = slugify(title);
@@ -103,44 +102,47 @@ const challengeResolvers = {
           $nin: [challengeId],
         },
       });
-      if (checkSlug) throw new Error(`Title creates an existed slug`);
+
+      if (checkSlug) throw new Error("Title creates an existed slug");
 
       const contest = await Contest.findById(contestId);
-      if (!contest) throw new Error(`Invalid contest's id`);
+      if (!contest) throw new Error("Invalid contest's id");
 
       challenge.title = title;
       challenge.content = content;
       challenge.level = level;
       challenge.points = points;
-      challenge.contest = contestId;
+      challenge.contestId = contestId;
       challenge.testCases = testCases;
       challenge.testInputs = testInputs;
       challenge.challengeSeed = challengeSeed;
-
       challenge = await challenge.save();
+
       return challenge;
     },
     // ! Dont need to remove solvedChallenges
     addOrRemoveSolvedChallenges: async (
       parent: any,
       args: any,
-      context: any
+      context: any,
     ) => {
       const { userId, challengeId } = args;
 
-      if (!mongoose.Types.ObjectId.isValid(challengeId))
-        throw new Error(`Invalid challenge's id`);
+      if (!mongoose.Types.ObjectId.isValid(challengeId)) {
+        throw new Error("Invalid challenge's id");
+      }
 
-      if (!mongoose.Types.ObjectId.isValid(userId))
-        throw new Error(`Invalid user's id`);
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new Error("Invalid user's id");
+      }
 
       let user = await User.findById(userId);
-      if (!user) throw new Error(`Invalid user's id`);
+      if (!user) throw new Error("Invalid user's id");
 
-      let challenge = await Challenge.findById(challengeId);
-      if (!challenge) throw new Error(`Invalid challenge's id`);
+      const challenge = await Challenge.findById(challengeId);
+      if (!challenge) throw new Error("Invalid challenge's id");
 
-      const index: number = user.solvedChallenges.indexOf(challengeId);
+      const index = user.solvedChallenges.indexOf(challengeId);
       if (index === -1) {
         user.solvedChallenges.push(challengeId);
       } else {
@@ -148,28 +150,31 @@ const challengeResolvers = {
       }
       user = await user.save();
       delete user.account.password;
+
       return user.solvedChallenges;
     },
     addOrRemoveLikedChallenges: async (
       parent: any,
       args: any,
-      context: any
+      context: any,
     ) => {
       const { userId, challengeId } = args;
 
-      if (!mongoose.Types.ObjectId.isValid(challengeId))
-        throw new Error(`Invalid challenge's id`);
+      if (!mongoose.Types.ObjectId.isValid(challengeId)) {
+        throw new Error("Invalid challenge's id");
+      }
 
-      if (!mongoose.Types.ObjectId.isValid(userId))
-        throw new Error(`Invalid user's id`);
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new Error("Invalid user's id");
+      }
 
       let user = await User.findById(userId);
-      if (!user) throw new Error(`Invalid user's id`);
+      if (!user) throw new Error("Invalid user's id");
 
-      let challenge = await Challenge.findById(challengeId);
-      if (!challenge) throw new Error(`Invalid challenge's id`);
+      const challenge = await Challenge.findById(challengeId);
+      if (!challenge) throw new Error("Invalid challenge's id");
 
-      const index: number = user.likedChallenges.indexOf(challengeId);
+      const index = user.likedChallenges.indexOf(challengeId);
       if (index === -1) {
         user.likedChallenges.push(challengeId);
       } else {
@@ -177,6 +182,7 @@ const challengeResolvers = {
       }
       user = await user.save();
       delete user.account.password;
+
       return user.likedChallenges;
     },
   },

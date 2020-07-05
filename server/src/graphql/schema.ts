@@ -1,6 +1,6 @@
 const { gql } = require("apollo-server-express");
 
-export const typeDefs = gql`
+const typeDefs = gql`
   # interface MutationResponse {
   #   code: String!
   #   success: Boolean!
@@ -135,3 +135,5 @@ export const typeDefs = gql`
     submitAnswer(challengeSlug: String!, answer: String!): Answer!
   }
 `;
+
+export default typeDefs;
