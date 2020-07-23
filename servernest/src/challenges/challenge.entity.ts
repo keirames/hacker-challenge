@@ -50,6 +50,23 @@ export class Challenge {
   @Check('points >= 0')
   points: number;
 
+  @Column({
+    name: 'created_at',
+    type: 'timestamp with time zone',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
+  @Column({
+    name: 'updated_at',
+    type: 'timestamp with time zone',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
+
+  @Column({ name: 'is_deleted', default: false })
+  isDeleted: boolean;
+
   @ManyToMany(
     () => User,
     user => user.likedChallenges,

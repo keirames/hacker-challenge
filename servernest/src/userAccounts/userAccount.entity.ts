@@ -5,27 +5,34 @@ export class UserAccount {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 255 })
   email: string;
 
-  @Column()
+  @Column({ length: 255 })
   password: string;
 
-  @Column({ name: 'first_name' })
+  @Column({ name: 'first_name', length: 25 })
   firstName: string;
 
-  @Column({ name: 'last_name' })
+  @Column({ name: 'last_name', length: 25 })
   lastName: string;
 
-  @Column({ name: 'registration_time' })
+  @Column({
+    name: 'registration_time',
+    type: 'timestamp with time zone',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   registrationTime: Date;
 
-  @Column({ name: 'email_confirmation_token' })
+  @Column({ name: 'email_confirmation_token', length: 255 })
   emailConfirmationToken: string;
 
-  @Column({ name: 'password_reminder_token' })
+  @Column({ name: 'password_reminder_token', length: 255 })
   passwordReminderToken: string;
 
-  @Column({ name: 'password_reminder_exprie' })
+  @Column({
+    name: 'password_reminder_exprie',
+    type: 'timestamp with time zone',
+  })
   passwordReminderExpire: Date;
 }

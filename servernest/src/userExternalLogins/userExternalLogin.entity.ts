@@ -16,13 +16,13 @@ export class UserExternalLogin {
   @Column({ name: 'external_user_id' })
   externalUserId: number;
 
-  @Column()
+  @Column({ length: 255 })
   email: string;
 
-  @Column({ name: 'first_name' })
+  @Column({ name: 'first_name', length: 25 })
   firstName: string;
 
-  @Column({ name: 'last_name' })
+  @Column({ name: 'last_name', length: 25 })
   lastName: string;
 
   @ManyToOne(

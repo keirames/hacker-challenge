@@ -6,7 +6,7 @@ export class ExternalAuthenticationProvider {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ length: 25 })
   name: string;
 
   @OneToMany(

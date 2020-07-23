@@ -20,7 +20,7 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'total_points' })
+  @Column({ name: 'total_points', default: 0 })
   totalPoints: number;
 
   @OneToOne(() => UserAccount)
