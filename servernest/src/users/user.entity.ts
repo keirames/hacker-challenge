@@ -7,7 +7,6 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
-  ManyToOne,
 } from 'typeorm';
 import { UserAccount } from '../userAccounts/userAccount.entity';
 import { UserExternalLogin } from '../userExternalLogins/userExternalLogin.entity';

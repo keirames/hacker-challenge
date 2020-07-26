@@ -50,6 +50,9 @@ export class Challenge {
   @Check('points >= 0')
   points: number;
 
+  @Column({ name: 'contest_id' })
+  contestId: number;
+
   @Column({
     name: 'created_at',
     type: 'timestamp with time zone',
@@ -82,6 +85,7 @@ export class Challenge {
   @ManyToOne(
     () => Contest,
     contest => contest.challenges,
+    { nullable: false },
   )
   @JoinColumn({ name: 'contest_id' })
   contest: Contest;

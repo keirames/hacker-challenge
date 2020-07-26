@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Challenge } from '../challenges/challenge.entity';
 
-@Entity()
+@Entity('submissions')
 export class Submission {
   @PrimaryGeneratedColumn()
   id: number;
