@@ -6,6 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Challenge } from '../challenges/challenge.entity';
+import { User } from '../users/user.entity';
 
 @Entity('submissions')
 export class Submission {
@@ -25,10 +26,23 @@ export class Submission {
   })
   createdAt: Date;
 
+  @Column({ name: 'user_id' })
+  userId: number;
+
+  @Column({ name: 'challenge_id' })
+  challengeId: number;
+
   @ManyToOne(
     () => Challenge,
     challenge => challenge.submissions,
   )
   @JoinColumn({ name: 'challenge_id' })
   challenge: Challenge;
+
+  @ManyToOne(
+    () => User,
+    user => user.submissions,
+  )
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }

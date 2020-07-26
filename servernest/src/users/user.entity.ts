@@ -13,6 +13,7 @@ import { UserExternalLogin } from '../userExternalLogins/userExternalLogin.entit
 import { Plan } from '../plans/plan.entity';
 import { Challenge } from '../challenges/challenge.entity';
 import { SolvedChallenge } from '../solvedChallenges/solvedChallenges.entity';
+import { Submission } from '../submissions/submission.entity';
 
 @Entity('users')
 export class User {
@@ -31,6 +32,12 @@ export class User {
     userExternalLogin => userExternalLogin.user,
   )
   userExternalLogins: UserExternalLogin[];
+
+  @OneToMany(
+    () => Submission,
+    submission => submission.user,
+  )
+  submissions: Submission[];
 
   @ManyToMany(
     () => Plan,
