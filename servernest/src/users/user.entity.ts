@@ -23,7 +23,7 @@ export class User {
   @Column({ name: 'total_points', default: 0 })
   totalPoints: number;
 
-  @OneToOne(() => UserAccount)
+  @OneToOne(() => UserAccount, { nullable: true })
   @JoinColumn({ name: 'user_account_id' })
   userAccount: UserAccount;
 
