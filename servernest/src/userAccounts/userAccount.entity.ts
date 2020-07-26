@@ -24,15 +24,16 @@ export class UserAccount {
   })
   registrationTime: Date;
 
-  @Column({ name: 'email_confirmation_token', length: 255 })
+  @Column({ name: 'email_confirmation_token', length: 255, nullable: true })
   emailConfirmationToken: string;
 
-  @Column({ name: 'password_reminder_token', length: 255 })
+  @Column({ name: 'password_reminder_token', length: 255, nullable: true })
   passwordReminderToken: string;
 
   @Column({
     name: 'password_reminder_exprie',
     type: 'timestamp with time zone',
+    nullable: true,
   })
   passwordReminderExpire: Date;
 }
