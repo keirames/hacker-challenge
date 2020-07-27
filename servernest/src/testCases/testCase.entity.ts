@@ -21,6 +21,7 @@ export class TestCase {
   @ManyToOne(
     () => Challenge,
     challenge => challenge.testCases,
+    { eager: true },
   )
   @JoinColumn({ name: 'challenge_id' })
   challenge: Challenge;
