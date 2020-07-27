@@ -99,6 +99,7 @@ export class Challenge {
   @OneToMany(
     () => TestCase,
     testCase => testCase.challenge,
+    { eager: true },
   )
   testCases: TestCase[];
 }
