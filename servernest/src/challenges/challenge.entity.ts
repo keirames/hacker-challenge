@@ -9,10 +9,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '../users/user.entity';
-import { SolvedChallenge } from '../solvedChallenges/solvedChallenges.entity';
 import { Contest } from '../contests/contest.entity';
 import { Submission } from '../submissions/submission.entity';
 import { TestCase } from '../testCases/testCase.entity';
+import { SolvedChallenge } from '../solvedChallenges/solvedChallenge.entity';
 
 export enum Level {
   EASY = 'easy',
@@ -80,7 +80,7 @@ export class Challenge {
     () => SolvedChallenge,
     solvedChallenge => solvedChallenge.challenge,
   )
-  solvedChallenges: SolvedChallenge[];
+  passedUsers: SolvedChallenge[];
 
   @ManyToOne(
     () => Contest,

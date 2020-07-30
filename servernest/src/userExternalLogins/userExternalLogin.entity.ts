@@ -25,6 +25,12 @@ export class UserExternalLogin {
   @Column({ name: 'last_name', length: 25 })
   lastName: string;
 
+  @Column({ name: 'user_id' })
+  userId: number;
+
+  @Column({ name: 'external_authentication_provider_id' })
+  externalAuthenticationProviderId: number;
+
   @ManyToOne(
     () => User,
     user => user.userExternalLogins,

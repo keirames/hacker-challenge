@@ -12,7 +12,7 @@ import { UserAccount } from '../userAccounts/userAccount.entity';
 import { UserExternalLogin } from '../userExternalLogins/userExternalLogin.entity';
 import { Plan } from '../plans/plan.entity';
 import { Challenge } from '../challenges/challenge.entity';
-import { SolvedChallenge } from '../solvedChallenges/solvedChallenges.entity';
+import { SolvedChallenge } from '../solvedChallenges/solvedChallenge.entity';
 import { Submission } from '../submissions/submission.entity';
 
 @Entity('users')
@@ -22,6 +22,9 @@ export class User {
 
   @Column({ name: 'total_points', default: 0 })
   totalPoints: number;
+
+  @Column({ name: 'user_account_id' })
+  userAccountId: number;
 
   @OneToOne(() => UserAccount, { nullable: true })
   @JoinColumn({ name: 'user_account_id' })
