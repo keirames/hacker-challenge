@@ -14,7 +14,7 @@ export class SolvedChallenge {
 
   @ManyToOne(
     () => Challenge,
-    challenge => challenge.solvedChallenges,
+    challenge => challenge.passedUsers,
     { primary: true },
   )
   @JoinColumn({ name: 'challenge_id' })
