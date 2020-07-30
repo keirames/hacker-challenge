@@ -2,10 +2,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToMany,
   Check,
+  OneToMany,
 } from 'typeorm';
 import { User } from '../users/user.entity';
+import { Subscription } from '../subscriptions/subscription.entity';
 
 @Entity('plans')
 export class Plan {
@@ -19,9 +20,9 @@ export class Plan {
   @Check('price_per_month >= 0')
   pricePerMonth: number;
 
-  @ManyToMany(
-    () => User,
-    user => user.plans,
+  @OneToMany(
+    () => Subscription,
+    subcription => subcription.plan,
   )
-  users: User[];
+  subscribers: Subscription[];
 }

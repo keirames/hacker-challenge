@@ -10,10 +10,10 @@ import {
 } from 'typeorm';
 import { UserAccount } from '../userAccounts/userAccount.entity';
 import { UserExternalLogin } from '../userExternalLogins/userExternalLogin.entity';
-import { Plan } from '../plans/plan.entity';
 import { Challenge } from '../challenges/challenge.entity';
 import { SolvedChallenge } from '../solvedChallenges/solvedChallenge.entity';
 import { Submission } from '../submissions/submission.entity';
+import { Subscription } from '../subscriptions/subscription.entity';
 
 @Entity('users')
 export class User {
@@ -42,12 +42,11 @@ export class User {
   )
   submissions: Submission[];
 
-  @ManyToMany(
-    () => Plan,
-    plan => plan.users,
+  @OneToMany(
+    () => Subscription,
+    subscriptions => subscriptions.user,
   )
-  @JoinTable({ name: 'subcriptions' })
-  plans: Plan[];
+  subscriptionPlans: Subscription[];
 
   @ManyToMany(
     () => Challenge,
