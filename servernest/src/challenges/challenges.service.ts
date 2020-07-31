@@ -17,4 +17,8 @@ export class ChallengesService {
   findBySlug(slug: string): Promise<Challenge> {
     return this.challengesService.findOne({ slug, isDeleted: false });
   }
+
+  findByContestId(contestId: number): Promise<Challenge[]> {
+    return this.challengesService.find({ contestId, isDeleted: false });
+  }
 }

@@ -10,7 +10,15 @@ export class ContestsService {
     private readonly contestsService: Repository<Contest>,
   ) {}
 
+  findAll(): Promise<Contest[]> {
+    return this.contestsService.find({ isDeleted: false });
+  }
+
+  findBySlug(slug: string): Promise<Contest> {
+    return this.contestsService.findOne({ slug, isDeleted: false });
+  }
+
   findById(id: number): Promise<Contest> {
-    return this.contestsService.findOne({ id });
+    return this.contestsService.findOne({ id, isDeleted: false });
   }
 }

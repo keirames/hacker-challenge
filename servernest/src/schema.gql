@@ -25,4 +25,6 @@ type ChallengeDto {
 type Query {
   getChallenges: [ChallengeDto!]!
   getChallenge(slug: String!): ChallengeDto
+  getContests: [ContestDto!]!
+  getContest(slug: String!): ContestDto
 }

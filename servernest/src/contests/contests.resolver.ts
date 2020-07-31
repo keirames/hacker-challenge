@@ -26,7 +26,7 @@ export class ContestsResolver {
   }
 
   @ResolveField('challenges', () => [ChallengeDto])
-  getChallenges(@Parent() contest: Contest): Promise<Challenge[]> {
+  async getChallenges(@Parent() contest: Contest): Promise<Challenge[]> {
     return this.challengesService.findByContestId(contest.id);
   }
 }
