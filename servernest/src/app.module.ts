@@ -12,9 +12,15 @@ import { ChallengesModule } from './challenges/challenges.module';
 import { ContestsModule } from './contests/contests.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 import { TestCasesModule } from './testCases/testCases.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
 
 @Module({
   imports: [
+    GraphQLModule.forRoot({
+      include: [ChallengesModule],
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     ExternalAuthenticationProvidersModule,
     UserExternalLoginsModule,

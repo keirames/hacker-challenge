@@ -2,41 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ExternalAuthenticationProviderDto {
-  id: Int!
-  name: String!
-}
-
-type UserExternalLoginDto {
-  id: Int!
-  email: String
-  firstName: String
-  lastName: String
-  externalAuthenticationProvider: ExternalAuthenticationProviderDto!
-}
-
-type UserAccountDto {
-  id: Int!
-  email: String!
-  firstName: String!
-  lastName: String!
-  registrationTime: String!
-  emailConfirmationToken: String
-  passwordReminderToken: String
-  passwordReminderExpire: String
-}
-
 type ContestDto {
   id: Int!
   name: String!
   slug: String!
   challenges: [ChallengeDto!]!
-}
-
-type TestCaseDto {
-  id: Int!
-  text: String!
-  testString: String!
 }
 
 type ChallengeDto {
@@ -50,37 +20,9 @@ type ChallengeDto {
   level: String!
   points: Int!
   contest: ContestDto!
-  testCases: [TestCaseDto!]
-}
-
-type SolvedChallengeDto {
-  challenge: ChallengeDto!
-  createdAt: String
-}
-
-type UserDto {
-  id: Int!
-  totalPoints: Int!
-  solvedChallenges: [SolvedChallengeDto!]!
-  likedChallenges: [ChallengeDto!]!
-  userAccount: UserAccountDto!
-  userExternalLogins: [UserExternalLoginDto!]!
-}
-
-type SubmissionDto {
-  id: Int!
-  answer: String!
-  isPassed: Boolean!
-  createdAt: String!
-  challenge: ChallengeDto!
 }
 
 type Query {
-  getUsers: [UserDto!]!
-  getUser(id: Int!): [UserDto!]!
   getChallenges: [ChallengeDto!]!
   getChallenge(slug: String!): ChallengeDto
-  getContests: [ContestDto!]!
-  getContest(slug: String!): ContestDto
-  getSubmissions(challengeId: Int!): [SubmissionDto!]!
 }

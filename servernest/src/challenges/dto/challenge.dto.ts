@@ -37,8 +37,8 @@ export class ChallengeDto {
   @Field(() => ContestDto)
   contest: Contest;
 
-  @Field(() => [TestCaseDto], { nullable: true })
-  testCases: TestCase[];
+  // @Field(() => [TestCaseDto], { nullable: true })
+  // testCases: TestCase[];
 
   // @Field(() => [UserDto])
   // passedBy
