@@ -7,18 +7,18 @@ import { Repository } from 'typeorm';
 export class ChallengesService {
   constructor(
     @InjectRepository(Challenge)
-    private readonly challengesService: Repository<Challenge>,
+    private readonly challengesRepository: Repository<Challenge>,
   ) {}
 
   findAll(): Promise<Challenge[]> {
-    return this.challengesService.find({ isDeleted: false });
+    return this.challengesRepository.find({ isDeleted: false });
   }
 
   findBySlug(slug: string): Promise<Challenge> {
-    return this.challengesService.findOne({ slug, isDeleted: false });
+    return this.challengesRepository.findOne({ slug, isDeleted: false });
   }
 
   findByContestId(contestId: number): Promise<Challenge[]> {
-    return this.challengesService.find({ contestId, isDeleted: false });
+    return this.challengesRepository.find({ contestId, isDeleted: false });
   }
 }
