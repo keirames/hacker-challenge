@@ -15,5 +15,6 @@
   "cli": {
     "migrationsDir": "src/migration"
   },
-  "ssl": false
+  "ssl": false,
+  "logging": true
 }
