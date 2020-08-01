@@ -4,6 +4,7 @@ import { Contest } from '../../contests/contest.entity';
 import { TestCase } from '../../testCases/testCase.entity';
 import { TestCaseDto } from '../../testCases/dto/testCase.dto';
 import { UserDto } from '../../users/dto/user.dto';
+import { User } from '../../users/user.entity';
 
 @ObjectType()
 export class ChallengeDto {
@@ -40,6 +41,9 @@ export class ChallengeDto {
   @Field(() => ContestDto)
   contest: Contest;
 
-  // @Field(() => [UserDto])
-  // passedBy
+  @Field(() => [UserDto])
+  passedUsers: User[];
+
+  @Field(() => [UserDto])
+  likedUsers: User[];
 }

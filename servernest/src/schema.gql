@@ -15,6 +15,44 @@ type TestCaseDto {
   testString: String!
 }
 
+type UserAccountDto {
+  id: Int!
+  email: String!
+  firstName: String!
+  lastName: String!
+  registrationTime: String!
+  emailConfirmationToken: String
+  passwordReminderToken: String
+  passwordReminderExpire: String
+}
+
+type ExternalAuthenticationProviderDto {
+  id: Int!
+  name: String!
+}
+
+type UserExternalLoginDto {
+  id: Int!
+  email: String
+  firstName: String
+  lastName: String
+  externalAuthenticationProvider: ExternalAuthenticationProviderDto
+}
+
+type SolvedChallengeDto {
+  challenge: ChallengeDto!
+  createdAt: String
+}
+
+type UserDto {
+  id: Int!
+  totalPoints: Int!
+  solvedChallenges: [SolvedChallengeDto!]!
+  likedChallenges: [ChallengeDto!]!
+  userAccount: UserAccountDto
+  userExternalLogins: [UserExternalLoginDto!]!
+}
+
 type ChallengeDto {
   id: Int!
   title: String!
@@ -27,6 +65,8 @@ type ChallengeDto {
   points: Int!
   testCases: [TestCaseDto!]!
   contest: ContestDto!
+  passedUsers: [UserDto!]!
+  likedUsers: [UserDto!]!
 }
 
 type Query {
