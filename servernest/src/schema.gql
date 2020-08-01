@@ -9,6 +9,12 @@ type ContestDto {
   challenges: [ChallengeDto!]!
 }
 
+type TestCaseDto {
+  id: Int!
+  text: String!
+  testString: String!
+}
+
 type ChallengeDto {
   id: Int!
   title: String!
@@ -19,6 +25,7 @@ type ChallengeDto {
   challengeSeed: String!
   level: String!
   points: Int!
+  testCases: [TestCaseDto!]!
   contest: ContestDto!
 }
 

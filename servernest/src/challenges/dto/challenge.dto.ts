@@ -34,11 +34,11 @@ export class ChallengeDto {
   @Field(() => Int)
   points: number;
 
+  @Field(() => [TestCaseDto])
+  testCases: TestCase[];
+
   @Field(() => ContestDto)
   contest: Contest;
-
-  // @Field(() => [TestCaseDto], { nullable: true })
-  // testCases: TestCase[];
 
   // @Field(() => [UserDto])
   // passedBy
