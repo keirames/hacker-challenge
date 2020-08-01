@@ -8,19 +8,19 @@ import { Challenge } from '../challenges/challenge.entity';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private readonly usersService: Repository<User>,
+    @InjectRepository(User) private readonly usersRepository: Repository<User>,
   ) {}
 
   findAll(): Promise<User[]> {
-    return this.usersService.find({});
+    return this.usersRepository.find({});
   }
 
   findById(id: number): Promise<User> {
-    return this.usersService.findOne({ id });
+    return this.usersRepository.findOne({ id });
   }
 
   async findPassedUsersByChallengeId(challengeId: number): Promise<User[]> {
-    const result = await this.usersService
+    const result = await this.usersRepository
       .createQueryBuilder('user')
       .innerJoinAndSelect(
         'user.solvedChallenges',
@@ -33,7 +33,7 @@ export class UsersService {
   }
 
   async findLikedUsersByChallengeId(challengeId: number): Promise<User[]> {
-    return this.usersService
+    return this.usersRepository
       .createQueryBuilder('user')
       .innerJoinAndSelect(
         'user.likedChallenges',
@@ -47,7 +47,7 @@ export class UsersService {
   async findSolvedChallengesByUserId(
     userId: number,
   ): Promise<SolvedChallenge[]> {
-    const user = await this.usersService
+    const user = await this.usersRepository
       .createQueryBuilder('user')
       .innerJoinAndSelect(
         'user.solvedChallenges',
@@ -67,7 +67,7 @@ export class UsersService {
   }
 
   async findLikedChallengesByUserId(userId: number): Promise<Challenge[]> {
-    const { likedChallenges } = await this.usersService.findOne({
+    const { likedChallenges } = await this.usersRepository.findOne({
       where: { id: userId },
       relations: ['likedChallenges'],
     });
