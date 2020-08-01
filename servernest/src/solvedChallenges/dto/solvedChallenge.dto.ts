@@ -7,6 +7,6 @@ export class SolvedChallengeDto {
   @Field(() => ChallengeDto)
   challenge: Challenge;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => String)
   createdAt: Date;
 }

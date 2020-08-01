@@ -24,11 +24,10 @@ import { ChallengeDto } from '../challenges/dto/challenge.dto';
 @Resolver(() => UserDto)
 export class UsersResolver {
   constructor(
-    private readonly usersService: UsersService,
-    private readonly userAccountsService: UserAccountsService,
-    private readonly userExternalLoginsService: UserExternalLoginsService,
-    private readonly challengesService: ChallengesService,
-  ) {}
+    private readonly usersService: UsersService, // private readonly userAccountsService: UserAccountsService,
+  ) // private readonly userExternalLoginsService: UserExternalLoginsService,
+  // private readonly challengesService: ChallengesService,
+  {}
 
   @Query(() => [UserDto])
   async getUsers(): Promise<User[]> {
@@ -42,21 +41,21 @@ export class UsersResolver {
 
   @ResolveField('solvedChallenges', () => [SolvedChallengeDto])
   async getSolvedChallenges(@Parent() user: User): Promise<SolvedChallenge[]> {
-    return this.usersService.findSolvedChallenges(user.id);
+    return this.usersService.findSolvedChallengesByUserId(user.id);
   }
 
   @ResolveField('likedChallenges', () => [ChallengeDto])
   async getLikedChallenges(@Parent() user: User): Promise<Challenge[]> {
-    return this.usersService.findLikedChallenges(user.id);
+    return this.usersService.findLikedChallengesByUserId(user.id);
   }
 
-  @ResolveField('userAccount', () => UserAccountDto)
-  async getUserAccount(@Parent() user: User): Promise<UserAccount> {
-    return this.userAccountsService.findById(user.userAccountId);
-  }
+  // @ResolveField('userAccount', () => UserAccountDto)
+  // async getUserAccount(@Parent() user: User): Promise<UserAccount> {
+  //   return this.userAccountsService.findById(user.userAccountId);
+  // }
 
-  @ResolveField('userExternalLogins', () => [UserExternalLoginDto])
-  getUserExternalLogins(@Parent() user: User): Promise<UserExternalLogin[]> {
-    return this.userExternalLoginsService.findByUserId(user.id);
-  }
+  // @ResolveField('userExternalLogins', () => [UserExternalLoginDto])
+  // getUserExternalLogins(@Parent() user: User): Promise<UserExternalLogin[]> {
+  //   return this.userExternalLoginsService.findByUserId(user.id);
+  // }
 }

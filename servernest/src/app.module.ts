@@ -18,7 +18,7 @@ import { join } from 'path';
 @Module({
   imports: [
     GraphQLModule.forRoot({
-      include: [ChallengesModule, ContestsModule, TestCasesModule],
+      include: [ChallengesModule, ContestsModule, TestCasesModule, UsersModule],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
