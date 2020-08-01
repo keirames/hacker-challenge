@@ -38,4 +38,9 @@ export class ChallengesResolver {
   getPassedUsers(@Parent() challenge: Challenge): Promise<User[]> {
     return this.usersService.findPassedUsersByChallengeId(challenge.id);
   }
+
+  @ResolveField('likedUsers', () => [UserDto])
+  getLikedUsers(@Parent() challenge: Challenge): Promise<User[]> {
+    return this.usersService.findLikedUsersByChallengeId(challenge.id);
+  }
 }

@@ -21,4 +21,16 @@ export class UsersService {
       .getMany();
     return result;
   }
+
+  async findLikedUsersByChallengeId(challengeId: number): Promise<User[]> {
+    return this.usersService
+      .createQueryBuilder('user')
+      .innerJoinAndSelect(
+        'user.likedChallenges',
+        'likedChallenge',
+        'likedChallenge.id = :challengeId',
+        { challengeId },
+      )
+      .getMany();
+  }
 }
