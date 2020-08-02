@@ -24,6 +24,8 @@ import { join } from 'path';
         TestCasesModule,
         UsersModule,
         UserAccountsModule,
+        UserExternalLoginsModule,
+        ExternalAuthenticationProvidersModule,
       ],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),

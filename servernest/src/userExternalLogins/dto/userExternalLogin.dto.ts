@@ -19,6 +19,6 @@ export class UserExternalLoginDto {
   @Field(() => String, { nullable: true })
   lastName: string;
 
-  @Field(() => ExternalAuthenticationProviderDto, { nullable: true })
+  @Field(() => ExternalAuthenticationProviderDto)
   externalAuthenticationProvider: ExternalAuthenticationProvider;
 }

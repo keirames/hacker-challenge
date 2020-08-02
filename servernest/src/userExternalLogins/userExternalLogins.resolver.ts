@@ -1,4 +1,3 @@
-import { UserExternalLoginsService } from './userExternalLogins.service';
 import { Resolver, Parent, ResolveField } from '@nestjs/graphql';
 import { UserExternalLoginDto } from './dto/userExternalLogin.dto';
 import { ExternalAuthenticationProviderDto } from '../externalAuthenticationProviders/dto/externalAuthenticationProvider.dto';

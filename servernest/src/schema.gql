@@ -2,17 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type UserAccountDto {
-  id: Int!
-  email: String!
-  firstName: String!
-  lastName: String!
-  registrationTime: String!
-  emailConfirmationToken: String
-  passwordReminderToken: String
-  passwordReminderExpire: String
-}
-
 type ExternalAuthenticationProviderDto {
   id: Int!
   name: String!
@@ -24,7 +13,18 @@ type UserExternalLoginDto {
   email: String
   firstName: String
   lastName: String
-  externalAuthenticationProvider: ExternalAuthenticationProviderDto
+  externalAuthenticationProvider: ExternalAuthenticationProviderDto!
+}
+
+type UserAccountDto {
+  id: Int!
+  email: String!
+  firstName: String!
+  lastName: String!
+  registrationTime: String!
+  emailConfirmationToken: String
+  passwordReminderToken: String
+  passwordReminderExpire: String
 }
 
 type ContestDto {
