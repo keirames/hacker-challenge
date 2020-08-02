@@ -25,7 +25,8 @@ import { ChallengeDto } from '../challenges/dto/challenge.dto';
 export class UsersResolver {
   constructor(
     private readonly usersService: UsersService,
-    private readonly userAccountsService: UserAccountsService, // private readonly userExternalLoginsService: UserExternalLoginsService, // private readonly challengesService: ChallengesService,
+    private readonly userAccountsService: UserAccountsService,
+    private readonly userExternalLoginsService: UserExternalLoginsService, // private readonly challengesService: ChallengesService,
   ) {}
 
   @Query(() => [UserDto])
@@ -53,8 +54,8 @@ export class UsersResolver {
     return this.userAccountsService.findById(user.userAccountId);
   }
 
-  // @ResolveField('userExternalLogins', () => [UserExternalLoginDto])
-  // getUserExternalLogins(@Parent() user: User): Promise<UserExternalLogin[]> {
-  //   return this.userExternalLoginsService.findByUserId(user.id);
-  // }
+  @ResolveField('userExternalLogins', () => [UserExternalLoginDto])
+  getUserExternalLogins(@Parent() user: User): Promise<UserExternalLogin[]> {
+    return this.userExternalLoginsService.findByUserId(user.id);
+  }
 }

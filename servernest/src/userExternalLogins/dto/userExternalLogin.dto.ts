@@ -7,6 +7,9 @@ export class UserExternalLoginDto {
   @Field(() => Int)
   id: number;
 
+  @Field(() => Int)
+  externalUserId: number;
+
   @Field(() => String, { nullable: true })
   email: string;
 
