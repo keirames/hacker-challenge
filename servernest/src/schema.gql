@@ -61,6 +61,19 @@ type SolvedChallengeDto {
   createdAt: String!
 }
 
+type PlanDto {
+  id: Int!
+  name: String!
+  pricePerMonth: Float!
+}
+
+type SubscriptionDto {
+  id: Int!
+  plan: PlanDto!
+  startTime: String!
+  endTime: String!
+}
+
 type UserDto {
   id: Int!
   totalPoints: Int!
@@ -68,6 +81,7 @@ type UserDto {
   likedChallenges: [ChallengeDto!]!
   userAccount: UserAccountDto
   userExternalLogins: [UserExternalLoginDto!]!
+  subscriptionPlans: [SubscriptionDto!]!
 }
 
 type Query {

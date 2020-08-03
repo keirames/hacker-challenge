@@ -20,13 +20,17 @@ import { SolvedChallengeDto } from '../solvedChallenges/dto/solvedChallenge.dto'
 import { SolvedChallenge } from '../solvedChallenges/solvedChallenge.entity';
 import { Challenge } from '../challenges/challenge.entity';
 import { ChallengeDto } from '../challenges/dto/challenge.dto';
+import { SubscriptionDto } from '../subscriptions/dto/subscription.dto';
+import { Subscription } from '../subscriptions/subscription.entity';
+import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 
 @Resolver(() => UserDto)
 export class UsersResolver {
   constructor(
     private readonly usersService: UsersService,
     private readonly userAccountsService: UserAccountsService,
-    private readonly userExternalLoginsService: UserExternalLoginsService, // private readonly challengesService: ChallengesService,
+    private readonly userExternalLoginsService: UserExternalLoginsService,
+    private readonly subscriptionsService: SubscriptionsService, // private readonly challengesService: ChallengesService,
   ) {}
 
   @Query(() => [UserDto])
@@ -57,5 +61,10 @@ export class UsersResolver {
   @ResolveField('userExternalLogins', () => [UserExternalLoginDto])
   getUserExternalLogins(@Parent() user: User): Promise<UserExternalLogin[]> {
     return this.userExternalLoginsService.findByUserId(user.id);
+  }
+
+  @ResolveField('subscriptionPlans', () => [SubscriptionDto])
+  getUserSubscriptionPlans(@Parent() user: User): Promise<Subscription[]> {
+    return this.subscriptionsService.findByUserId(user.id);
   }
 }

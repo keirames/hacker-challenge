@@ -7,6 +7,8 @@ import { SolvedChallenge } from '../../solvedChallenges/solvedChallenge.entity';
 import { SolvedChallengeDto } from '../../solvedChallenges/dto/solvedChallenge.dto';
 import { ChallengeDto } from '../../challenges/dto/challenge.dto';
 import { Challenge } from '../../challenges/challenge.entity';
+import { Subscription } from '../../subscriptions/subscription.entity';
+import { SubscriptionDto } from '../../subscriptions/dto/subscription.dto';
 
 @ObjectType()
 export class UserDto {
@@ -28,5 +30,6 @@ export class UserDto {
   @Field(() => [UserExternalLoginDto])
   userExternalLogins: UserExternalLogin[];
 
-  // @Field(() => )
+  @Field(() => [SubscriptionDto])
+  subscriptionPlans: Subscription;
 }

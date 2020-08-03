@@ -13,6 +13,9 @@ export class Subscription {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ name: 'user_id' })
+  userId: number;
+
   @ManyToOne(
     () => Plan,
     plan => plan.subscribers,

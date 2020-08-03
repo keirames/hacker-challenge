@@ -6,15 +6,17 @@ import { User } from './user.entity';
 import { UsersResolver } from './users.resolver';
 import { UserAccountsModule } from '../userAccounts/userAccounts.module';
 import { UserExternalLoginsModule } from '../userExternalLogins/userExternalLogins.module';
+import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
     UserAccountsModule,
     UserExternalLoginsModule,
+    SubscriptionsModule
   ],
   controllers: [UsersController],
   providers: [UsersService, UsersResolver],
   exports: [UsersService],
 })
-export class UsersModule {}
+export class UsersModule { }
