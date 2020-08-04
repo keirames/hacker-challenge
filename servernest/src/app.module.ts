@@ -14,6 +14,7 @@ import { SubmissionsModule } from './submissions/submissions.module';
 import { TestCasesModule } from './testCases/testCases.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 
 @Module({
   imports: [
@@ -26,6 +27,8 @@ import { join } from 'path';
         UserAccountsModule,
         UserExternalLoginsModule,
         ExternalAuthenticationProvidersModule,
+        SubscriptionsModule,
+        PlansModule,
       ],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),

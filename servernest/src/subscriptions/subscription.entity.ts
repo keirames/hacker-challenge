@@ -16,6 +16,9 @@ export class Subscription {
   @Column({ name: 'user_id' })
   userId: number;
 
+  @Column({ name: 'plan_id' })
+  planId: number;
+
   @ManyToOne(
     () => Plan,
     plan => plan.subscribers,
