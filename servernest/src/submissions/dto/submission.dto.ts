@@ -1,4 +1,8 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { Challenge } from '../../challenges/challenge.entity';
+import { ChallengeDto } from '../../challenges/dto/challenge.dto';
+import { UserDto } from '../../users/dto/user.dto';
+import { User } from '../../users/user.entity';
 
 @ObjectType()
 export class SubmissionDto {
@@ -13,4 +17,10 @@ export class SubmissionDto {
 
   @Field(() => String)
   createdAt: Date;
+
+  @Field(() => UserDto)
+  user: User;
+
+  @Field(() => ChallengeDto)
+  challenge: Challenge;
 }

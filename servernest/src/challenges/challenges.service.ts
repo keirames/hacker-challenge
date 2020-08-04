@@ -14,6 +14,10 @@ export class ChallengesService {
     return this.challengesRepository.find({ isDeleted: false });
   }
 
+  findById(id: number): Promise<Challenge> {
+    return this.challengesRepository.findOne({ id, isDeleted: false });
+  }
+
   findBySlug(slug: string): Promise<Challenge> {
     return this.challengesRepository.findOne({ slug, isDeleted: false });
   }

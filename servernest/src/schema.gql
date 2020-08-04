@@ -84,6 +84,15 @@ type UserDto {
   subscriptionPlans: [SubscriptionDto!]!
 }
 
+type SubmissionDto {
+  id: Int!
+  answer: String!
+  isPassed: Boolean!
+  createdAt: String!
+  user: UserDto!
+  challenge: ChallengeDto!
+}
+
 type Query {
   getUsers: [UserDto!]!
   getUser(id: Int!): [UserDto!]!
@@ -91,4 +100,5 @@ type Query {
   getChallenge(slug: String!): ChallengeDto
   getContests: [ContestDto!]!
   getContest(slug: String!): ContestDto
+  getSubmissions(challengeId: Int!, userId: Int!): [SubmissionDto!]!
 }

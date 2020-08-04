@@ -29,6 +29,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
         ExternalAuthenticationProvidersModule,
         SubscriptionsModule,
         PlansModule,
+        SubmissionsModule,
       ],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
