@@ -38,8 +38,10 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
-  @Query(() => [UserDto])
-  async getUser(@Args('id', { type: () => Int }) id: number): Promise<User> {
+  @Query(() => UserDto, { nullable: true })
+  async getUser(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<User | undefined> {
     return this.usersService.findById(id);
   }
 
@@ -54,7 +56,7 @@ export class UsersResolver {
   }
 
   @ResolveField('userAccount', () => UserAccountDto, { nullable: true })
-  async getUserAccount(@Parent() user: User): Promise<UserAccount> {
+  async getUserAccount(@Parent() user: User): Promise<UserAccount | undefined> {
     return this.userAccountsService.findById(user.userAccountId);
   }
 

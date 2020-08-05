@@ -14,11 +14,11 @@ export class ContestsService {
     return this.contestsService.find({ isDeleted: false });
   }
 
-  findBySlug(slug: string): Promise<Contest> {
+  findBySlug(slug: string): Promise<Contest | undefined> {
     return this.contestsService.findOne({ slug, isDeleted: false });
   }
 
-  findById(id: number): Promise<Contest> {
+  findById(id: number): Promise<Contest | undefined> {
     return this.contestsService.findOne({ id, isDeleted: false });
   }
 }

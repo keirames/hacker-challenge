@@ -14,11 +14,11 @@ export class ChallengesService {
     return this.challengesRepository.find({ isDeleted: false });
   }
 
-  findById(id: number): Promise<Challenge> {
+  findById(id: number): Promise<Challenge | undefined> {
     return this.challengesRepository.findOne({ id, isDeleted: false });
   }
 
-  findBySlug(slug: string): Promise<Challenge> {
+  findBySlug(slug: string): Promise<Challenge | undefined> {
     return this.challengesRepository.findOne({ slug, isDeleted: false });
   }
 

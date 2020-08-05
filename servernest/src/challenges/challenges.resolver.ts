@@ -25,12 +25,12 @@ export class ChallengesResolver {
   @Query(() => ChallengeDto, { nullable: true })
   async getChallenge(
     @Args('slug', { type: () => String }) slug: string,
-  ): Promise<Challenge> {
+  ): Promise<Challenge | undefined> {
     return this.challengesService.findBySlug(slug);
   }
 
   @ResolveField('contest', () => ContestDto)
-  getContest(@Parent() challenge: Challenge): Promise<Contest> {
+  getContest(@Parent() challenge: Challenge): Promise<Contest | undefined> {
     return this.contestsService.findById(challenge.contestId);
   }
 

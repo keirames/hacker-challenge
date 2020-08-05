@@ -12,7 +12,9 @@ export class ExternalAuthenticationProvidersService {
     >,
   ) {}
 
-  async findById(id: number): Promise<ExternalAuthenticationProvider> {
+  async findById(
+    id: number,
+  ): Promise<ExternalAuthenticationProvider | undefined> {
     return this.externalAuthenticationProvidersRepository.findOne({ id });
   }
 }

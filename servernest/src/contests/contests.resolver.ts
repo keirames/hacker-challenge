@@ -21,7 +21,7 @@ export class ContestsResolver {
   @Query(() => ContestDto, { nullable: true })
   getContest(
     @Args('slug', { type: () => String }) slug: string,
-  ): Promise<Contest> {
+  ): Promise<Contest | undefined> {
     return this.contestsService.findBySlug(slug);
   }
 

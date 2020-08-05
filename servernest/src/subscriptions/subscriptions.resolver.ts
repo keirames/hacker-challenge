@@ -10,7 +10,7 @@ export class SubscriptionsResolver {
   constructor(private readonly plansService: PlansService) {}
 
   @ResolveField('plan', () => PlanDto)
-  getPlan(@Parent() subscription: Subscription): Promise<Plan> {
+  getPlan(@Parent() subscription: Subscription): Promise<Plan | undefined> {
     return this.plansService.findById(subscription.planId);
   }
 }

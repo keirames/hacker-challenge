@@ -17,7 +17,7 @@ export class UserExternalLoginsResolver {
   )
   getExternalAuthenticationProvider(
     @Parent() userExternalLogin: UserExternalLogin,
-  ): Promise<ExternalAuthenticationProvider> {
+  ): Promise<ExternalAuthenticationProvider | undefined> {
     return this.externalAuthenticationProvidersService.findById(
       userExternalLogin.externalAuthenticationProviderId,
     );

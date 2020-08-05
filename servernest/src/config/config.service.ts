@@ -10,7 +10,8 @@ class ConfigService {
       throw new Error(`Config error - missing env.${key}`);
     }
 
-    return value;
+    // env doesnt set, it automatically treat as DEV
+    return value ? value : 'DEV';
   }
 
   public ensureValues(keys: string[]) {

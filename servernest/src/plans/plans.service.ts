@@ -9,7 +9,7 @@ export class PlansService {
     @InjectRepository(Plan) private readonly plansRepository: Repository<Plan>,
   ) {}
 
-  findById(planId: number): Promise<Plan> {
+  findById(planId: number): Promise<Plan | undefined> {
     return this.plansRepository.findOne({ id: planId });
   }
 }

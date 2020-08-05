@@ -15,7 +15,7 @@ export class UsersService {
     return this.usersRepository.find({});
   }
 
-  findById(id: number): Promise<User> {
+  findById(id: number): Promise<User | undefined> {
     return this.usersRepository.findOne({ id });
   }
 
@@ -67,11 +67,11 @@ export class UsersService {
   }
 
   async findLikedChallengesByUserId(userId: number): Promise<Challenge[]> {
-    const { likedChallenges } = await this.usersRepository.findOne({
+    const user = await this.usersRepository.findOne({
       where: { id: userId },
       relations: ['likedChallenges'],
     });
 
-    return likedChallenges;
+    return user ? user.likedChallenges : [];
   }
 }

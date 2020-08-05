@@ -36,12 +36,14 @@ export class SubmissionsResolver {
   }
 
   @ResolveField('user', () => UserDto)
-  getUser(@Parent() submission: Submission): Promise<User> {
+  getUser(@Parent() submission: Submission): Promise<User | undefined> {
     return this.usersService.findById(submission.userId);
   }
 
   @ResolveField('challenge', () => ChallengeDto)
-  getChallenge(@Parent() submission: Submission): Promise<Challenge> {
+  getChallenge(
+    @Parent() submission: Submission,
+  ): Promise<Challenge | undefined> {
     return this.challengesService.findById(submission.challengeId);
   }
 }

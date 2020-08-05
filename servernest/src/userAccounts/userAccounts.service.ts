@@ -10,7 +10,7 @@ export class UserAccountsService {
     private readonly userAccountsRepository: Repository<UserAccount>,
   ) {}
 
-  findById(id: number): Promise<UserAccount> {
+  findById(id: number): Promise<UserAccount | undefined> {
     return this.userAccountsRepository.findOne({ id });
   }
 }
