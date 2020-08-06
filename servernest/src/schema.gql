@@ -48,12 +48,18 @@ type ChallengeDto {
   inputFormat: String!
   outputFormat: String!
   challengeSeed: String!
-  level: String!
+  level: Level!
   points: Int!
   testCases: [TestCaseDto!]!
   contest: ContestDto!
   passedUsers: [UserDto!]!
   likedUsers: [UserDto!]!
+}
+
+enum Level {
+  EASY
+  MEDIUM
+  HARD
 }
 
 type SolvedChallengeDto {
@@ -101,4 +107,25 @@ type Query {
   getContests: [ContestDto!]!
   getContest(slug: String!): ContestDto
   getSubmissions(challengeId: Int!, userId: Int!): [SubmissionDto!]!
+}
+
+type Mutation {
+  addChallenge(challenge: AddChallengeInput!): ChallengeDto!
+}
+
+input AddChallengeInput {
+  title: String!
+  problem: String!
+  inputFormat: String!
+  outputFormat: String!
+  challengeSeed: String!
+  level: Level!
+  points: Int!
+  contestId: Int!
+  testCases: [TestCaseInput!]!
+}
+
+input TestCaseInput {
+  text: String!
+  testString: String!
 }

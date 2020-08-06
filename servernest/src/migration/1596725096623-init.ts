@@ -1,12 +1,12 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class init1596550580175 implements MigrationInterface {
-    name = 'init1596550580175'
+export class init1596725096623 implements MigrationInterface {
+    name = 'init1596725096623'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "user_accounts" ("id" SERIAL NOT NULL, "email" character varying(255) NOT NULL, "password" character varying(255) NOT NULL, "first_name" character varying(25) NOT NULL, "last_name" character varying(25) NOT NULL, "registration_time" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "email_confirmation_token" character varying(255), "password_reminder_token" character varying(255), "password_reminder_exprie" TIMESTAMP WITH TIME ZONE, CONSTRAINT "UQ_df3802ec9c31dd9491e3589378d" UNIQUE ("email"), CONSTRAINT "PK_125e915cf23ad1cfb43815ce59b" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "external_authentication_providers" ("id" SERIAL NOT NULL, "name" character varying(25) NOT NULL, CONSTRAINT "PK_aab91c47a1fa8ae993257ffcf1f" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "user_external_logins" ("id" SERIAL NOT NULL, "external_user_id" integer NOT NULL, "email" character varying(255) NOT NULL, "first_name" character varying(25) NOT NULL, "last_name" character varying(25) NOT NULL, "user_id" integer NOT NULL, "external_authentication_provider_id" integer NOT NULL, CONSTRAINT "PK_5a170bc60062657e5e9842b4a73" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "user_external_logins" ("id" SERIAL NOT NULL, "external_user_id" integer NOT NULL, "email" character varying(255), "first_name" character varying(25), "last_name" character varying(25), "user_id" integer NOT NULL, "external_authentication_provider_id" integer NOT NULL, CONSTRAINT "PK_5a170bc60062657e5e9842b4a73" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "solved_challenges" ("created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "user_id" integer NOT NULL, "challenge_id" integer NOT NULL, CONSTRAINT "PK_cd39bb741c77f57de5f1727f652" PRIMARY KEY ("user_id", "challenge_id"))`);
         await queryRunner.query(`CREATE TABLE "submissions" ("id" SERIAL NOT NULL, "answer" text NOT NULL, "is_passed" boolean NOT NULL DEFAULT false, "created_at" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP, "user_id" integer NOT NULL, "challenge_id" integer NOT NULL, CONSTRAINT "PK_10b3be95b8b2fb1e482e07d706b" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "plans" ("id" SERIAL NOT NULL, "name" character varying(25) NOT NULL, "price_per_month" integer NOT NULL, CONSTRAINT "CHK_bf1f4e6b5650abf3533cbcea52" CHECK (price_per_month >= 0), CONSTRAINT "PK_3720521a81c7c24fe9b7202ba61" PRIMARY KEY ("id"))`);

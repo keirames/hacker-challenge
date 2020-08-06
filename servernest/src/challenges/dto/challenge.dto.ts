@@ -1,10 +1,13 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field, Int, registerEnumType } from '@nestjs/graphql';
 import { ContestDto } from '../../contests/dto/contest.dto';
 import { Contest } from '../../contests/contest.entity';
 import { TestCase } from '../../testCases/testCase.entity';
 import { TestCaseDto } from '../../testCases/dto/testCase.dto';
 import { UserDto } from '../../users/dto/user.dto';
 import { User } from '../../users/user.entity';
+import { Level } from '../challenge.entity';
+
+registerEnumType(Level, { name: 'Level' });
 
 @ObjectType()
 export class ChallengeDto {
@@ -29,8 +32,8 @@ export class ChallengeDto {
   @Field(() => String)
   challengeSeed: string;
 
-  @Field(() => String)
-  level: string;
+  @Field(() => Level)
+  level: Level;
 
   @Field(() => Int)
   points: number;

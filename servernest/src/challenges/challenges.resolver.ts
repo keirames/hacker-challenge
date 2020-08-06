@@ -1,4 +1,11 @@
-import { Resolver, Query, Args, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Args,
+  ResolveField,
+  Parent,
+  Mutation,
+} from '@nestjs/graphql';
 import { ChallengesService } from './challenges.service';
 import { Challenge } from './challenge.entity';
 import { ChallengeDto } from './dto/challenge.dto';
@@ -8,6 +15,8 @@ import { Contest } from '../contests/contest.entity';
 import { UserDto } from '../users/dto/user.dto';
 import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
+import { AddChallengeInput } from './input/addChallengeInput.input';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Resolver(() => ChallengeDto)
 export class ChallengesResolver {
@@ -19,7 +28,8 @@ export class ChallengesResolver {
 
   @Query(() => [ChallengeDto])
   getChallenges(): Promise<Challenge[]> {
-    return this.challengesService.findAll();
+    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    // return this.challengesService.findAll();
   }
 
   @Query(() => ChallengeDto, { nullable: true })
@@ -42,5 +52,12 @@ export class ChallengesResolver {
   @ResolveField('likedUsers', () => [UserDto])
   getLikedUsers(@Parent() challenge: Challenge): Promise<User[]> {
     return this.usersService.findLikedUsersByChallengeId(challenge.id);
+  }
+
+  @Mutation(() => ChallengeDto)
+  addChallenge(
+    @Args('challenge') challenge: AddChallengeInput,
+  ): Promise<Challenge> {
+    return this.challengesService.addChallenge(challenge);
   }
 }
