@@ -14,4 +14,8 @@ export class ExternalAuthenticationProvider {
     userExternalLogin => userExternalLogin.externalAuthenticationProvider,
   )
   userExternalLogins: UserExternalLogin[];
+
+  constructor(params: { name: string }) {
+    if (params !== undefined) this.name = params.name;
+  }
 }

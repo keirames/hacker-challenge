@@ -38,4 +38,18 @@ export class Subscription {
 
   @Column({ name: 'end_time', type: 'timestamp with time zone' })
   endTime: Date;
+
+  constructor(params: {
+    plan: Plan;
+    user: User;
+    startTime: Date;
+    endTime: Date;
+  }) {
+    if (params !== undefined) {
+      this.user = params.user;
+      this.plan = params.plan;
+      this.startTime = params.startTime;
+      this.endTime = params.endTime;
+    }
+  }
 }

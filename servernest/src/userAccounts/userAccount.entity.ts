@@ -22,7 +22,7 @@ export class UserAccount {
     type: 'timestamp with time zone',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  registrationTime: Date;
+  registrationTime?: Date;
 
   @Column({ name: 'email_confirmation_token', length: 255, nullable: true })
   emailConfirmationToken: string;
@@ -36,4 +36,20 @@ export class UserAccount {
     nullable: true,
   })
   passwordReminderExpire: Date;
+
+  constructor(params: {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    registrationTime?: Date;
+  }) {
+    if (params !== undefined) {
+      this.email = params.email;
+      this.password = params.password;
+      this.firstName = params.firstName;
+      this.lastName = params.lastName;
+      this.registrationTime = params.registrationTime;
+    }
+  }
 }

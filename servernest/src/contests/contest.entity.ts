@@ -34,4 +34,8 @@ export class Contest {
     challenge => challenge.contest,
   )
   challenges: Challenge[];
+
+  constructor(params?: { name: string }) {
+    if (params !== undefined) this.name = params.name;
+  }
 }

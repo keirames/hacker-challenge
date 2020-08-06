@@ -45,4 +45,18 @@ export class Submission {
   )
   @JoinColumn({ name: 'user_id' })
   user: User;
+
+  constructor(params: {
+    answer: string;
+    isPassed: boolean;
+    challenge: Challenge;
+    user: User;
+  }) {
+    if (params !== undefined) {
+      this.answer = params.answer;
+      this.isPassed = params.isPassed;
+      this.challenge = params.challenge;
+      this.user = params.user;
+    }
+  }
 }

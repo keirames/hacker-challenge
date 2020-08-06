@@ -28,7 +28,7 @@ export class User {
 
   @OneToOne(() => UserAccount, { nullable: true })
   @JoinColumn({ name: 'user_account_id' })
-  userAccount: UserAccount;
+  userAccount?: UserAccount;
 
   @OneToMany(
     () => UserExternalLogin,
@@ -64,4 +64,11 @@ export class User {
     solvedChallenge => solvedChallenge.user,
   )
   solvedChallenges: SolvedChallenge[];
+
+  constructor(params: { totalPoints: number; userAccounts?: UserAccount }) {
+    if (params !== undefined) {
+      this.totalPoints = params.totalPoints;
+      this.userAccount = params.userAccounts;
+    }
+  }
 }

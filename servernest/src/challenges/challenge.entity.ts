@@ -48,7 +48,7 @@ export class Challenge {
 
   @Column({ default: 0 })
   @Check('points >= 0')
-  points: number;
+  points?: number;
 
   @Column({ name: 'contest_id' })
   contestId: number;
@@ -102,4 +102,30 @@ export class Challenge {
     { eager: true },
   )
   testCases: TestCase[];
+
+  constructor(params?: {
+    title: string;
+    slug: string;
+    problem: string;
+    inputFormat: string;
+    outputFormat: string;
+    challengeSeed: string;
+    level: Level;
+    points?: number;
+    contest: Contest;
+    testCases: TestCase[];
+  }) {
+    if (params !== undefined) {
+      this.title = params.title;
+      this.slug = params.slug;
+      this.problem = params.problem;
+      this.inputFormat = params.inputFormat;
+      this.outputFormat = params.outputFormat;
+      this.challengeSeed = params.challengeSeed;
+      this.level = params.level;
+      this.points = params.points;
+      this.contest = params.contest;
+      this.testCases = params.testCases;
+    }
+  }
 }
