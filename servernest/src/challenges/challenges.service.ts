@@ -26,34 +26,32 @@ export class ChallengesService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  findAll(options: Options = { isDeleted: false }): Promise<Challenge[]> {
+  findAll(options: Options = {}): Promise<Challenge[]> {
+    console.log({ ...options });
     return this.challengesRepository.find({ ...options });
   }
 
-  findById(
-    id: number,
-    options: Options = { isDeleted: false },
-  ): Promise<Challenge | undefined> {
+  findById(id: number, options: Options = {}): Promise<Challenge | undefined> {
     return this.challengesRepository.findOne({ id, ...options });
   }
 
   findBySlug(
     slug: string,
-    options: Options = { isDeleted: false },
+    options: Options = {},
   ): Promise<Challenge | undefined> {
     return this.challengesRepository.findOne({ slug, ...options });
   }
 
   findByTitle(
     title: string,
-    options: Options = { isDeleted: false },
+    options: Options = {},
   ): Promise<Challenge | undefined> {
     return this.challengesRepository.findOne({ title, ...options });
   }
 
   findByContestId(
     contestId: number,
-    options: Options = { isDeleted: false },
+    options: Options = {},
   ): Promise<Challenge[]> {
     return this.challengesRepository.find({ contestId, ...options });
   }
