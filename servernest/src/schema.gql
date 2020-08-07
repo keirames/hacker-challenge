@@ -111,6 +111,7 @@ type Query {
 
 type Mutation {
   addChallenge(challenge: AddChallengeInput!): ChallengeDto!
+  editChallenge(challenge: EditChallengeInput!): ChallengeDto!
 }
 
 input AddChallengeInput {
@@ -128,4 +129,17 @@ input AddChallengeInput {
 input TestCaseInput {
   text: String!
   testString: String!
+}
+
+input EditChallengeInput {
+  id: Int!
+  title: String!
+  problem: String!
+  inputFormat: String!
+  outputFormat: String!
+  challengeSeed: String!
+  level: Level!
+  points: Int!
+  contestId: Int!
+  testCases: [TestCaseInput!]!
 }

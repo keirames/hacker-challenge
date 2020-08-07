@@ -16,6 +16,7 @@ import { UserDto } from '../users/dto/user.dto';
 import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 import { AddChallengeInput } from './input/addChallengeInput.input';
+import { EditChallengeInput } from './input/editChallengeInput.input';
 
 @Resolver(() => ChallengeDto)
 export class ChallengesResolver {
@@ -57,5 +58,12 @@ export class ChallengesResolver {
     @Args('challenge') challenge: AddChallengeInput,
   ): Promise<Challenge> {
     return this.challengesService.addChallenge(challenge);
+  }
+
+  @Mutation(() => ChallengeDto)
+  editChallenge(
+    @Args('challenge') challenge: EditChallengeInput,
+  ): Promise<Challenge> {
+    return this.challengesService.editChallenge(challenge);
   }
 }

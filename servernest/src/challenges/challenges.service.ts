@@ -97,7 +97,66 @@ export class ChallengesService {
     return this.challengesRepository.save(challenge);
   }
 
-  // async editChallenge(challengeInput: EditChallengeInput): Promise<Challenge> {
-  //   const { id } = challengeInput;
-  // }
+  async editChallenge(challengeInput: EditChallengeInput): Promise<Challenge> {
+    const {
+      id,
+      title,
+      problem,
+      inputFormat,
+      outputFormat,
+      level,
+      points,
+      challengeSeed,
+      testCases,
+      contestId,
+    } = challengeInput;
+
+    let challenge = await this.findById(id);
+    if (!challenge)
+      throw new HttpException(`Invalid challenge's id`, HttpStatus.NOT_FOUND);
+
+    // andWhere incase it query it's own
+    // It own title will be replace anyway
+    challenge = await this.challengesRepository
+      .createQueryBuilder('challenge')
+      .where('challenge.title = :title', { title })
+      .andWhere('challenge.id != :id', { id })
+      .getOne();
+    if (challenge)
+      throw new HttpException('Title is already exist', HttpStatus.CONFLICT);
+
+    // andWhere incase it query it's own
+    // It own slug will be replace anyway
+    const slug = slugify(title, { replacement: '-', lower: true });
+    const checkSlug = await this.challengesRepository
+      .createQueryBuilder('challenge')
+      .where('challenge.slug = :slug', { slug })
+      .andWhere('challenge.id != :id', { id })
+      .getOne();
+    if (checkSlug)
+      throw new HttpException(
+        'Title creates an existed slug',
+        HttpStatus.CONFLICT,
+      );
+
+    const contest = await this.contestsRepository.findOne({ id: contestId });
+    if (!contest)
+      throw new HttpException(`Invalid contest'id`, HttpStatus.CONFLICT);
+
+    challenge = new Challenge({
+      title,
+      slug,
+      problem,
+      inputFormat,
+      outputFormat,
+      challengeSeed,
+      level,
+      points,
+      contest,
+      testCases,
+    });
+    challenge.id = id;
+    challenge.updatedAt = new Date();
+    return this.challengesRepository.save(challenge);
+  }
 }
