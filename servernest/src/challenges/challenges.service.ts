@@ -141,7 +141,7 @@ export class ChallengesService {
 
     const contest = await this.contestsRepository.findOne({ id: contestId });
     if (!contest)
-      throw new HttpException(`Invalid contest'id`, HttpStatus.CONFLICT);
+      throw new HttpException(`Invalid contest's id`, HttpStatus.CONFLICT);
 
     challenge = new Challenge({
       title,
