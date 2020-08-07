@@ -5,6 +5,11 @@ import { Repository } from 'typeorm';
 import { AddChallengeInput } from './input/addChallengeInput.input';
 import slugify from 'slugify';
 import { Contest } from '../contests/contest.entity';
+import { EditChallengeInput } from './input/editChallengeInput.input';
+
+interface Options {
+  isDeleted?: boolean;
+}
 
 @Injectable()
 export class ChallengesService {
@@ -16,20 +21,36 @@ export class ChallengesService {
     private readonly contestsRepository: Repository<Contest>,
   ) {}
 
-  findAll(): Promise<Challenge[]> {
-    return this.challengesRepository.find({ isDeleted: false });
+  findAll(options: Options = { isDeleted: false }): Promise<Challenge[]> {
+    return this.challengesRepository.find({ ...options });
   }
 
-  findById(id: number): Promise<Challenge | undefined> {
-    return this.challengesRepository.findOne({ id, isDeleted: false });
+  findById(
+    id: number,
+    options: Options = { isDeleted: false },
+  ): Promise<Challenge | undefined> {
+    return this.challengesRepository.findOne({ id, ...options });
   }
 
-  findBySlug(slug: string): Promise<Challenge | undefined> {
-    return this.challengesRepository.findOne({ slug, isDeleted: false });
+  findBySlug(
+    slug: string,
+    options: Options = { isDeleted: false },
+  ): Promise<Challenge | undefined> {
+    return this.challengesRepository.findOne({ slug, ...options });
   }
 
-  findByContestId(contestId: number): Promise<Challenge[]> {
-    return this.challengesRepository.find({ contestId, isDeleted: false });
+  findByTitle(
+    title: string,
+    options: Options = { isDeleted: false },
+  ): Promise<Challenge | undefined> {
+    return this.challengesRepository.findOne({ title, ...options });
+  }
+
+  findByContestId(
+    contestId: number,
+    options: Options = { isDeleted: false },
+  ): Promise<Challenge[]> {
+    return this.challengesRepository.find({ contestId, ...options });
   }
 
   async addChallenge(challengeInput: AddChallengeInput): Promise<Challenge> {
@@ -45,7 +66,7 @@ export class ChallengesService {
       contestId,
     } = challengeInput;
 
-    let challenge = await this.challengesRepository.findOne({ title });
+    let challenge = await this.findByTitle(title);
     if (challenge)
       throw new HttpException('Title is already taken', HttpStatus.CONFLICT);
 
@@ -75,4 +96,8 @@ export class ChallengesService {
     });
     return this.challengesRepository.save(challenge);
   }
+
+  // async editChallenge(challengeInput: EditChallengeInput): Promise<Challenge> {
+  //   const { id } = challengeInput;
+  // }
 }

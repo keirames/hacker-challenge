@@ -16,7 +16,6 @@ import { UserDto } from '../users/dto/user.dto';
 import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 import { AddChallengeInput } from './input/addChallengeInput.input';
-import { HttpException, HttpStatus } from '@nestjs/common';
 
 @Resolver(() => ChallengeDto)
 export class ChallengesResolver {
@@ -28,15 +27,14 @@ export class ChallengesResolver {
 
   @Query(() => [ChallengeDto])
   getChallenges(): Promise<Challenge[]> {
-    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
-    // return this.challengesService.findAll();
+    return this.challengesService.findAll({ isDeleted: false });
   }
 
   @Query(() => ChallengeDto, { nullable: true })
   async getChallenge(
     @Args('slug', { type: () => String }) slug: string,
   ): Promise<Challenge | undefined> {
-    return this.challengesService.findBySlug(slug);
+    return this.challengesService.findBySlug(slug, { isDeleted: false });
   }
 
   @ResolveField('contest', () => ContestDto)

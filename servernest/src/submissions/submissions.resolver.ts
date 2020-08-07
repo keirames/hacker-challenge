@@ -44,6 +44,8 @@ export class SubmissionsResolver {
   getChallenge(
     @Parent() submission: Submission,
   ): Promise<Challenge | undefined> {
-    return this.challengesService.findById(submission.challengeId);
+    return this.challengesService.findById(submission.challengeId, {
+      isDeleted: false,
+    });
   }
 }
