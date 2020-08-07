@@ -6,6 +6,8 @@ import { AddChallengeInput } from './input/addChallengeInput.input';
 import slugify from 'slugify';
 import { Contest } from '../contests/contest.entity';
 import { EditChallengeInput } from './input/editChallengeInput.input';
+import { MarkLikeChallengeInput } from './input/markLikeChallengeInput';
+import { User } from '../users/user.entity';
 
 interface Options {
   isDeleted?: boolean;
@@ -19,6 +21,9 @@ export class ChallengesService {
 
     @InjectRepository(Contest)
     private readonly contestsRepository: Repository<Contest>,
+
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
   ) {}
 
   findAll(options: Options = { isDeleted: false }): Promise<Challenge[]> {
@@ -158,5 +163,44 @@ export class ChallengesService {
     challenge.id = id;
     challenge.updatedAt = new Date();
     return this.challengesRepository.save(challenge);
+  }
+
+  async likeOrUnlikeChallenge(
+    markLikeInput: MarkLikeChallengeInput,
+  ): Promise<Challenge> {
+    const { challengeId, userId } = markLikeInput;
+
+    const user = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect(
+        'user.likedChallenges',
+        'likedChallenge',
+        'user.id = :userId',
+        { userId },
+      )
+      .where('likedChallenge.isDeleted = :isDeleted', { isDeleted: false })
+      .getOne();
+    if (!user)
+      throw new HttpException(`Invalid user's id`, HttpStatus.NOT_FOUND);
+
+    const challenge = await this.findById(challengeId, { isDeleted: false });
+    if (!challenge)
+      throw new HttpException(`Invalid challenge's id`, HttpStatus.NOT_FOUND);
+
+    const index = user.likedChallenges.findIndex(c => c.id === challengeId);
+    // Mark like
+    if (index === -1) {
+      user.likedChallenges.push(challenge);
+      await this.usersRepository.save(user);
+      return challenge;
+    }
+
+    // Unlike
+    const modifiedLikedChallenges = user.likedChallenges.filter(
+      c => c.id !== challengeId,
+    );
+    user.likedChallenges = [...modifiedLikedChallenges];
+    await this.usersRepository.save(user);
+    return challenge;
   }
 }

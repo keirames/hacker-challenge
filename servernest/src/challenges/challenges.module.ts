@@ -7,10 +7,11 @@ import { ChallengesResolver } from './challenges.resolver';
 import { ContestsModule } from '../contests/contests.module';
 import { UsersModule } from '../users/users.module';
 import { Contest } from '../contests/contest.entity';
+import { User } from '../users/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Challenge, Contest]),
+    TypeOrmModule.forFeature([Challenge, Contest, User]),
     forwardRef(() => ContestsModule),
     forwardRef(() => UsersModule),
   ],

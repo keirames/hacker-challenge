@@ -17,6 +17,7 @@ import { User } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 import { AddChallengeInput } from './input/addChallengeInput.input';
 import { EditChallengeInput } from './input/editChallengeInput.input';
+import { MarkLikeChallengeInput } from './input/markLikeChallengeInput';
 
 @Resolver(() => ChallengeDto)
 export class ChallengesResolver {
@@ -65,5 +66,12 @@ export class ChallengesResolver {
     @Args('challenge') challenge: EditChallengeInput,
   ): Promise<Challenge> {
     return this.challengesService.editChallenge(challenge);
+  }
+
+  @Mutation(() => ChallengeDto)
+  likeOrUnlikeChallenge(
+    @Args('markLikeInput') markLikeInput: MarkLikeChallengeInput,
+  ): Promise<Challenge> {
+    return this.challengesService.likeOrUnlikeChallenge(markLikeInput);
   }
 }

@@ -112,6 +112,7 @@ type Query {
 type Mutation {
   addChallenge(challenge: AddChallengeInput!): ChallengeDto!
   editChallenge(challenge: EditChallengeInput!): ChallengeDto!
+  likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!
 }
 
 input AddChallengeInput {
@@ -142,4 +143,9 @@ input EditChallengeInput {
   points: Int!
   contestId: Int!
   testCases: [TestCaseInput!]!
+}
+
+input MarkLikeChallengeInput {
+  userId: Int!
+  challengeId: Int!
 }
