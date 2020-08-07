@@ -3,6 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Contest } from './contest.entity';
 import { Repository } from 'typeorm';
 
+interface Options {
+  isDeleted?: boolean;
+}
+
 @Injectable()
 export class ContestsService {
   constructor(
@@ -10,15 +14,18 @@ export class ContestsService {
     private readonly contestsService: Repository<Contest>,
   ) {}
 
-  findAll(): Promise<Contest[]> {
-    return this.contestsService.find({ isDeleted: false });
+  findAll(options: Options = {}): Promise<Contest[]> {
+    return this.contestsService.find({ ...options });
   }
 
-  findBySlug(slug: string): Promise<Contest | undefined> {
-    return this.contestsService.findOne({ slug, isDeleted: false });
+  findBySlug(
+    slug: string,
+    options: Options = {},
+  ): Promise<Contest | undefined> {
+    return this.contestsService.findOne({ slug, ...options });
   }
 
-  findById(id: number): Promise<Contest | undefined> {
-    return this.contestsService.findOne({ id, isDeleted: false });
+  findById(id: number, options: Options = {}): Promise<Contest | undefined> {
+    return this.contestsService.findOne({ id, ...options });
   }
 }

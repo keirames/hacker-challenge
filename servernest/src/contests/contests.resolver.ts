@@ -15,18 +15,20 @@ export class ContestsResolver {
 
   @Query(() => [ContestDto])
   getContests(): Promise<Contest[]> {
-    return this.contestsService.findAll();
+    return this.contestsService.findAll({ isDeleted: false });
   }
 
   @Query(() => ContestDto, { nullable: true })
   getContest(
     @Args('slug', { type: () => String }) slug: string,
   ): Promise<Contest | undefined> {
-    return this.contestsService.findBySlug(slug);
+    return this.contestsService.findBySlug(slug, { isDeleted: false });
   }
 
   @ResolveField('challenges', () => [ChallengeDto])
   async getChallenges(@Parent() contest: Contest): Promise<Challenge[]> {
-    return this.challengesService.findByContestId(contest.id);
+    return this.challengesService.findByContestId(contest.id, {
+      isDeleted: false,
+    });
   }
 }

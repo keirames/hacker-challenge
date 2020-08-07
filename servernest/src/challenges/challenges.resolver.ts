@@ -41,7 +41,9 @@ export class ChallengesResolver {
 
   @ResolveField('contest', () => ContestDto)
   getContest(@Parent() challenge: Challenge): Promise<Contest | undefined> {
-    return this.contestsService.findById(challenge.contestId);
+    return this.contestsService.findById(challenge.contestId, {
+      isDeleted: false,
+    });
   }
 
   @ResolveField('passedUsers', () => [UserDto])
