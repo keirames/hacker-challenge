@@ -58,16 +58,16 @@ export class ChallengesResolver {
 
   @Mutation(() => ChallengeDto)
   addChallenge(
-    @Args('challenge') challenge: AddChallengeInput,
+    @Args('challenge') challengeInput: AddChallengeInput,
   ): Promise<Challenge> {
-    return this.challengesService.addChallenge(challenge);
+    return this.challengesService.addChallenge(challengeInput);
   }
 
   @Mutation(() => ChallengeDto)
   editChallenge(
-    @Args('challenge') challenge: EditChallengeInput,
+    @Args('challenge') challengeInput: EditChallengeInput,
   ): Promise<Challenge> {
-    return this.challengesService.editChallenge(challenge);
+    return this.challengesService.editChallenge(challengeInput);
   }
 
   @Mutation(() => ChallengeDto)
