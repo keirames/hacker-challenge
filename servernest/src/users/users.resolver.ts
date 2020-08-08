@@ -5,6 +5,7 @@ import {
   Int,
   ResolveField,
   Parent,
+  Mutation,
 } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
@@ -23,6 +24,7 @@ import { ChallengeDto } from '../challenges/dto/challenge.dto';
 import { SubscriptionDto } from '../subscriptions/dto/subscription.dto';
 import { Subscription } from '../subscriptions/subscription.entity';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
+import { SignInInput } from './input/signInInput.input';
 
 @Resolver(() => UserDto)
 export class UsersResolver {
@@ -68,5 +70,10 @@ export class UsersResolver {
   @ResolveField('subscriptionPlans', () => [SubscriptionDto])
   getUserSubscriptionPlans(@Parent() user: User): Promise<Subscription[]> {
     return this.subscriptionsService.findByUserId(user.id);
+  }
+
+  @Mutation(() => String)
+  async signIn(@Args('account') account: SignInInput): Promise<string> {
+    return this.usersService.signIn(account);
   }
 }

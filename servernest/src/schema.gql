@@ -110,11 +110,17 @@ type Query {
 }
 
 type Mutation {
+  signIn(account: SignInInput!): String!
   addChallenge(challenge: AddChallengeInput!): ChallengeDto!
   editChallenge(challenge: EditChallengeInput!): ChallengeDto!
   likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!
   addContest(contest: AddContestInput!): ContestDto!
   editContest(contest: EditContestInput!): ContestDto!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
 }
 
 input AddChallengeInput {

@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { SolvedChallenge } from '../solvedChallenges/solvedChallenge.entity';
 import { Challenge } from '../challenges/challenge.entity';
+import { SignInInput } from './input/signInInput.input';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -73,5 +75,38 @@ export class UsersService {
     });
 
     return user ? user.likedChallenges : [];
+  }
+
+  async findUserAccountByEmail(email: string): Promise<User | undefined> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.userAccount', 'account')
+      .where('account.email = :email', { email })
+      .getOne();
+  }
+
+  async signIn(account: SignInInput): Promise<string> {
+    const { email, password } = account;
+
+    const user = await this.findUserAccountByEmail(email);
+    console.log(user);
+    if (!user || !user.userAccount)
+      throw new HttpException(
+        'Invalid email or password',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const isValidPassword = await bcrypt.compare(
+      password,
+      user.userAccount.password,
+    );
+    if (!isValidPassword)
+      throw new HttpException(
+        'Invalid email or password',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const token = user.generateAuthToken();
+    return token;
   }
 }
