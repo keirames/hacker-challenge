@@ -14,6 +14,7 @@ import { Challenge } from '../challenges/challenge.entity';
 import { SolvedChallenge } from '../solvedChallenges/solvedChallenge.entity';
 import { Submission } from '../submissions/submission.entity';
 import { Subscription } from '../subscriptions/subscription.entity';
+import jwt from 'jsonwebtoken';
 
 @Entity('users')
 export class User {
@@ -70,5 +71,10 @@ export class User {
       this.totalPoints = params.totalPoints;
       this.userAccount = params.userAccounts;
     }
+  }
+
+  public generateAuthToken(): string {
+    const token = jwt.sign({ id: this.id }, 'secret');
+    return token;
   }
 }

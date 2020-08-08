@@ -8,7 +8,7 @@ export class UserAccount {
   @Column({ length: 255, unique: true })
   email: string;
 
-  @Column({ length: 255, select: false })
+  @Column({ length: 255 })
   password: string;
 
   @Column({ name: 'first_name', length: 25 })
