@@ -66,10 +66,10 @@ export class User {
   )
   solvedChallenges: SolvedChallenge[];
 
-  constructor(params: { totalPoints: number; userAccounts?: UserAccount }) {
+  constructor(params: { totalPoints: number; userAccount?: UserAccount }) {
     if (params !== undefined) {
       this.totalPoints = params.totalPoints;
-      this.userAccount = params.userAccounts;
+      this.userAccount = params.userAccount;
     }
   }
 
