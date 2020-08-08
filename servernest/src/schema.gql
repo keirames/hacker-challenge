@@ -114,6 +114,7 @@ type Mutation {
   editChallenge(challenge: EditChallengeInput!): ChallengeDto!
   likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!
   addContest(contest: AddContestInput!): ContestDto!
+  editContest(contest: EditContestInput!): ContestDto!
 }
 
 input AddChallengeInput {
@@ -152,5 +153,10 @@ input MarkLikeChallengeInput {
 }
 
 input AddContestInput {
+  name: String!
+}
+
+input EditContestInput {
+  id: Int!
   name: String!
 }

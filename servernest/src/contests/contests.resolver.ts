@@ -13,6 +13,7 @@ import { ChallengeDto } from '../challenges/dto/challenge.dto';
 import { ChallengesService } from '../challenges/challenges.service';
 import { Challenge } from '../challenges/challenge.entity';
 import { AddContestInput } from './input/addContestInput.input';
+import { EditContestInput } from './input/editContestInput.input';
 
 @Resolver(() => ContestDto)
 export class ContestsResolver {
@@ -42,8 +43,15 @@ export class ContestsResolver {
 
   @Mutation(() => ContestDto)
   async addContest(
-    @Args('contest') contest: AddContestInput,
+    @Args('contest') contestInput: AddContestInput,
   ): Promise<Contest> {
-    return this.contestsService.addContest(contest);
+    return this.contestsService.addContest(contestInput);
+  }
+
+  @Mutation(() => ContestDto)
+  async editContest(
+    @Args('contest') contestInput: EditContestInput,
+  ): Promise<Contest> {
+    return this.contestsService.editContest(contestInput);
   }
 }

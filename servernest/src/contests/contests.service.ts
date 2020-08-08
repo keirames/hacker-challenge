@@ -6,6 +6,7 @@ import { AddContestInput } from './input/addContestInput.input';
 import { Challenge } from '../challenges/challenge.entity';
 import { ChallengesService } from '../challenges/challenges.service';
 import slugify from 'slugify';
+import { EditContestInput } from './input/editContestInput.input';
 
 interface Options {
   isDeleted?: boolean;
@@ -61,6 +62,36 @@ export class ContestsService {
       );
 
     contest = new Contest({ name, slug });
+    return this.contestsRepository.save(contest);
+  }
+
+  async editContest(contestInput: EditContestInput): Promise<Contest> {
+    const { id, name } = contestInput;
+
+    let contest = await this.contestsRepository
+      .createQueryBuilder('contest')
+      .where('contest.name = :name', { name })
+      .andWhere('contest.id != :id', { id })
+      .getOne();
+    console.log(contest);
+    if (contest)
+      throw new HttpException('Name is already taken', HttpStatus.CONFLICT);
+
+    const slug = slugify(name, { replacement: '-', lower: true });
+    const checkSlug = await this.contestsRepository
+      .createQueryBuilder('contest')
+      .where('contest.name = :slug', { slug })
+      .andWhere('contest.id != :id', { id })
+      .getOne();
+    if (checkSlug)
+      throw new HttpException(
+        'Name creates an existed slug',
+        HttpStatus.CONFLICT,
+      );
+
+    contest = new Contest({ name, slug });
+    contest.id = id;
+    contest.updatedAt = new Date();
     return this.contestsRepository.save(contest);
   }
 }
