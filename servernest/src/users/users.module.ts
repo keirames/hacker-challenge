@@ -13,10 +13,10 @@ import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
     TypeOrmModule.forFeature([User]),
     UserAccountsModule,
     UserExternalLoginsModule,
-    SubscriptionsModule
+    SubscriptionsModule,
   ],
   controllers: [UsersController],
   providers: [UsersService, UsersResolver],
   exports: [UsersService],
 })
-export class UsersModule { }
+export class UsersModule {}

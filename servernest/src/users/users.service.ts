@@ -6,11 +6,16 @@ import { SolvedChallenge } from '../solvedChallenges/solvedChallenge.entity';
 import { Challenge } from '../challenges/challenge.entity';
 import { SignInInput } from './input/signInInput.input';
 import * as bcrypt from 'bcrypt';
+import { SignUpInput } from './input/signUpInput.input';
+import { UserAccount } from '../userAccounts/userAccount.entity';
+import { UserAccountsService } from '../userAccounts/userAccounts.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
+
+    private readonly userAccountsService: UserAccountsService,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -105,6 +110,29 @@ export class UsersService {
         'Invalid email or password',
         HttpStatus.BAD_REQUEST,
       );
+
+    const token = user.generateAuthToken();
+    return token;
+  }
+
+  async signUp(accountDetails: SignUpInput): Promise<string> {
+    const { email, firstName, lastName, password } = accountDetails;
+
+    let userAccount = await this.userAccountsService.findByEmail(email);
+    console.log(userAccount);
+    if (userAccount)
+      throw new HttpException('Email is already exist', HttpStatus.BAD_REQUEST);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    userAccount = new UserAccount({
+      email,
+      password: hashedPassword,
+      firstName,
+      lastName,
+    });
+
+    let user = new User({ totalPoints: 0, userAccount });
+    user = await this.usersRepository.save(user);
 
     const token = user.generateAuthToken();
     return token;

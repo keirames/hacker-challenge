@@ -13,4 +13,8 @@ export class UserAccountsService {
   findById(id: number): Promise<UserAccount | undefined> {
     return this.userAccountsRepository.findOne({ id });
   }
+
+  findByEmail(email: string): Promise<UserAccount | undefined> {
+    return this.userAccountsRepository.findOne({ email });
+  }
 }

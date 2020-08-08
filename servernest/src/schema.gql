@@ -111,6 +111,7 @@ type Query {
 
 type Mutation {
   signIn(account: SignInInput!): String!
+  signUp(accountDetails: SignUpInput!): String!
   addChallenge(challenge: AddChallengeInput!): ChallengeDto!
   editChallenge(challenge: EditChallengeInput!): ChallengeDto!
   likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!
@@ -121,6 +122,13 @@ type Mutation {
 input SignInInput {
   email: String!
   password: String!
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
 }
 
 input AddChallengeInput {

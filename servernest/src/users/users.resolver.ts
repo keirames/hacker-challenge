@@ -25,6 +25,7 @@ import { SubscriptionDto } from '../subscriptions/dto/subscription.dto';
 import { Subscription } from '../subscriptions/subscription.entity';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 import { SignInInput } from './input/signInInput.input';
+import { SignUpInput } from './input/signUpInput.input';
 
 @Resolver(() => UserDto)
 export class UsersResolver {
@@ -75,5 +76,12 @@ export class UsersResolver {
   @Mutation(() => String)
   async signIn(@Args('account') account: SignInInput): Promise<string> {
     return this.usersService.signIn(account);
+  }
+
+  @Mutation(() => String)
+  async signUp(
+    @Args('accountDetails') accountDetails: SignUpInput,
+  ): Promise<string> {
+    return this.usersService.signUp(accountDetails);
   }
 }
