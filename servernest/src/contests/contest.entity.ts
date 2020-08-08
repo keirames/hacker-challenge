@@ -35,7 +35,10 @@ export class Contest {
   )
   challenges: Challenge[];
 
-  constructor(params?: { name: string }) {
-    if (params !== undefined) this.name = params.name;
+  constructor(params?: { name: string; slug: string }) {
+    if (params !== undefined) {
+      this.name = params.name;
+      this.slug = params.slug;
+    }
   }
 }

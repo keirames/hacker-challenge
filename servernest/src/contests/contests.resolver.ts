@@ -1,10 +1,18 @@
-import { Resolver, Query, Args, ResolveField, Parent } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Args,
+  ResolveField,
+  Parent,
+  Mutation,
+} from '@nestjs/graphql';
 import { ContestsService } from './contests.service';
 import { ContestDto } from './dto/contest.dto';
 import { Contest } from './contest.entity';
 import { ChallengeDto } from '../challenges/dto/challenge.dto';
 import { ChallengesService } from '../challenges/challenges.service';
 import { Challenge } from '../challenges/challenge.entity';
+import { AddContestInput } from './input/addContestInput.input';
 
 @Resolver(() => ContestDto)
 export class ContestsResolver {
@@ -30,5 +38,12 @@ export class ContestsResolver {
     return this.challengesService.findByContestId(contest.id, {
       isDeleted: false,
     });
+  }
+
+  @Mutation(() => ContestDto)
+  async addContest(
+    @Args('contest') contest: AddContestInput,
+  ): Promise<Contest> {
+    return this.contestsService.addContest(contest);
   }
 }

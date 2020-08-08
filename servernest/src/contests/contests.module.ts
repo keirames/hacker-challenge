@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Contest } from './contest.entity';
 import { ChallengesModule } from '../challenges/challenges.module';
 import { ContestsResolver } from './contests.resolver';
+import { Challenge } from '../challenges/challenge.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Contest]),
+    TypeOrmModule.forFeature([Contest, Challenge]),
     forwardRef(() => ChallengesModule),
   ],
   controllers: [ContestsController],
