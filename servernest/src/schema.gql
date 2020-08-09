@@ -90,6 +90,16 @@ type UserDto {
   subscriptionPlans: [SubscriptionDto!]!
 }
 
+type AssertDto {
+  message: String!
+}
+
+type TestedResultDto {
+  passed: Boolean!
+  assert: AssertDto!
+  time: Int!
+}
+
 type SubmissionDto {
   id: Int!
   answer: String!
@@ -112,6 +122,7 @@ type Query {
 type Mutation {
   signIn(account: SignInInput!): String!
   signUp(accountDetails: SignUpInput!): String!
+  submitAnswer(submitAnswerInput: SubmitAnswerInput!): [TestedResultDto!]!
   addChallenge(challenge: AddChallengeInput!): ChallengeDto!
   editChallenge(challenge: EditChallengeInput!): ChallengeDto!
   likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!
@@ -129,6 +140,12 @@ input SignUpInput {
   password: String!
   firstName: String!
   lastName: String!
+}
+
+input SubmitAnswerInput {
+  userId: Int!
+  challengeId: Int!
+  answer: String!
 }
 
 input AddChallengeInput {

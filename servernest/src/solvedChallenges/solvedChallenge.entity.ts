@@ -26,4 +26,10 @@ export class SolvedChallenge {
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
+
+  constructor(params?: { challenge: Challenge }) {
+    if (params !== undefined) {
+      this.challenge = this.challenge;
+    }
+  }
 }

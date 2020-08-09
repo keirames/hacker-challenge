@@ -26,6 +26,9 @@ import { Subscription } from '../subscriptions/subscription.entity';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 import { SignInInput } from './input/signInInput.input';
 import { SignUpInput } from './input/signUpInput.input';
+import { SubmitAnswerInput } from './input/submitAnswerInput.input';
+import { TestedResult } from '../codeExecutor/codeExecutor';
+import { TestedResultDto } from './dto/testedResult.dto';
 
 @Resolver(() => UserDto)
 export class UsersResolver {
@@ -83,5 +86,13 @@ export class UsersResolver {
     @Args('accountDetails') accountDetails: SignUpInput,
   ): Promise<string> {
     return this.usersService.signUp(accountDetails);
+  }
+
+  //! Auth
+  @Mutation(() => [TestedResultDto])
+  async submitAnswer(
+    @Args('submitAnswerInput') submitAnswerInput: SubmitAnswerInput,
+  ): Promise<TestedResult[] | Error> {
+    return this.usersService.submitAnswer(submitAnswerInput);
   }
 }

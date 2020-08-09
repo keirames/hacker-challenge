@@ -7,10 +7,12 @@ import { UsersResolver } from './users.resolver';
 import { UserAccountsModule } from '../userAccounts/userAccounts.module';
 import { UserExternalLoginsModule } from '../userExternalLogins/userExternalLogins.module';
 import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
+import { ChallengesModule } from '../challenges/challenges.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
+    ChallengesModule,
     UserAccountsModule,
     UserExternalLoginsModule,
     SubscriptionsModule,
