@@ -2,6 +2,8 @@ import { Field, Int, InputType } from '@nestjs/graphql';
 import { TestCase } from '../../testCases/testCase.entity';
 import { Level } from '../challenge.entity';
 import { TestCaseInput } from '../../testCases/input/testCaseInput.input';
+import { TestInput } from '../../testInputs/testInput.entity';
+import { TestInputInput } from '../../testInputs/input/testInput.input';
 
 @InputType()
 export class EditChallengeInput {
@@ -34,4 +36,7 @@ export class EditChallengeInput {
 
   @Field(() => [TestCaseInput])
   testCases: TestCase[];
+
+  @Field(() => [TestInputInput])
+  testInputs: TestInput[];
 }

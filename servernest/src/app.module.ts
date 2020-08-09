@@ -15,6 +15,8 @@ import { TestCasesModule } from './testCases/testCases.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
+import { TestInputsService } from './testInputs/testInputs.service';
+import { TestInputsModule } from './testInputs/testInputs.module';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
         ChallengesModule,
         ContestsModule,
         TestCasesModule,
+        TestInputsModule,
         UsersModule,
         UserAccountsModule,
         UserExternalLoginsModule,
@@ -43,8 +46,9 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
     ContestsModule,
     SubmissionsModule,
     TestCasesModule,
+    TestInputsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, TestInputsService],
 })
 export class AppModule {}

@@ -40,6 +40,10 @@ type TestCaseDto {
   testString: String!
 }
 
+type TestInputDto {
+  input: String!
+}
+
 type ChallengeDto {
   id: Int!
   title: String!
@@ -48,6 +52,7 @@ type ChallengeDto {
   inputFormat: String!
   outputFormat: String!
   challengeSeed: String!
+  testInputs: [TestInputDto!]!
   level: Level!
   points: Int!
   testCases: [TestCaseDto!]!
@@ -158,11 +163,16 @@ input AddChallengeInput {
   points: Int!
   contestId: Int!
   testCases: [TestCaseInput!]!
+  testInputs: [TestInputInput!]!
 }
 
 input TestCaseInput {
   text: String!
   testString: String!
+}
+
+input TestInputInput {
+  input: String!
 }
 
 input EditChallengeInput {
@@ -176,6 +186,7 @@ input EditChallengeInput {
   points: Int!
   contestId: Int!
   testCases: [TestCaseInput!]!
+  testInputs: [TestInputInput!]!
 }
 
 input MarkLikeChallengeInput {

@@ -6,6 +6,8 @@ import { TestCaseDto } from '../../testCases/dto/testCase.dto';
 import { UserDto } from '../../users/dto/user.dto';
 import { User } from '../../users/user.entity';
 import { Level } from '../challenge.entity';
+import { TestInputDto } from '../../testInputs/dto/testInput.dto';
+import { TestInput } from '../../testInputs/testInput.entity';
 
 registerEnumType(Level, { name: 'Level' });
 
@@ -31,6 +33,9 @@ export class ChallengeDto {
 
   @Field(() => String)
   challengeSeed: string;
+
+  @Field(() => [TestInputDto])
+  testInputs: TestInput[];
 
   @Field(() => Level)
   level: Level;

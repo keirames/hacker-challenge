@@ -13,6 +13,7 @@ import { Contest } from '../contests/contest.entity';
 import { Submission } from '../submissions/submission.entity';
 import { TestCase } from '../testCases/testCase.entity';
 import { SolvedChallenge } from '../solvedChallenges/solvedChallenge.entity';
+import { TestInput } from '../testInputs/testInput.entity';
 
 export enum Level {
   EASY = 'easy',
@@ -103,6 +104,13 @@ export class Challenge {
   )
   testCases: TestCase[];
 
+  @OneToMany(
+    () => TestInput,
+    testInput => testInput.challenge,
+    { eager: true, cascade: true },
+  )
+  testInputs: TestInput[];
+
   constructor(params?: {
     title: string;
     slug: string;
@@ -114,6 +122,7 @@ export class Challenge {
     points?: number;
     contest: Contest;
     testCases: TestCase[];
+    testInputs: TestInput[];
   }) {
     if (params !== undefined) {
       this.title = params.title;
@@ -126,6 +135,7 @@ export class Challenge {
       this.points = params.points;
       this.contest = params.contest;
       this.testCases = params.testCases;
+      this.testInputs = params.testInputs;
     }
   }
 }

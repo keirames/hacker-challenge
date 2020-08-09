@@ -66,6 +66,7 @@ export class ChallengesService {
       level,
       points,
       testCases,
+      testInputs,
       contestId,
     } = challengeInput;
 
@@ -96,6 +97,7 @@ export class ChallengesService {
       points,
       contest,
       testCases,
+      testInputs,
     });
     return this.challengesRepository.save(challenge);
   }
@@ -111,6 +113,7 @@ export class ChallengesService {
       points,
       challengeSeed,
       testCases,
+      testInputs,
       contestId,
     } = challengeInput;
 
@@ -157,6 +160,7 @@ export class ChallengesService {
       points,
       contest,
       testCases,
+      testInputs,
     });
     challenge.id = id;
     challenge.updatedAt = new Date();
