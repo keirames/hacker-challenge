@@ -68,7 +68,11 @@ export class ContestsService {
   async editContest(contestInput: EditContestInput): Promise<Contest> {
     const { id, name } = contestInput;
 
-    let contest = await this.contestsRepository
+    let contest = await this.findById(id);
+    if (!contest)
+      throw new HttpException(`Invalid contest's id`, HttpStatus.NOT_FOUND);
+
+    contest = await this.contestsRepository
       .createQueryBuilder('contest')
       .where('contest.name = :name', { name })
       .andWhere('contest.id != :id', { id })
