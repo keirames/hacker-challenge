@@ -74,7 +74,7 @@ export class User {
   }
 
   public generateAuthToken(): string {
-    const token = jwt.sign({ id: this.id }, 'secret');
+    const token = jwt.sign({ id: this.id }, 'secret', { expiresIn: '2d' });
     return token;
   }
 }
