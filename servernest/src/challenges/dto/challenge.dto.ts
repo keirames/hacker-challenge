@@ -43,7 +43,7 @@ export class ChallengeDto {
   @Field(() => [TestInputDto])
   testInputs: TestInput[];
 
-  @Field(() => Level)
+  @Field(() => String)
   level: Level;
 
   @Field(() => Int)

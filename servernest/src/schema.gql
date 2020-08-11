@@ -53,18 +53,12 @@ type ChallengeDto {
   outputFormat: String!
   challengeSeed: String!
   testInputs: [TestInputDto!]!
-  level: Level!
+  level: String!
   points: Int!
   testCases: [TestCaseDto!]!
   contest: ContestDto!
   passedUsers: [UserDto!]!
   likedUsers: [UserDto!]!
-}
-
-enum Level {
-  EASY
-  MEDIUM
-  HARD
 }
 
 type SolvedChallengeDto {
@@ -164,6 +158,12 @@ input AddChallengeInput {
   contestId: Int!
   testCases: [TestCaseInput!]!
   testInputs: [TestInputInput!]!
+}
+
+enum Level {
+  EASY
+  MEDIUM
+  HARD
 }
 
 input TestCaseInput {
