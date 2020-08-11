@@ -17,10 +17,12 @@ import { join } from 'path';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { TestInputsService } from './testInputs/testInputs.service';
 import { TestInputsModule } from './testInputs/testInputs.module';
+import { levelResolver } from './challenges/dto/challenge.dto';
 
 @Module({
   imports: [
     GraphQLModule.forRoot({
+      resolvers: { Level: levelResolver },
       include: [
         ChallengesModule,
         ContestsModule,

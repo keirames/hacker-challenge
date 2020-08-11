@@ -9,6 +9,12 @@ import { Level } from '../challenge.entity';
 import { TestInputDto } from '../../testInputs/dto/testInput.dto';
 import { TestInput } from '../../testInputs/testInput.entity';
 
+export const levelResolver: Record<keyof typeof Level, any> = {
+  EASY: 'easy',
+  MEDIUM: 'medium',
+  HARD: 'hard',
+};
+
 registerEnumType(Level, { name: 'Level' });
 
 @ObjectType()
