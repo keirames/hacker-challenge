@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { STheme } from "../../theme/theme";
 import Logo from "./Logo";
 import Burger from "./Burger";
-import { Hidden, Button } from "@material-ui/core";
 import Links from "./Links";
 import UserOptions from "./UserOptions";
 import { GET_USER_CLIENT } from "../../mutations";
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import RouterBreadcrumbs from "./RouterBreadcrumbs";
+import MyButton from "../common/MyButton";
 
 const NavBar: React.FC = (props) => {
   const { data } = useQuery(GET_USER_CLIENT);
@@ -19,16 +19,14 @@ const NavBar: React.FC = (props) => {
       <SNavBar>
         <Logo />
         <Links />
-        <Hidden lgUp>
-          <Burger />
-        </Hidden>
+        {/* <Burger /> */}
         {data?.user ? (
           <UserOptions />
         ) : (
           <Link to="/signIn" style={{ textDecoration: "none" }}>
-            <Button variant="contained" color="primary" size="small">
+            <MyButton color="primary" type="primary" size="small">
               Sign In
-            </Button>
+            </MyButton>
           </Link>
         )}
       </SNavBar>

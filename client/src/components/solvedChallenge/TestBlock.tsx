@@ -3,15 +3,15 @@ import styled from "styled-components";
 import { TestCase, TestedResult } from "../../graphql";
 import { STheme } from "../../theme/theme";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Typography } from "@material-ui/core";
+import { Typography } from "antd";
 
-interface IProps {
+interface Props {
   loading: boolean;
   testCase: TestCase;
   testedResult: TestedResult | undefined;
 }
 
-const TestBlock: React.FC<IProps> = ({ loading, testCase, testedResult }) => {
+const TestBlock: React.FC<Props> = ({ loading, testCase, testedResult }) => {
   const [selfLoading, setSelfLoading] = useState(false);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const TestBlock: React.FC<IProps> = ({ loading, testCase, testedResult }) => {
       ) : (
         <MyIcon passed={testedResult.passed} />
       )}
-      <Typography variant="body1">{testCase.text}</Typography>
+      <Typography.Text>{testCase.text}</Typography.Text>
     </STestBlock>
   );
 };
@@ -86,7 +86,7 @@ const SColor = styled.div`
       ? theme.palette.common.blue
       : passed
       ? theme.palette.common.darkGreen
-      : theme.palette.common.red};
+      : theme.palette.common.lightRed};
   height: 100%;
   width: 8px;
   border-top-left-radius: 8px;
@@ -95,7 +95,7 @@ const SColor = styled.div`
 
 const SFontAwesomeIcon = styled(FontAwesomeIcon)`
   color: ${({ theme, passed }: { theme: STheme; passed: number }) =>
-    passed ? theme.palette.common.darkGreen : theme.palette.common.red};
+    passed ? theme.palette.common.darkGreen : theme.palette.common.lightRed};
 `;
 
 export default TestBlock;

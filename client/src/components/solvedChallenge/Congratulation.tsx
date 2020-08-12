@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { TestedResult, TestCase } from "../../graphql";
 import styled from "styled-components";
-import { Typography, Button } from "@material-ui/core";
 import { STheme } from "../../theme/theme";
 import { Link } from "react-router-dom";
+import { Typography } from "antd";
+import MyButton from "../common/MyButton";
 
 interface IProps {
   challengeSlug: string;
@@ -24,7 +25,7 @@ const Congratulation: React.FC<IProps> = ({
     if (testedResults.filter((r) => r.passed).length === testCases.length) {
       const longestTime: number = testedResults
         .map((t) => t.time)
-        .reduce((a, b) => Math.max(a, b));
+        .reduce((a, b) => Math.max(a, b), 0);
 
       setTimeout(() => {
         setVisible(true);
@@ -48,15 +49,17 @@ const Congratulation: React.FC<IProps> = ({
   return (
     <SCongrats>
       <div>
-        <Typography variant="h5" style={{ fontWeight: "bold" }}>
+        <Typography.Title level={4} style={{ fontWeight: "bold" }}>
           Congratulations!
-        </Typography>
-        <Typography variant="body1" style={{ fontWeight: "lighter" }}>
+        </Typography.Title>
+        <Typography.Text style={{ fontWeight: "lighter" }}>
           You solved this challenge. Would you like to challenge your friends?
-        </Typography>
+        </Typography.Text>
       </div>
       <Link to="/contests" style={{ textDecoration: "none" }}>
-        <Button variant="contained">Solve more challenge</Button>
+        <MyButton color="secondary" type="primary">
+          Solve more challenge
+        </MyButton>
       </Link>
     </SCongrats>
   );

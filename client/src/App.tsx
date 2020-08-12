@@ -37,10 +37,15 @@ const App: React.FC = () => {
       <Route exact={exact} path={path}>
         <NavBar />
         <Component />
+        <Route
+          exact
+          path="/signup"
+          component={() => <AuthPage type="signUp" />}
+        />
         <Footer />
       </Route>
     ),
-    []
+    [],
   );
 
   const ProtectedRoute = ({
@@ -92,5 +97,5 @@ export default App;
 
 const SApp = styled.div`
   background-color: ${({ theme }: { theme: STheme }) =>
-    theme.palette.background.blue};
+    theme.palette.background.whitesmoke};
 `;

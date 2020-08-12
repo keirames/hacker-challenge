@@ -45,7 +45,7 @@ const SLinks = styled.div`
           display: block;
           border-bottom: 2px solid;
           border-bottom-color: ${({ theme }: { theme: STheme }) =>
-            theme.palette.common.green};
+            theme.palette.common.lightGreen};
           transform: scale(0);
           transition: 0.2s ease-in-out;
         }

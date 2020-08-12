@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Challenge } from "../../graphql";
 import ChallengeBlock from "./ChallengeBlock";
 import { STheme } from "../../theme/theme";
+import { Space } from "antd";
 
 const ChallengesContainer: React.FC<{
   challenges: Challenge[];
@@ -15,7 +16,7 @@ const ChallengesContainer: React.FC<{
     );
 
   return (
-    <SChallengesContainer>
+    <SChallengesContainer direction="vertical" size="middle">
       {challenges.map((challenge) => (
         <ChallengeBlock key={challenge.id} challenge={challenge} />
       ))}
@@ -23,7 +24,9 @@ const ChallengesContainer: React.FC<{
   );
 };
 
-const SChallengesContainer = styled.div``;
+const SChallengesContainer = styled(Space)`
+  width: 100%;
+`;
 
 const SEmptyBlock = styled.div`
   display: flex;

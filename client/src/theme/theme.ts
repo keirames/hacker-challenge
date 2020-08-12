@@ -10,21 +10,26 @@ export const theme = {
     background: {
       black: "#000",
       white: "#fff",
-      blue: "#F7FAFF",
+      lightBlue: "#F7FAFF",
+      whitesmoke: "#f0f2f5",
     },
     common: {
       black: "#000",
       white: "#fff",
-      whitesmoke: "#f3f7f7",
-      lightGrey: "#dbdbdb",
+      lightGrey: "rgb(225,228,232)",
       grey: "#ababab",
-      green: "#26d487",
-      darkGreen: "#00b372",
+      lightGreen: "rgb(38,212,135)",
+      darkGreen: "rgb(38,182,135)",
+      lightCrimson: "rgb(200,0,78)",
+      darkCrimson: "rgb(154,0,54)",
+      lightBlue: "rgb(63,81,181)",
+      darkBlue: "rgb(48,63,159)",
+      lightGold: "rgb(252,193,10)",
+      darkGold: "rgb(224,168,0)",
       dark: "#36393f",
       red: "#FF4646",
       lightRed: "#FF6E6E",
       orange: "#f59b42",
-      darkBlue: "#3f51b5",
       blue: "#097bbf",
       darkCyan: "#738f93",
     },
@@ -55,22 +60,26 @@ export interface STheme {
     background: {
       black: string;
       white: string;
-      blue: string;
+      lightBlue: string;
+      whitesmoke: string;
     };
     common: {
       black: string;
       white: string;
-      whitesmoke: string;
-      green: string;
+      lightGreen: string;
       darkGreen: string;
+      lightCrimson: string;
+      darkCrimson: string;
+      lightBlue: string;
+      darkBlue: string;
+      lightGold: string;
+      darkGold: string;
       dark: string;
-      red: string;
       lightRed: string;
       orange: string;
       grey: string;
       lightGrey: string;
       blue: string;
-      darkBlue: string;
       darkCyan: string;
     };
   };

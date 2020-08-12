@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { Container } from "@material-ui/core";
 import ContestsContainer from "../contest/ContestsContainer";
 import {
   getCookie,
   signInWithJwt,
   deleteCookie,
 } from "../../services/authService";
+import styled from "styled-components";
 
 const MainPage: React.FC = (props) => {
   useEffect(() => {
@@ -18,10 +18,15 @@ const MainPage: React.FC = (props) => {
   }, []);
 
   return (
-    <Container>
+    <SMainPage>
       <ContestsContainer />
-    </Container>
+    </SMainPage>
   );
 };
+
+const SMainPage = styled.div`
+  width: 70%;
+  margin: auto;
+`;
 
 export default MainPage;

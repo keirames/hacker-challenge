@@ -2,7 +2,6 @@ import React from "react";
 import LoginForm from "../auth/LoginForm";
 import styled from "styled-components";
 import RegisterForm from "../auth/RegisterForm";
-import { Grow, Paper } from "@material-ui/core";
 import SocialPanel from "../auth/SocialPanel";
 
 interface Props {
@@ -14,17 +13,13 @@ const AuthPage: React.FC<Props> = (props) => {
 
   return (
     <SAuth>
-      <Grow in={true} style={{ transformOrigin: "50% 0 0" }}>
-        <Paper elevation={4}>
-          {type === "signIn" && (
-            <div style={{ display: "flex" }}>
-              <LoginForm />
-              <SocialPanel />
-            </div>
-          )}
-          {type === "signUp" && <RegisterForm />}
-        </Paper>
-      </Grow>
+      {type === "signIn" && (
+        <div style={{ display: "flex" }}>
+          <LoginForm />
+          <SocialPanel />
+        </div>
+      )}
+      {type === "signUp" && <RegisterForm />}
       <img src="./images/hacker_mindset.svg" alt="" />
     </SAuth>
   );

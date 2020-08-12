@@ -1,30 +1,30 @@
 import React from "react";
 import styled from "styled-components";
-import { TestedResult, TestCase } from "../../graphql";
+import { TestedResult, TestCase, TestInput } from "../../graphql";
 import TestBlock from "./TestBlock";
-import { Grid } from "@material-ui/core";
+import { Row, Col } from "antd";
 
 interface IProps {
   loading: boolean;
   testedResults: TestedResult[];
   testCases: TestCase[];
-  testInputs: string[];
+  testInputs: TestInput[];
 }
 
 const TestTable: React.FC<IProps> = ({ loading, testedResults, testCases }) => {
   return (
     <STestTable>
-      <Grid container spacing={2}>
+      <Row gutter={[16, 16]}>
         {testCases.map((testCase, index) => (
-          <Grid item xs={6} key={index}>
+          <Col span={12} key={index}>
             <TestBlock
               loading={loading}
               testCase={testCase}
               testedResult={testedResults[index]}
             />
-          </Grid>
+          </Col>
         ))}
-      </Grid>
+      </Row>
     </STestTable>
   );
 };

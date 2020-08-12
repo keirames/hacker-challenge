@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Container, Grid } from "@material-ui/core";
-import ChallengeDetails from "../sovleChallenge/ChallengeDetails";
-import ScoreTable from "../sovleChallenge/ScoreTable";
+import ChallengeDetails from "../solvedChallenge/ChallengeDetails";
+import ScoreTable from "../solvedChallenge/ScoreTable";
 import { gql, useQuery } from "@apollo/client";
 import { Challenge } from "../../graphql";
 import { useParams } from "react-router-dom";
+import { Row, Col } from "antd";
 
-interface IProps {
+interface Props {
   style?: React.CSSProperties;
 }
 
@@ -25,15 +25,13 @@ const GET_CHALLENGE = gql`
       id
       title
       slug
-      content {
-        problem
-        inputSample
-        outputSample
-      }
+      problem
+      inputFormat
+      outputFormat
       level
       points
-      passedUser {
-        username
+      passedUsers {
+        id
       }
       contest {
         name
@@ -42,41 +40,45 @@ const GET_CHALLENGE = gql`
         text
         testString
       }
-      testInputs
+      testInputs {
+        input
+      }
       challengeSeed
     }
   }
 `;
 
-const ChallengePage: React.FC<IProps> = (props) => {
+const ChallengePage: React.FC<Props> = (props) => {
   const { slug } = useParams();
 
   const { data, loading, error } = useQuery<ChallengeData, ChallengeVars>(
     GET_CHALLENGE,
-    { variables: { slug } }
+    { variables: { slug } },
   );
 
   if (!data?.getChallenge) return null;
 
   return (
     <SChallengePage style={props.style}>
-      <Grid container spacing={5}>
-        <Grid item xs={8}>
+      <Row gutter={[48, 12]}>
+        <Col span={16}>
           <ChallengeDetails challenge={data.getChallenge} />
-        </Grid>
-        <Grid item xs={3}>
+        </Col>
+        <Col span={6}>
           <ScoreTable
             level={data.getChallenge.level}
             points={data.getChallenge.points}
-            passedUser={data.getChallenge.passedUser.length}
+            passedUser={data.getChallenge.passedUsers.length}
           />
-        </Grid>
-      </Grid>
+        </Col>
+      </Row>
     </SChallengePage>
   );
 };
 
-const SChallengePage = styled(Container)`
+const SChallengePage = styled.div`
+  width: 70%;
+  margin: auto;
   min-height: 100vh;
 `;
 

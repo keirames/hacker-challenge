@@ -3,16 +3,17 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { Contest, Challenge, User } from "../../graphql";
-import { Container, Grid } from "@material-ui/core";
 import ChallengesContainer from "../challenge/ChallengesContainer";
 import SortTable from "../challenge/SortTable";
+import { Row, Col } from "antd";
+import { CheckboxValueType } from "antd/lib/checkbox/Group";
 
-export interface IStatusFilter {
+export interface StatusFilter {
   solved: boolean;
   unsolved: boolean;
 }
 
-export interface ILevelFilter {
+export interface LevelFilter {
   easy: boolean;
   medium: boolean;
   hard: boolean;
@@ -70,49 +71,62 @@ const ContestDetailsPage: React.FC = (props) => {
 
   const { data, loading, error } = useQuery<ContestData, ContestVars>(
     GET_CONTEST,
-    { variables: { slug } }
+    { variables: { slug } },
   );
+
   const { data: userData } = useQuery<UserData>(GET_ME);
 
-  const [levelFilter, setLevelFilter] = useState<ILevelFilter>({
+  const [levelFilter, setLevelFilter] = useState<LevelFilter>({
     easy: false,
     medium: false,
     hard: false,
   });
-  const [statusFilter, setStatusFilter] = useState<IStatusFilter>({
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>({
     solved: false,
     unsolved: false,
   });
 
   useEffect(() => {
-    const solvedChallengesId: string[] = userData
-      ? userData.getMe.solvedChallenges.map((c) => c.id)
+    const solvedChallengesId: number[] = userData
+      ? userData.getMe.solvedChallenges.map((c) => c.challenge.id)
       : [];
 
     if (data) {
       let tempChallenges = [...data.getContest.challenges];
       tempChallenges = tempChallenges.map((c) =>
-        solvedChallengesId.includes(c.id) ? { ...c, isSolved: true } : c
+        solvedChallengesId.includes(c.id) ? { ...c, isSolved: true } : c,
       );
       setChallenges(tempChallenges);
     }
   }, [data, userData]);
 
-  const handleChangeLevelFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeLevelFilter = (checkedValue: CheckboxValueType[]) => {
+    const tempLevelFilter = { ...levelFilter };
+    for (const key in levelFilter) {
+      const flag = checkedValue.includes(key);
+      if (flag) tempLevelFilter[key as keyof typeof levelFilter] = true;
+      else tempLevelFilter[key as keyof typeof levelFilter] = false;
+    }
+
     setLevelFilter({
-      ...levelFilter,
-      [e.currentTarget.name]: e.currentTarget.checked,
+      ...tempLevelFilter,
     });
   };
 
-  const handleChangeStatusFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeStatusFilter = (checkedValue: CheckboxValueType[]) => {
+    const tempStatusFilter = { ...statusFilter };
+    for (const key in statusFilter) {
+      const flag = checkedValue.includes(key);
+      if (flag) tempStatusFilter[key as keyof typeof statusFilter] = true;
+      else tempStatusFilter[key as keyof typeof statusFilter] = false;
+    }
+
     setStatusFilter({
-      ...statusFilter,
-      [e.currentTarget.name]: e.currentTarget.checked,
+      ...tempStatusFilter,
     });
   };
 
-  //* Get data after sort
+  // Get data after sort
   const getPageData = (): Challenge[] => {
     const levelChoices: string[] = [];
     const statusChoices: string[] = [];
@@ -150,24 +164,26 @@ const ContestDetailsPage: React.FC = (props) => {
 
   return (
     <SContestDetailsPage>
-      <Grid container spacing={5}>
-        <Grid item xs={8}>
+      <Row gutter={[48, 0]} justify="space-around">
+        <Col span={16}>
           <ChallengesContainer challenges={sortedChallenges} />
-        </Grid>
-        <Grid item xs={2}>
+        </Col>
+        <Col span={5}>
           <SortTable
             levelFilter={levelFilter}
             statusFilter={statusFilter}
             onChangeLevelFilter={handleChangeLevelFilter}
             onChangeStatusFilter={handleChangeStatusFilter}
           />
-        </Grid>
-      </Grid>
+        </Col>
+      </Row>
     </SContestDetailsPage>
   );
 };
 
-const SContestDetailsPage = styled(Container)`
+const SContestDetailsPage = styled.div`
+  width: 70%;
+  margin: auto;
   margin-top: 20px;
 `;
 

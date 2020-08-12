@@ -28,9 +28,12 @@ const ScoreTable: React.FC<IProps> = (props) => {
 };
 
 const SSCoreTable = styled.div`
-  margin-top: 50px;
+  margin-top: 40px;
+  padding: 10px;
   width: 100%;
-  height: 200px;
+  min-height: 100px;
+  border: ${({ theme }: { theme: STheme }) =>
+    `1px solid ${theme.palette.common.lightGrey}`};
 
   & > div {
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkCyan};

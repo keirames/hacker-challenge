@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { STheme } from "../../theme/theme";
-import { Popper, ClickAwayListener, Paper, Button } from "@material-ui/core";
 import { signOut } from "../../services/authService";
 
 const UserOptions: React.FC = (props) => {
@@ -18,28 +17,29 @@ const UserOptions: React.FC = (props) => {
   };
 
   return (
-    <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
-      <SUserOptions onClick={handleTrigger}>
-        <FontAwesomeIcon icon="id-card" size="2x" />
-        <FontAwesomeIcon icon="angle-down" size="1x" />
-        <Popper
-          id={Boolean(anchorEl) ? "simple-popper" : undefined}
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-        >
-          <Paper elevation={3} style={{ padding: "10px" }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              fullWidth
-              onClick={handleSignOut}
-            >
-              Sign Out
-            </Button>
-          </Paper>
-        </Popper>
-      </SUserOptions>
-    </ClickAwayListener>
+    <div></div>
+    // <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
+    //   <SUserOptions onClick={handleTrigger}>
+    //     <FontAwesomeIcon icon="id-card" size="2x" />
+    //     <FontAwesomeIcon icon="angle-down" size="1x" />
+    //     <Popper
+    //       id={Boolean(anchorEl) ? "simple-popper" : undefined}
+    //       open={Boolean(anchorEl)}
+    //       anchorEl={anchorEl}
+    //     >
+    //       <Paper elevation={3} style={{ padding: "10px" }}>
+    //         <Button
+    //           variant="contained"
+    //           color="secondary"
+    //           fullWidth
+    //           onClick={handleSignOut}
+    //         >
+    //           Sign Out
+    //         </Button>
+    //       </Paper>
+    //     </Popper>
+    //   </SUserOptions>
+    // </ClickAwayListener>
   );
 };
 

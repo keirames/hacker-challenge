@@ -18,9 +18,9 @@ const Level: React.FC<Props> = ({ style, level }) => {
 const SLevel = styled.div<Props>`
   text-transform: capitalize;
   color: ${({ theme, level }: { theme: STheme; level: string }) => {
-    if (level === "easy") return theme.palette.common.green;
-    if (level === "medium") return theme.palette.common.orange;
-    return theme.palette.common.red;
+    if (level === "easy") return theme.palette.common.darkGreen;
+    if (level === "medium") return theme.palette.common.darkGold;
+    return theme.palette.common.lightCrimson;
   }};
 `;
 

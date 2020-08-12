@@ -1,56 +1,89 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useCallback } from "react";
+import styled, { keyframes, css } from "styled-components";
 import * as yup from "yup";
-import { Typography, TextField, Button } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
+import * as Antd from "antd";
 import { Link } from "react-router-dom";
-import { REGISTER, NewUserDetails } from "../../mutations";
+import { SIGN_UP } from "../../mutations";
 import { useMutation } from "@apollo/client";
 import { signInWithJwt } from "../../services/authService";
+import { AccountDetails } from "../../graphql";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import MyButton from "../common/MyButton";
 
 interface FormValues {
-  firstname: string;
-  lastname: string;
-  username: string;
+  email: string;
   password: string;
+  firstName: string;
+  lastName: string;
 }
 
 const RegisterForm: React.FC = (props) => {
   const initialValues = {
-    firstname: "",
-    lastname: "",
-    username: "",
+    email: "",
     password: "",
+    firstName: "",
+    lastName: "",
   };
 
   const validationSchema = yup.object().shape({
-    firstname: yup
+    firstName: yup
       .string()
-      .min(2, "Firstname at least 2 characters")
-      .required("Firstname is required"),
-    lastname: yup
+      .min(2, "FirstName at least 2 characters")
+      .required("FirstName is required"),
+    lastName: yup
       .string()
-      .min(2, "Lastname at least 2 characters")
-      .required("Lastname is required"),
-    username: yup
+      .min(2, "LastName at least 2 characters")
+      .required("LastName is required"),
+    email: yup
       .string()
-      .min(5, "Username must have at least 5 characters")
-      .required("Username is required"),
+      .min(5, "Email must have at least 5 characters")
+      .required("Email is required"),
     password: yup
       .string()
       .min(5, "Password must have at least 5 characters")
       .required("Password is required"),
   });
 
-  const [register, { loading, error }] = useMutation<
-    { register: any },
-    { user: NewUserDetails }
-  >(REGISTER);
+  const [signUp, { loading, error }] = useMutation<
+    { signUp: string },
+    { account: AccountDetails }
+  >(SIGN_UP);
+
+  const MyField = useCallback((props) => {
+    const {
+      as,
+      name,
+      type,
+      placeholder,
+      prefix,
+      handleChange,
+      value,
+      error,
+      validateStatus,
+      ...rest
+    } = props;
+    return (
+      <SAntdFormItem validateStatus={validateStatus}>
+        <Field
+          as={as}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          prefix={prefix}
+          onChange={handleChange}
+          value={value}
+          {...rest}
+        />
+        <SErrorMessage trigger={error ? true : false}>{error}</SErrorMessage>
+      </SAntdFormItem>
+    );
+  }, []);
 
   const handleSubmit = async (values: FormValues): Promise<void> => {
     try {
-      const response = await register({ variables: { user: values } });
-      signInWithJwt(response.data?.register.token);
+      const response = await signUp({ variables: { account: values } });
+      if (response.data) signInWithJwt(response.data.signUp);
       window.location.href = "/";
     } catch (error) {
       // Do nothing
@@ -60,7 +93,9 @@ const RegisterForm: React.FC = (props) => {
   return (
     <SRegisterForm>
       <STitle>
-        <Typography variant="h5">Create an account !</Typography>
+        <Antd.Typography.Title level={4}>
+          Create an account !
+        </Antd.Typography.Title>
       </STitle>
       <Formik
         initialValues={initialValues}
@@ -70,79 +105,78 @@ const RegisterForm: React.FC = (props) => {
         {({ values, errors, touched, handleChange, handleBlur }) => (
           <Form>
             <SInfoBlock>
-              <SField
-                component={TextField}
-                name="firstname"
-                id="firstname"
-                value={values.firstname}
+              <MyField
+                as={Antd.Input}
+                name="firstName"
+                type="firstName"
+                placeholder="Enter your First Name"
+                prefix={<FontAwesomeIcon icon="user" />}
+                size="large"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                variant="outlined"
-                label="Enter your firstname"
-                error={errors.firstname && touched.firstname ? true : false}
-                helperText={
-                  errors.firstname && touched.firstname
-                    ? errors.firstname
-                    : null
+                error={
+                  errors.firstName && touched.firstName ? errors.firstName : ""
+                }
+                value={values.firstName}
+                validateStatus={
+                  errors.firstName && touched.firstName ? "error" : ""
                 }
               />
-              <SField
-                component={TextField}
-                name="lastname"
-                id="lastname"
-                value={values.lastname}
+              <MyField
+                as={Antd.Input}
+                name="lastName"
+                type="lastName"
+                placeholder="Enter your Last Name"
+                size="large"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                variant="outlined"
-                label="Enter your lastname"
-                error={errors.lastname && touched.lastname ? true : false}
-                helperText={
-                  errors.lastname && touched.lastname ? errors.lastname : null
+                error={
+                  errors.lastName && touched.lastName ? errors.lastName : ""
+                }
+                value={values.lastName}
+                validateStatus={
+                  errors.lastName && touched.lastName ? "error" : ""
                 }
               />
             </SInfoBlock>
-            <SField
-              component={TextField}
-              name="username"
-              id="username"
-              value={values.username}
+            <MyField
+              as={Antd.Input}
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              prefix={<FontAwesomeIcon icon="at" />}
+              size="large"
               onChange={handleChange}
               onBlur={handleBlur}
-              variant="outlined"
-              label="Enter your username"
-              fullWidth
-              error={errors.username && touched.username ? true : false}
-              helperText={
-                errors.username && touched.username ? errors.username : null
-              }
+              error={errors.email && touched.email ? errors.email : ""}
+              value={values.email}
+              validateStatus={errors.email && touched.email ? "error" : ""}
             />
-            <SField
-              component={TextField}
+            <MyField
+              as={Antd.Input.Password}
               name="password"
-              id="password"
               type="password"
+              placeholder="Enter your password"
+              prefix={<FontAwesomeIcon icon="lock" />}
+              size="large"
               onChange={handleChange}
               onBlur={handleBlur}
+              error={errors.password && touched.password ? errors.password : ""}
               value={values.password}
-              variant="outlined"
-              label="Enter your password"
-              fullWidth
-              error={errors.password && touched.password ? true : false}
-              helperText={
-                errors.password && touched.password ? errors.password : null
+              validateStatus={
+                errors.password && touched.password ? "error" : ""
               }
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              style={{ marginTop: "10px" }}
-              disabled={loading}
+            <MyButton
+              color="secondary"
+              type="primary"
+              htmlType="submit"
+              block
+              loading={loading}
             >
               Sign Up
-            </Button>
-            {error && <SError>{error.message}</SError>}
+            </MyButton>
+            {error && <SGlobalError>{error.message}</SGlobalError>}
           </Form>
         )}
       </Formik>
@@ -160,10 +194,6 @@ const SRegisterForm = styled.div`
   background-color: ${({ theme }) => theme.palette.common.white};
   padding: 20px;
   border-radius: 5px;
-
-  /* -webkit-box-shadow: ${({ theme }) => theme.shadows[2]};
-  -moz-box-shadow: ${({ theme }) => theme.shadows[2]};
-  box-shadow: ${({ theme }) => theme.shadows[2]}; */
 `;
 
 const STitle = styled.div`
@@ -174,10 +204,6 @@ const STitle = styled.div`
   width: 100%;
   color: ${({ theme }) => theme.palette.common.black};
   margin-bottom: 10px;
-`;
-
-const SField = styled(Field)`
-  margin: 10px 0;
 `;
 
 const SInfoBlock = styled.div`
@@ -193,13 +219,46 @@ const STo = styled.div`
   margin-top: 10px;
 `;
 
-const SError = styled.div`
+const SGlobalError = styled.div`
   width: 100%;
   text-align: center;
   margin-top: 10px;
   padding: 5px;
   background-color: ${({ theme }) => theme.palette.common.lightRed};
   text-transform: uppercase;
+`;
+
+const appear = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const SErrorMessage = styled.span`
+  ${(p: { trigger: boolean }) => ``}
+
+  display: block;
+  color: red;
+  min-height: 25px;
+  ${(p) =>
+    p.trigger
+      ? css`
+          animation: ${appear} 0.2s linear;
+        `
+      : ``};
+`;
+
+const SAntdFormItem = styled(Antd.Form.Item)`
+  transition: 2s linear;
+
+  &.ant-form-item {
+    margin-bottom: 0;
+  }
 `;
 
 export default RegisterForm;

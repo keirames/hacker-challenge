@@ -1,17 +1,58 @@
 export interface User {
-  id: string;
-  username: string;
-  password: string;
-  firstname: string;
-  lastname: string;
-  solvedChallenges: Challenge[];
+  id: number;
+  totalPoints: number;
+  solvedChallenges: SolvedChallenge[];
   likedChallenges: Challenge[];
-  totalPointes: number;
-  isPremium: boolean;
+  userAccount: UserAccount;
+  userExternalLogins: UserExternalLogin[];
+  subscriptionPlans: Subscription[];
+}
+
+export interface SolvedChallenge {
+  challenge: Challenge;
+  createdAt: string;
+}
+
+export interface UserAccount {
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  registrationTime: string;
+  emailConfirmationToken: string;
+  passwordReminderToken: string;
+  passwordReminderExpire: string;
+}
+
+export interface ExternalAuthenticationProvider {
+  id: number;
+  name: string;
+}
+
+export interface UserExternalLogin {
+  id: number;
+  externalUserId: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  externalAuthenticationProvider: ExternalAuthenticationProvider;
+}
+
+export interface Subscription {
+  id: number;
+  plan: Plan;
+  startTime: string;
+  endTime: string;
+}
+
+export interface Plan {
+  id: number;
+  name: string;
+  pricePerMonth: number;
 }
 
 export interface Contest {
-  id: string;
+  id: number;
   name: string;
   slug: string;
   challenges: Challenge[];
@@ -22,32 +63,45 @@ export interface TestCase {
   testString: string;
 }
 
-export interface Content {
-  problem: string;
-  inputSample: string;
-  outputSample: string;
+export enum Level {
+  EASY = "easy",
+  MEDIUM = "medium",
+  HARD = "hard",
 }
 
 export interface Challenge {
-  id: string;
+  id: number;
   title: string;
   slug: string;
-  content: Content;
-  level: string;
-  points: number;
-  contest: Contest;
-  testCases: TestCase[];
-  testInputs: string[];
+  problem: string;
+  inputFormat: string;
+  outputFormat: string;
   challengeSeed: string;
-  passedUser: User[];
+  testInputs: TestInput[];
+  level: Level;
+  points: number;
+  testCases: TestCase[];
+  contest: Contest;
+  passedUsers: User[];
+  likedUsers: User[];
   isSolved: boolean;
+}
+
+export interface TestInput {
+  input: string;
+}
+
+export interface TestCase {
+  id: number;
+  text: string;
+  testString: string;
 }
 
 //! actual & expected i think will better to be a string
 interface TestedResultError {
   message: string;
-  actual: number;
-  expected: number;
+  // actual: number;
+  // expected: number;
 }
 
 export interface TestedResult {
@@ -56,12 +110,19 @@ export interface TestedResult {
   assert: TestedResultError;
 }
 
-export interface Answer {
-  testedResults: TestedResult[];
-}
+// export interface Answer {
+//   testedResults: TestedResult[];
+// }
 
 export interface AuthData {
   client_id: string;
   code: string;
   redirect_uri: string;
+}
+
+export interface AccountDetails {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
 }

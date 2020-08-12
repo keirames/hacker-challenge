@@ -1,29 +1,32 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useCallback } from "react";
+import styled, { keyframes, css } from "styled-components";
 import * as yup from "yup";
-import { Typography, TextField, Button } from "@material-ui/core";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Link } from "react-router-dom";
 import { LOGIN, LoginUserDetails } from "../../mutations";
 import { useMutation } from "@apollo/client";
 import { signInWithJwt } from "../../services/authService";
+import MyButton from "../common/MyButton";
+import * as Antd from "antd";
+import { STheme } from "../../theme/theme";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface FormValues {
-  username: string;
+  email: string;
   password: string;
 }
 
 const LoginForm: React.FC = (props) => {
   const initialValues: FormValues = {
-    username: "",
+    email: "",
     password: "",
   };
 
   const validationSchema = yup.object().shape({
-    username: yup
+    email: yup
       .string()
-      .min(5, "Username must have at least 5 character")
-      .required("Username is required"),
+      .min(5, "Email must have at least 5 character")
+      .required("Email is required"),
     password: yup
       .string()
       .min(5, "Password must have at least 5 character")
@@ -36,10 +39,10 @@ const LoginForm: React.FC = (props) => {
   >(LOGIN);
 
   const handleSubmit = async (values: FormValues) => {
-    const { username, password } = values;
+    const { email, password } = values;
 
     try {
-      const response = await login({ variables: { username, password } });
+      const response = await login({ variables: { email, password } });
       signInWithJwt(response.data?.login);
       window.location.href = "/";
     } catch (error) {
@@ -47,10 +50,40 @@ const LoginForm: React.FC = (props) => {
     }
   };
 
+  const MyField = useCallback((props) => {
+    const {
+      as,
+      name,
+      type,
+      placeholder,
+      prefix,
+      handleChange,
+      value,
+      error,
+      validateStatus,
+      ...rest
+    } = props;
+    return (
+      <SAntdFormItem validateStatus={validateStatus}>
+        <Field
+          as={as}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          prefix={prefix}
+          onChange={handleChange}
+          value={value}
+          {...rest}
+        />
+        <SErrorMessage trigger={error ? true : false}>{error}</SErrorMessage>
+      </SAntdFormItem>
+    );
+  }, []);
+
   return (
     <SLoginForm>
       <STitle>
-        <Typography variant="h5">Welcome back !</Typography>
+        <Antd.Typography.Title level={4}>Welcome back !</Antd.Typography.Title>
         <span>We're so excited to see you again !</span>
       </STitle>
       <Formik
@@ -60,48 +93,44 @@ const LoginForm: React.FC = (props) => {
       >
         {({ values, errors, touched, handleChange, handleBlur }) => (
           <Form>
-            <SField
-              component={TextField}
-              name="username"
-              id="username"
-              value={values.username}
+            <MyField
+              as={Antd.Input}
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              prefix={<FontAwesomeIcon icon="at" />}
+              size="large"
               onChange={handleChange}
               onBlur={handleBlur}
-              variant="outlined"
-              label="Enter your username"
-              fullWidth
-              error={errors.username && touched.username ? true : false}
-              helperText={
-                errors.username && touched.username ? errors.username : null
-              }
+              error={errors.email && touched.email ? errors.email : ""}
+              value={values.email}
+              validateStatus={errors.email && touched.email ? "error" : ""}
             />
-            <SField
-              component={TextField}
+            <MyField
+              as={Antd.Input.Password}
               name="password"
-              id="password"
               type="password"
+              placeholder="Enter your password"
+              prefix={<FontAwesomeIcon icon="lock" />}
+              size="large"
               onChange={handleChange}
               onBlur={handleBlur}
+              error={errors.password && touched.password ? errors.password : ""}
               value={values.password}
-              variant="outlined"
-              label="Enter your password"
-              fullWidth
-              error={errors.password && touched.password ? true : false}
-              helperText={
-                errors.password && touched.password ? errors.password : null
+              validateStatus={
+                errors.password && touched.password ? "error" : ""
               }
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              style={{ marginTop: "10px" }}
-              disabled={loading}
+            <MyButton
+              color="secondary"
+              type="primary"
+              htmlType="submit"
+              block
+              loading={loading}
             >
               Sign In
-            </Button>
-            {error && <SError>{error.message}</SError>}
+            </MyButton>
+            {error && <SGlobalError>{error.message}</SGlobalError>}
           </Form>
         )}
       </Formik>
@@ -116,13 +145,10 @@ const LoginForm: React.FC = (props) => {
 
 const SLoginForm = styled.div`
   width: 400px;
-  background-color: ${({ theme }) => theme.palette.common.white};
+  background-color: ${({ theme }: { theme: STheme }) =>
+    theme.palette.common.white};
   padding: 20px;
   border-radius: 5px;
-
-  /* -webkit-box-shadow: ${({ theme }) => theme.shadows[2]};
-  -moz-box-shadow: ${({ theme }) => theme.shadows[2]};
-  box-shadow: ${({ theme }) => theme.shadows[2]}; */
 `;
 
 const STitle = styled.div`
@@ -131,7 +157,7 @@ const STitle = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  color: ${({ theme }) => theme.palette.common.black};
+  color: ${({ theme }: { theme: STheme }) => theme.palette.common.black};
   margin-bottom: 10px;
 `;
 
@@ -143,13 +169,46 @@ const STo = styled.div`
   margin-top: 10px;
 `;
 
-const SError = styled.div`
+const SGlobalError = styled.div`
   width: 100%;
   text-align: center;
   margin-top: 10px;
   padding: 5px;
   background-color: ${({ theme }) => theme.palette.common.lightRed};
   text-transform: uppercase;
+`;
+
+const appear = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const SErrorMessage = styled.span`
+  ${(p: { trigger: boolean }) => ``}
+
+  display: block;
+  color: red;
+  min-height: 25px;
+  ${(p) =>
+    p.trigger
+      ? css`
+          animation: ${appear} 0.2s linear;
+        `
+      : ``};
+`;
+
+const SAntdFormItem = styled(Antd.Form.Item)`
+  transition: 2s linear;
+
+  &.ant-form-item {
+    margin-bottom: 0;
+  }
 `;
 
 export default LoginForm;

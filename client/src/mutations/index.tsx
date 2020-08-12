@@ -7,7 +7,7 @@ export const LOGIN = gql`
 `;
 
 export interface LoginUserDetails {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -15,15 +15,13 @@ export interface LoginUserDetails {
 export interface NewUserDetails {
   firstname: string;
   lastname: string;
-  username: string;
+  email: string;
   password: string;
 }
 
-export const REGISTER = gql`
-  mutation register($user: UserInput!) {
-    register(user: $user) {
-      token
-    }
+export const SIGN_UP = gql`
+  mutation signUp($accountDetails: AccountDetails!) {
+    signUp(accountDetails: $accountDetails)
   }
 `;
 

@@ -1,9 +1,8 @@
 import React from "react";
 import { useLocation, Link } from "react-router-dom";
-import { Breadcrumbs, Typography, Container } from "@material-ui/core";
-import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import styled from "styled-components";
 import { STheme } from "../../theme/theme";
+import { Breadcrumb, Typography } from "antd";
 
 const RouterBreadcrumbs: React.FC = () => {
   const location = useLocation();
@@ -12,37 +11,38 @@ const RouterBreadcrumbs: React.FC = () => {
 
   return (
     <SRouterBreadcrumbs>
-      <Breadcrumbs
-        separator={<NavigateNextIcon fontSize="small" />}
-        aria-label="breadcrumb"
-      >
-        <SLink to="/">Home</SLink>
+      <Breadcrumb>
+        <Breadcrumb.Item>
+          <SLink to="/">Home</SLink>
+        </Breadcrumb.Item>
         {pathnames.map((path, index) => {
           const last = index === pathnames.length - 1;
           const to = `/${pathnames.slice(0, index + 1).join("/")}`;
 
           return last ? (
-            <STypography key={index} variant="body1">
-              {path}
-            </STypography>
+            <Breadcrumb.Item key={index}>
+              <STypography>{path}</STypography>
+            </Breadcrumb.Item>
           ) : (
-            <SLink key={index} to={to}>
-              {path}
-            </SLink>
+            <Breadcrumb.Item key={index}>
+              <SLink to={to}>{path}</SLink>
+            </Breadcrumb.Item>
           );
         })}
-      </Breadcrumbs>
+      </Breadcrumb>
     </SRouterBreadcrumbs>
   );
 };
 
-const SRouterBreadcrumbs = styled(Container)`
+const SRouterBreadcrumbs = styled.div`
+  width: 70%;
+  margin: auto;
   background: transparent;
   min-height: 30px;
   padding: 20px;
 `;
 
-const STypography = styled(Typography)`
+const STypography = styled(Typography.Text)`
   text-transform: capitalize;
   color: ${({ theme }: { theme: STheme }) => theme.palette.common.black};
 `;
@@ -53,6 +53,8 @@ const SLink = styled(Link)`
   text-decoration: none;
 
   &:hover {
+    color: ${({ theme }: { theme: STheme }) =>
+      theme.palette.common.darkBlue} !important;
     text-decoration: underline;
   }
 `;
