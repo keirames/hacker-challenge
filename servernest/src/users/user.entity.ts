@@ -23,7 +23,7 @@ export class User {
   id: number;
 
   @Column({ name: 'total_points', default: 0 })
-  @Check('points >= 0')
+  @Check('total_points >= 0')
   totalPoints: number;
 
   @Column({ name: 'user_account_id', nullable: true })
