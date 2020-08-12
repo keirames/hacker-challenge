@@ -7,6 +7,7 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  Check,
 } from 'typeorm';
 import { UserAccount } from '../userAccounts/userAccount.entity';
 import { UserExternalLogin } from '../userExternalLogins/userExternalLogin.entity';
@@ -22,6 +23,7 @@ export class User {
   id: number;
 
   @Column({ name: 'total_points', default: 0 })
+  @Check('points >= 0')
   totalPoints: number;
 
   @Column({ name: 'user_account_id', nullable: true })

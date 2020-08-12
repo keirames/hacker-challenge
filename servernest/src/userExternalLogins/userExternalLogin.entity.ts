@@ -19,10 +19,10 @@ export class UserExternalLogin {
   @Column({ length: 255, nullable: true })
   email: string;
 
-  @Column({ name: 'first_name', length: 25, nullable: true })
+  @Column({ name: 'first_name', length: 255, nullable: true })
   firstName: string;
 
-  @Column({ name: 'last_name', length: 25, nullable: true })
+  @Column({ name: 'last_name', length: 255, nullable: true })
   lastName: string;
 
   @Column({ name: 'user_id' })

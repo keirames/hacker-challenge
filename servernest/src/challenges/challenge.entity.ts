@@ -51,6 +51,9 @@ export class Challenge {
   @Check('points >= 0')
   points?: number;
 
+  @Column({ name: 'is_premium', default: false })
+  isPremium?: boolean;
+
   @Column({ name: 'contest_id' })
   contestId: number;
 

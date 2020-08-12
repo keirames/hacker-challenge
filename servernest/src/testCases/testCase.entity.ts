@@ -12,10 +12,10 @@ export class TestCase {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'text' })
+  @Column({ length: 255 })
   text: string;
 
-  @Column({ name: 'test_string', length: 50 })
+  @Column({ name: 'test_string', length: 255 })
   testString: string;
 
   @ManyToOne(
