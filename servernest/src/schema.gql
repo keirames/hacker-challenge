@@ -119,26 +119,14 @@ type Query {
 }
 
 type Mutation {
-  signIn(account: SignInInput!): String!
-  signUp(accountDetails: SignUpInput!): String!
   submitAnswer(submitAnswerInput: SubmitAnswerInput!): [TestedResultDto!]!
   addChallenge(challenge: AddChallengeInput!): ChallengeDto!
   editChallenge(challenge: EditChallengeInput!): ChallengeDto!
   likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!
   addContest(contest: AddContestInput!): ContestDto!
   editContest(contest: EditContestInput!): ContestDto!
-}
-
-input SignInInput {
-  email: String!
-  password: String!
-}
-
-input SignUpInput {
-  email: String!
-  password: String!
-  firstName: String!
-  lastName: String!
+  signIn(account: SignInInput!): String!
+  signUp(accountDetails: SignUpInput!): String!
 }
 
 input SubmitAnswerInput {
@@ -201,4 +189,16 @@ input AddContestInput {
 input EditContestInput {
   id: Int!
   name: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
 }

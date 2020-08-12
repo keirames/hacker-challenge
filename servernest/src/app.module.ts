@@ -18,6 +18,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { TestInputsService } from './testInputs/testInputs.service';
 import { TestInputsModule } from './testInputs/testInputs.module';
 import { levelResolver } from './challenges/dto/challenge.dto';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { levelResolver } from './challenges/dto/challenge.dto';
         SubscriptionsModule,
         PlansModule,
         SubmissionsModule,
+        AuthModule,
       ],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
@@ -49,6 +51,7 @@ import { levelResolver } from './challenges/dto/challenge.dto';
     SubmissionsModule,
     TestCasesModule,
     TestInputsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService, TestInputsService],
