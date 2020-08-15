@@ -13,17 +13,17 @@ export class UserExternalLogin {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'external_user_id' })
+  @Column({ type: 'bigint', name: 'external_user_id' })
   externalUserId: number;
 
   @Column({ length: 255, nullable: true })
-  email: string;
+  email?: string;
 
   @Column({ name: 'first_name', length: 255, nullable: true })
-  firstName: string;
+  firstName?: string;
 
   @Column({ name: 'last_name', length: 255, nullable: true })
-  lastName: string;
+  lastName?: string;
 
   @Column({ name: 'user_id' })
   userId: number;
@@ -48,20 +48,18 @@ export class UserExternalLogin {
 
   constructor(params: {
     externalUserId: number;
-    email: string;
-    firstName: string;
-    lastName: string;
-    user: User;
-    externalAuthenticationProvider: ExternalAuthenticationProvider;
+    externalAuthenticationProviderId: number;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
   }) {
     if (params !== undefined) {
       this.externalUserId = params.externalUserId;
+      this.externalAuthenticationProviderId =
+        params.externalAuthenticationProviderId;
       this.email = params.email;
       this.firstName = params.firstName;
       this.lastName = params.lastName;
-      this.user = params.user;
-      this.externalAuthenticationProvider =
-        params.externalAuthenticationProvider;
     }
   }
 }
