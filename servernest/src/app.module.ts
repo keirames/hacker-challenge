@@ -23,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     GraphQLModule.forRoot({
+      context: ({ req }) => ({ req }),
       resolvers: { Level: levelResolver },
       include: [
         ChallengesModule,
@@ -36,7 +37,6 @@ import { AuthModule } from './auth/auth.module';
         SubscriptionsModule,
         PlansModule,
         SubmissionsModule,
-        AuthModule,
       ],
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
