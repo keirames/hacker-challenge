@@ -96,7 +96,9 @@ export class AuthController {
   }
 
   @Post('/signup')
-  async signUp(@Body() accountDetails: SignUpDto): Promise<string> {
+  async signUp(
+    @Body('accountDetails') accountDetails: SignUpDto,
+  ): Promise<string> {
     const user = await this.authService.signUp(accountDetails);
     const { accessToken } = await this.authService.generateToken(user);
     return accessToken;
