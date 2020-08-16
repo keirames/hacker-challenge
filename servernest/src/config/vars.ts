@@ -2,6 +2,7 @@
 // };
 export const clientUrl = 'http://localhost:3001'; // CLIENT_URL
 export const serverUrl = 'http://localhost:3000'; // SERVER_URL
+export const serverPort = undefined; // SERVER_PORT
 export const jwtPrivateKey = 'secret'; // JWT_PRIVATE_KEY
 export const jwtExpirationInterval = '2d'; // JWT_EXPIRATION_TIME,
 export const googleClientId =
