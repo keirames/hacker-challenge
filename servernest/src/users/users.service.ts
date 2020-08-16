@@ -90,6 +90,24 @@ export class UsersService {
       .getOne();
   }
 
+  async findUserBySocialId(
+    socialId: string,
+    providerName: 'google' | 'facebook' | 'github',
+  ): Promise<User | undefined> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.userExternalLogins', 'userExternalLogin')
+      .leftJoinAndSelect(
+        'userExternalLogin.externalAuthenticationProvider',
+        'externalAuthenticationProvider',
+      )
+      .where('userExternalLogin.externalUserId = :socialId', { socialId })
+      .andWhere('externalAuthenticationProvider.name = :name', {
+        name: providerName,
+      })
+      .getOne();
+  }
+
   async submitAnswer(
     submitAnswerInput: SubmitAnswerInput,
   ): Promise<TestedResult[] | Error> {
