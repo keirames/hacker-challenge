@@ -4,17 +4,19 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  Unique,
 } from 'typeorm';
 import { ExternalAuthenticationProvider } from '../externalAuthenticationProviders/externalAuthenticationProvider.entity';
 import { User } from '../users/user.entity';
 
 @Entity('user_external_logins')
+@Unique(['externalUserId', 'externalAuthenticationProviderId'])
 export class UserExternalLogin {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'bigint', name: 'external_user_id' })
-  externalUserId: number;
+  @Column({ length: 255, name: 'external_user_id' })
+  externalUserId: string;
 
   @Column({ length: 255, nullable: true })
   email?: string;
@@ -47,7 +49,7 @@ export class UserExternalLogin {
   externalAuthenticationProvider: ExternalAuthenticationProvider;
 
   constructor(params: {
-    externalUserId: number;
+    externalUserId: string;
     externalAuthenticationProviderId: number;
     email?: string;
     firstName?: string;

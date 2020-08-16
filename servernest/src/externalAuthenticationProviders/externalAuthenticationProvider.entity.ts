@@ -1,13 +1,19 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { UserExternalLogin } from '../userExternalLogins/userExternalLogin.entity';
 
+export enum AuthProvider {
+  GOOGLE = 'google',
+  FACEBOOK = 'facebook',
+  GITHUB = 'github',
+}
+
 @Entity('external_authentication_providers')
 export class ExternalAuthenticationProvider {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 25 })
-  name: string;
+  @Column({ type: 'character varying', length: 25 })
+  name: AuthProvider;
 
   @OneToMany(
     () => UserExternalLogin,
@@ -15,7 +21,7 @@ export class ExternalAuthenticationProvider {
   )
   userExternalLogins: UserExternalLogin[];
 
-  constructor(params: { name: string }) {
+  constructor(params: { name: AuthProvider }) {
     if (params !== undefined) this.name = params.name;
   }
 }
