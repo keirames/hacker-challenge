@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { Challenge } from "../../graphql";
-import Problem from "./Problem";
-import Submissions from "./Submissions";
-import { Tabs } from "antd";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
+import React, { useState } from 'react';
+import { Tabs } from 'antd';
+import styled from 'styled-components';
+import { Challenge } from '../../graphql';
+import Problem from './Problem';
+import Submissions from './Submissions';
+import { STheme } from '../../theme/theme';
 
 const { TabPane } = Tabs;
 
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const ChallengeDetails: React.FC<Props> = (props) => {
-  const [tabValue, setTabValue] = useState<string>("");
+  const [tabValue, setTabValue] = useState<string>('');
 
   return (
     <STabs style={props.style} className="card-container">

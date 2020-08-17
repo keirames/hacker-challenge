@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { Challenge } from "../../graphql";
-import ChallengeBlock from "./ChallengeBlock";
-import { STheme } from "../../theme/theme";
-import { Space } from "antd";
+import React from 'react';
+import styled from 'styled-components';
+import { Space } from 'antd';
+import { Challenge } from '../../graphql';
+import ChallengeBlock from './ChallengeBlock';
+import { STheme } from '../../theme/theme';
 
 const ChallengesContainer: React.FC<{
   challenges: Challenge[];

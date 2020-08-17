@@ -1,17 +1,17 @@
-import React, { useEffect, useCallback } from "react";
-import styled from "styled-components";
-import MainPage from "./components/page/MainPage";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import AuthPage from "./components/page/AuthPage";
-import { GET_USER_CLIENT } from "./mutations";
-import { getCurrentUser } from "./services/authService";
-import NavBar from "./components/navBar/NavBar";
-import ContestDetailsPage from "./components/page/ContestDetailsPage";
-import ChallengePage from "./components/page/ChallengePage";
-import { MyEditor } from "./MyEditor";
-import { STheme } from "./theme/theme";
-import Footer from "./components/footer/Footer";
+import React, { useEffect, useCallback } from 'react';
+import styled from 'styled-components';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import MainPage from './components/page/MainPage';
+import AuthPage from './components/page/AuthPage';
+import { GET_USER_CLIENT } from './mutations';
+import { getCurrentUser } from './services/authService';
+import NavBar from './components/navBar/NavBar';
+import ContestDetailsPage from './components/page/ContestDetailsPage';
+import ChallengePage from './components/page/ChallengePage';
+import { MyEditor } from './MyEditor';
+import { STheme } from './theme/theme';
+import Footer from './components/footer/Footer';
 
 const App: React.FC = () => {
   const { client } = useQuery(GET_USER_CLIENT);
@@ -20,10 +20,11 @@ const App: React.FC = () => {
     const user = getCurrentUser();
     client.writeQuery({
       query: GET_USER_CLIENT,
-      data: { user: user },
+      data: { user },
     });
   }, [client]);
 
+  /* eslint-disable react/no-unused-prop-types */
   const NavRoute = useCallback(
     ({
       exact,
@@ -45,7 +46,7 @@ const App: React.FC = () => {
         <Footer />
       </Route>
     ),
-    [],
+    []
   );
 
   const ProtectedRoute = ({
@@ -56,7 +57,7 @@ const App: React.FC = () => {
   }) => (
     <Route {...rest}>
       {!getCurrentUser() ? (
-        <Redirect to={{ pathname: "/signin" }} />
+        <Redirect to={{ pathname: '/signin' }} />
       ) : (
         <Component />
       )}

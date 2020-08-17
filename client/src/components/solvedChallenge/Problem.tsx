@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Challenge, TestedResult } from "../../graphql";
-import Editor from "./Editor";
-import TestTable from "./TestTable";
-import { useMutation, gql } from "@apollo/client";
-import ProblemContent from "./ProblemContent";
-import { useParams } from "react-router-dom";
-import Congratulation from "./Congratulation";
-import MyButton from "../common/MyButton";
-import styled from "styled-components";
-import { Space } from "antd";
+import React, { useState } from 'react';
+import { useMutation, gql } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { Space } from 'antd';
+import { Challenge, TestedResult } from '../../graphql';
+import Editor from './Editor';
+import TestTable from './TestTable';
+import ProblemContent from './ProblemContent';
+import Congratulation from './Congratulation';
+import MyButton from '../common/MyButton';
 
 const SUBMIT_ANSWER = gql`
   mutation SubmitAnswer($submitAnswerInput: SubmitAnswerInput!) {
@@ -70,7 +70,7 @@ const Problem: React.FC<Props> = (props) => {
     });
   };
 
-  //TODO: Remove in future
+  // TODO: Remove in future
   React.useEffect(() => {
     // let answers = localStorage.getItem("answers") as any;
     // if (answers) {
@@ -82,7 +82,7 @@ const Problem: React.FC<Props> = (props) => {
     // }
   }, [slug]);
 
-  if (error) return <div></div>;
+  if (error) return <div />;
   console.log(data?.submitAnswer);
   return (
     <SProblem style={style} {...other}>

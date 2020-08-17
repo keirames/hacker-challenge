@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
-import ContestsContainer from "../contest/ContestsContainer";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import ContestsContainer from '../contest/ContestsContainer';
 import {
   getCookie,
   signInWithJwt,
   deleteCookie,
-} from "../../services/authService";
-import styled from "styled-components";
+} from '../../services/authService';
 
 const MainPage: React.FC = (props) => {
   useEffect(() => {
-    const jwt = getCookie("Authentication");
+    const jwt = getCookie('Authentication');
     if (jwt) {
       signInWithJwt(jwt);
-      deleteCookie("Authentication");
-      window.location.href = "/";
+      deleteCookie('Authentication');
+      window.location.href = '/';
     }
   }, []);
 

@@ -1,12 +1,12 @@
-import React from "react";
-import { Challenge } from "../../graphql";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
-import { Typography } from "antd";
-import Level from "./Level";
-import { Link, useLocation } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MyButton from "../common/MyButton";
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typography } from 'antd';
+import Level from './Level';
+import { STheme } from '../../theme/theme';
+import MyButton from '../common/MyButton';
+import { Challenge } from '../../graphql';
 
 const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
   const { slug, title, points, level, isSolved } = challenge;
@@ -19,24 +19,24 @@ const ChallengeBlock: React.FC<{ challenge: Challenge }> = ({ challenge }) => {
         <Typography.Title
           level={4}
           style={{
-            marginBottom: "5px",
-            textTransform: "capitalize",
+            marginBottom: '5px',
+            textTransform: 'capitalize',
             fontWeight: 500,
           }}
         >
           {title}
         </Typography.Title>
-        <Level level={level} style={{ display: "inline-block" }} />
+        <Level level={level} style={{ display: 'inline-block' }} />
         <Typography.Paragraph
-          style={{ display: "inline-block", fontWeight: "lighter" }}
+          style={{ display: 'inline-block', fontWeight: 'lighter' }}
         >
           , Max Score: {points}
         </Typography.Paragraph>
       </div>
-      <Link to={`${pathname}/${slug}`} style={{ textDecoration: "none" }}>
+      <Link to={`${pathname}/${slug}`} style={{ textDecoration: 'none' }}>
         <MyButton color="secondary" type="primary" size="middle">
           {isSolved && <FontAwesomeIcon icon="check-circle" />}
-          {isSolved ? "solved challenge" : "solve challenge"}
+          {isSolved ? 'solved challenge' : 'solve challenge'}
         </MyButton>
       </Link>
     </SChallengeBlock>

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
-import { Typography } from "antd";
+import React from 'react';
+import styled from 'styled-components';
+import { Typography } from 'antd';
+import { STheme } from '../../theme/theme';
 
 interface Props {
   problem: string;

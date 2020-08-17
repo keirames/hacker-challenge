@@ -1,13 +1,13 @@
-import React from "react";
-import { useLocation, Link } from "react-router-dom";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
-import { Breadcrumb, Typography } from "antd";
+import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { Breadcrumb, Typography } from 'antd';
+import { STheme } from '../../theme/theme';
 
 const RouterBreadcrumbs: React.FC = () => {
   const location = useLocation();
 
-  const pathnames = location.pathname.split("/").filter((x) => x);
+  const pathnames = location.pathname.split('/').filter((x) => x);
 
   return (
     <SRouterBreadcrumbs>
@@ -17,13 +17,15 @@ const RouterBreadcrumbs: React.FC = () => {
         </Breadcrumb.Item>
         {pathnames.map((path, index) => {
           const last = index === pathnames.length - 1;
-          const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+          const to = `/${pathnames.slice(0, index + 1).join('/')}`;
 
           return last ? (
+            // eslint-disable-next-line react/no-array-index-key
             <Breadcrumb.Item key={index}>
               <STypography>{path}</STypography>
             </Breadcrumb.Item>
           ) : (
+            // eslint-disable-next-line react/no-array-index-key
             <Breadcrumb.Item key={index}>
               <SLink to={to}>{path}</SLink>
             </Breadcrumb.Item>

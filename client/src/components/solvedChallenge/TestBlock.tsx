@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { TestCase, TestedResult } from "../../graphql";
-import { STheme } from "../../theme/theme";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Typography } from "antd";
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typography } from 'antd';
+import styled from 'styled-components';
+import { TestCase, TestedResult } from '../../graphql';
+import { STheme } from '../../theme/theme';
 
 interface Props {
   loading: boolean;
@@ -30,7 +30,7 @@ const TestBlock: React.FC<Props> = ({ loading, testCase, testedResult }) => {
     return (
       <SFontAwesomeIcon
         passed={passed ? 1 : 0}
-        icon={["far", passed ? "check-circle" : "times-circle"]}
+        icon={['far', passed ? 'check-circle' : 'times-circle']}
         size="2x"
       />
     );
@@ -42,7 +42,7 @@ const TestBlock: React.FC<Props> = ({ loading, testCase, testedResult }) => {
       {selfLoading ? (
         <FontAwesomeIcon icon="circle-notch" spin size="2x" color="#3f51b5" />
       ) : !testedResult ? (
-        <FontAwesomeIcon icon={["far", "circle"]} size="2x" />
+        <FontAwesomeIcon icon={['far', 'circle']} size="2x" />
       ) : (
         <MyIcon passed={testedResult.passed} />
       )}

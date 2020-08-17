@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { navigateToSocialProvider } from "../../services/authService";
-import MyButton from "../common/MyButton";
-import { Typography, Space } from "antd";
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Typography, Space } from 'antd';
+import styled from 'styled-components';
+import { STheme } from '../../theme/theme';
+import { navigateToSocialProvider } from '../../services/authService';
+import MyButton from '../common/MyButton';
 
 const SocialPanel: React.FC = (props) => {
   return (
@@ -18,14 +18,14 @@ const SocialPanel: React.FC = (props) => {
         type="primary"
         block
         style={{
-          backgroundColor: "#2f2e41",
-          borderColor: "#2f2e41",
+          backgroundColor: '#2f2e41',
+          borderColor: '#2f2e41',
         }}
-        onClick={() => navigateToSocialProvider("github")}
+        onClick={() => navigateToSocialProvider('github')}
       >
         <FontAwesomeIcon
-          icon={["fab", "github-alt"]}
-          style={{ marginRight: "10px" }}
+          icon={['fab', 'github-alt']}
+          style={{ marginRight: '10px' }}
         />
         github
       </MyButton>
@@ -33,11 +33,11 @@ const SocialPanel: React.FC = (props) => {
         color="primary"
         type="primary"
         block
-        onClick={() => navigateToSocialProvider("facebook")}
+        onClick={() => navigateToSocialProvider('facebook')}
       >
         <FontAwesomeIcon
-          icon={["fab", "facebook"]}
-          style={{ marginRight: "10px" }}
+          icon={['fab', 'facebook']}
+          style={{ marginRight: '10px' }}
         />
         facebook
       </MyButton>
@@ -45,9 +45,9 @@ const SocialPanel: React.FC = (props) => {
         color="thirdary"
         type="primary"
         block
-        onClick={() => navigateToSocialProvider("google")}
+        onClick={() => navigateToSocialProvider('google')}
       >
-        <FontAwesomeIcon icon={["fab", "google-plus-g"]} />
+        <FontAwesomeIcon icon={['fab', 'google-plus-g']} />
         google
       </MyButton>
     </SSocialPanel>

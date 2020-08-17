@@ -1,18 +1,18 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { Button } from "antd";
-import { NativeButtonProps } from "antd/lib/button/button";
-import { STheme } from "../../theme/theme";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { Button } from 'antd';
+import { NativeButtonProps } from 'antd/lib/button/button';
+import { STheme } from '../../theme/theme';
 
 enum Color {
-  primary = "primary",
-  secondary = "secondary",
-  thirdary = "thirdary",
-  warning = "warning",
+  primary = 'primary',
+  secondary = 'secondary',
+  thirdary = 'thirdary',
+  warning = 'warning',
 }
 
 interface Props extends NativeButtonProps {
-  color: "primary" | "secondary" | "thirdary" | "warning";
+  color: 'primary' | 'secondary' | 'thirdary' | 'warning';
 }
 
 // root element css
@@ -200,7 +200,7 @@ const styles = {
 };
 
 const MyButton: React.FC<Props> = (props) => {
-  const { color = "primary", ...rest } = props;
+  const { color = 'primary', ...rest } = props;
 
   return <SMyButton color={Color[color]} {...rest} />;
 };

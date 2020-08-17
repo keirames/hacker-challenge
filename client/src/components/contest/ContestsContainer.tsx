@@ -1,8 +1,8 @@
-import React from "react";
-import { gql, useQuery } from "@apollo/client";
-import ContestBlock from "./ContestBlock";
-import styled from "styled-components";
-import { Row, Col } from "antd";
+import React from 'react';
+import { gql, useQuery } from '@apollo/client';
+import styled from 'styled-components';
+import { Row, Col } from 'antd';
+import ContestBlock from './ContestBlock';
 
 export const GET_CONTESTS = gql`
   {

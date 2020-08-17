@@ -58,15 +58,10 @@ export interface Contest {
   challenges: Challenge[];
 }
 
-export interface TestCase {
-  text: string;
-  testString: string;
-}
-
 export enum Level {
-  EASY = "easy",
-  MEDIUM = "medium",
-  HARD = "hard",
+  EASY = 'easy',
+  MEDIUM = 'medium',
+  HARD = 'hard',
 }
 
 export interface Challenge {

@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
-import Logo from "./Logo";
-import Burger from "./Burger";
-import Links from "./Links";
-import UserOptions from "./UserOptions";
-import { GET_USER_CLIENT } from "../../mutations";
-import { useQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
-import RouterBreadcrumbs from "./RouterBreadcrumbs";
-import MyButton from "../common/MyButton";
+import React from 'react';
+import styled from 'styled-components';
+import { useQuery } from '@apollo/client';
+import { Link } from 'react-router-dom';
+import Burger from './Burger';
+import Links from './Links';
+import UserOptions from './UserOptions';
+import { GET_USER_CLIENT } from '../../mutations';
+import { STheme } from '../../theme/theme';
+import Logo from './Logo';
+import RouterBreadcrumbs from './RouterBreadcrumbs';
+import MyButton from '../common/MyButton';
 
 const NavBar: React.FC = (props) => {
   const { data } = useQuery(GET_USER_CLIENT);
@@ -23,7 +23,7 @@ const NavBar: React.FC = (props) => {
         {data?.user ? (
           <UserOptions />
         ) : (
-          <Link to="/signIn" style={{ textDecoration: "none" }}>
+          <Link to="/signIn" style={{ textDecoration: 'none' }}>
             <MyButton color="primary" type="primary" size="small">
               Sign In
             </MyButton>

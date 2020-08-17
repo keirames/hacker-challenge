@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
-import { LevelFilter, StatusFilter } from "../page/ContestDetailsPage";
-import { Checkbox } from "antd";
-import { CheckboxValueType } from "antd/lib/checkbox/Group";
+import React from 'react';
+import { Checkbox } from 'antd';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import styled from 'styled-components';
+import { LevelFilter, StatusFilter } from '../page/ContestDetailsPage';
+import { STheme } from '../../theme/theme';
 
 interface Props {
   style?: React.CSSProperties;
@@ -14,14 +14,14 @@ interface Props {
 }
 
 const statusOptions = [
-  { label: "Solved", value: "solved" },
-  { label: "Unsolved", value: "unsolved" },
+  { label: 'Solved', value: 'solved' },
+  { label: 'Unsolved', value: 'unsolved' },
 ];
 
 const levelOptions = [
-  { label: "Easy", value: "easy" },
-  { label: "Medium", value: "medium" },
-  { label: "Hard", value: "hard" },
+  { label: 'Easy', value: 'easy' },
+  { label: 'Medium', value: 'medium' },
+  { label: 'Hard', value: 'hard' },
 ];
 
 const SortTable: React.FC<Props> = (props) => {
@@ -37,14 +37,14 @@ const SortTable: React.FC<Props> = (props) => {
     <SSortTable style={style}>
       <Checkbox.Group
         options={statusOptions}
-        defaultValue={["solved", "unsolved"]}
-        style={{ display: "flex", flexFlow: "column nowrap" }}
+        defaultValue={['solved', 'unsolved']}
+        style={{ display: 'flex', flexFlow: 'column nowrap' }}
         onChange={onChangeStatusFilter}
       />
       <Checkbox.Group
         options={levelOptions}
-        defaultValue={["easy", "medium", "hard"]}
-        style={{ display: "flex", flexFlow: "column nowrap" }}
+        defaultValue={['easy', 'medium', 'hard']}
+        style={{ display: 'flex', flexFlow: 'column nowrap' }}
         onChange={onChangeLevelFilter}
       />
     </SSortTable>

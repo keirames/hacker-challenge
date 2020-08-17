@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import ChallengeDetails from "../solvedChallenge/ChallengeDetails";
-import ScoreTable from "../solvedChallenge/ScoreTable";
-import { gql, useQuery } from "@apollo/client";
-import { Challenge } from "../../graphql";
-import { useParams } from "react-router-dom";
-import { Row, Col } from "antd";
+import React from 'react';
+import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { Row, Col } from 'antd';
+import ChallengeDetails from '../solvedChallenge/ChallengeDetails';
+import ScoreTable from '../solvedChallenge/ScoreTable';
+import { Challenge } from '../../graphql';
 
 interface Props {
   style?: React.CSSProperties;
@@ -53,7 +53,7 @@ const ChallengePage: React.FC<Props> = (props) => {
 
   const { data, loading, error } = useQuery<ChallengeData, ChallengeVars>(
     GET_CHALLENGE,
-    { variables: { slug } },
+    { variables: { slug } }
   );
 
   if (!data?.getChallenge) return null;

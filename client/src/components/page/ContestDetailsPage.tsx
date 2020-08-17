@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
-import { Contest, Challenge, User } from "../../graphql";
-import ChallengesContainer from "../challenge/ChallengesContainer";
-import SortTable from "../challenge/SortTable";
-import { Row, Col } from "antd";
-import { CheckboxValueType } from "antd/lib/checkbox/Group";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Row, Col } from 'antd';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { useParams } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
+import { Contest, Challenge, User } from '../../graphql';
+import ChallengesContainer from '../challenge/ChallengesContainer';
+import SortTable from '../challenge/SortTable';
 
 export interface StatusFilter {
   solved: boolean;
@@ -41,7 +41,7 @@ const GET_CONTEST = gql`
   }
 `;
 
-//TODO: Find a way to refactore this interfae
+// TODO: Find a way to refactore this interfae
 interface UserData {
   getMe: User;
 }
@@ -71,7 +71,7 @@ const ContestDetailsPage: React.FC = (props) => {
 
   const { data, loading, error } = useQuery<ContestData, ContestVars>(
     GET_CONTEST,
-    { variables: { slug } },
+    { variables: { slug } }
   );
 
   const { data: userData } = useQuery<UserData>(GET_ME);
@@ -94,7 +94,7 @@ const ContestDetailsPage: React.FC = (props) => {
     if (data) {
       let tempChallenges = [...data.getContest.challenges];
       tempChallenges = tempChallenges.map((c) =>
-        solvedChallengesId.includes(c.id) ? { ...c, isSolved: true } : c,
+        solvedChallengesId.includes(c.id) ? { ...c, isSolved: true } : c
       );
       setChallenges(tempChallenges);
     }
@@ -103,9 +103,11 @@ const ContestDetailsPage: React.FC = (props) => {
   const handleChangeLevelFilter = (checkedValue: CheckboxValueType[]) => {
     const tempLevelFilter = { ...levelFilter };
     for (const key in levelFilter) {
-      const flag = checkedValue.includes(key);
-      if (flag) tempLevelFilter[key as keyof typeof levelFilter] = true;
-      else tempLevelFilter[key as keyof typeof levelFilter] = false;
+      if (Object.prototype.hasOwnProperty.call(levelFilter, key)) {
+        const flag = checkedValue.includes(key);
+        if (flag) tempLevelFilter[key as keyof typeof levelFilter] = true;
+        else tempLevelFilter[key as keyof typeof levelFilter] = false;
+      }
     }
 
     setLevelFilter({
@@ -116,9 +118,11 @@ const ContestDetailsPage: React.FC = (props) => {
   const handleChangeStatusFilter = (checkedValue: CheckboxValueType[]) => {
     const tempStatusFilter = { ...statusFilter };
     for (const key in statusFilter) {
-      const flag = checkedValue.includes(key);
-      if (flag) tempStatusFilter[key as keyof typeof statusFilter] = true;
-      else tempStatusFilter[key as keyof typeof statusFilter] = false;
+      if (Object.prototype.hasOwnProperty.call(levelFilter, key)) {
+        const flag = checkedValue.includes(key);
+        if (flag) tempStatusFilter[key as keyof typeof statusFilter] = true;
+        else tempStatusFilter[key as keyof typeof statusFilter] = false;
+      }
     }
 
     setStatusFilter({
@@ -131,10 +135,10 @@ const ContestDetailsPage: React.FC = (props) => {
     const levelChoices: string[] = [];
     const statusChoices: string[] = [];
 
-    for (let key in levelFilter) {
+    for (const key in levelFilter) {
       if (levelFilter[key as keyof typeof levelFilter]) levelChoices.push(key);
     }
-    for (let key in statusFilter) {
+    for (const key in statusFilter) {
       if (statusFilter[key as keyof typeof statusFilter])
         statusChoices.push(key);
     }
@@ -150,10 +154,10 @@ const ContestDetailsPage: React.FC = (props) => {
       if (statusChoices.length === Object.keys(statusFilter).length)
         return true;
 
-      return statusChoices.includes("solved") ? c.isSolved : !c.isSolved;
+      return statusChoices.includes('solved') ? c.isSolved : !c.isSolved;
     });
 
-    return sortedChallenges ? sortedChallenges : [];
+    return sortedChallenges || [];
   };
 
   const sortedChallenges = getPageData();

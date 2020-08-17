@@ -1,21 +1,22 @@
-import React from "react";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
+import React from 'react';
+import styled from 'styled-components';
+import { STheme } from '../../theme/theme';
+import Level from '../challenge/Level';
 
-interface IProps {
+interface Props {
   style?: React.CSSProperties;
   level: string;
   points: number;
   passedUser: number;
 }
 
-const ScoreTable: React.FC<IProps> = (props) => {
+const ScoreTable: React.FC<Props> = (props) => {
   const { style, level, points, passedUser } = props;
 
   return (
     <SSCoreTable style={style}>
       <div>
-        Level <SLevel level={level}>{level}</SLevel>
+        Level <Level level={level} />
       </div>
       <div>
         Points <span>{points}</span>
@@ -45,15 +46,6 @@ const SSCoreTable = styled.div`
       float: right;
     }
   }
-`;
-
-const SLevel = styled.span<{ level: string }>`
-  color: ${({ theme, level }) =>
-    level === "hard"
-      ? theme.palette.common.red
-      : level === "medium"
-      ? theme.palette.common.orange
-      : theme.palette.common.green} !important;
 `;
 
 export default ScoreTable;

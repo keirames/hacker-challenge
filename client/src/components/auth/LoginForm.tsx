@@ -1,15 +1,15 @@
-import React, { useCallback } from "react";
-import styled, { keyframes, css } from "styled-components";
-import * as yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { Link } from "react-router-dom";
-import { LOGIN, LoginUserDetails } from "../../mutations";
-import { useMutation } from "@apollo/client";
-import { signInWithJwt } from "../../services/authService";
-import MyButton from "../common/MyButton";
-import * as Antd from "antd";
-import { STheme } from "../../theme/theme";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useCallback } from 'react';
+import styled, { keyframes, css } from 'styled-components';
+import * as yup from 'yup';
+import { Formik, Form, Field } from 'formik';
+import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import * as Antd from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { LOGIN, LoginUserDetails } from '../../mutations';
+import { signInWithJwt } from '../../services/authService';
+import MyButton from '../common/MyButton';
+import { STheme } from '../../theme/theme';
 
 interface FormValues {
   email: string;
@@ -18,19 +18,19 @@ interface FormValues {
 
 const LoginForm: React.FC = (props) => {
   const initialValues: FormValues = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
 
   const validationSchema = yup.object().shape({
     email: yup
       .string()
-      .min(5, "Email must have at least 5 character")
-      .required("Email is required"),
+      .min(5, 'Email must have at least 5 character')
+      .required('Email is required'),
     password: yup
       .string()
-      .min(5, "Password must have at least 5 character")
-      .required("Password is required"),
+      .min(5, 'Password must have at least 5 character')
+      .required('Password is required'),
   });
 
   const [login, { loading, error }] = useMutation<
@@ -44,7 +44,7 @@ const LoginForm: React.FC = (props) => {
     try {
       const response = await login({ variables: { email, password } });
       signInWithJwt(response.data?.login);
-      window.location.href = "/";
+      window.location.href = '/';
     } catch (error) {
       // Do nothing
     }
@@ -75,7 +75,7 @@ const LoginForm: React.FC = (props) => {
           value={value}
           {...rest}
         />
-        <SErrorMessage trigger={error ? true : false}>{error}</SErrorMessage>
+        <SErrorMessage trigger={!!error}>{error}</SErrorMessage>
       </SAntdFormItem>
     );
   }, []);
@@ -102,9 +102,9 @@ const LoginForm: React.FC = (props) => {
               size="large"
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.email && touched.email ? errors.email : ""}
+              error={errors.email && touched.email ? errors.email : ''}
               value={values.email}
-              validateStatus={errors.email && touched.email ? "error" : ""}
+              validateStatus={errors.email && touched.email ? 'error' : ''}
             />
             <MyField
               as={Antd.Input.Password}
@@ -115,10 +115,10 @@ const LoginForm: React.FC = (props) => {
               size="large"
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.password && touched.password ? errors.password : ""}
+              error={errors.password && touched.password ? errors.password : ''}
               value={values.password}
               validateStatus={
-                errors.password && touched.password ? "error" : ""
+                errors.password && touched.password ? 'error' : ''
               }
             />
             <MyButton
@@ -136,7 +136,7 @@ const LoginForm: React.FC = (props) => {
       </Formik>
       <STo>
         <p>
-          Need an account ? <Link to={`signup`}>Register</Link>
+          Need an account ? <Link to="signup">Register</Link>
         </p>
       </STo>
     </SLoginForm>
@@ -159,10 +159,6 @@ const STitle = styled.div`
   width: 100%;
   color: ${({ theme }: { theme: STheme }) => theme.palette.common.black};
   margin-bottom: 10px;
-`;
-
-const SField = styled(Field)`
-  margin: 10px 0;
 `;
 
 const STo = styled.div`

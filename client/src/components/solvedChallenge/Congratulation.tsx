@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { TestedResult, TestCase } from "../../graphql";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
-import { Link } from "react-router-dom";
-import { Typography } from "antd";
-import MyButton from "../common/MyButton";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Typography } from 'antd';
+import styled from 'styled-components';
+import { TestedResult, TestCase } from '../../graphql';
+import { STheme } from '../../theme/theme';
+import MyButton from '../common/MyButton';
 
 interface IProps {
   challengeSlug: string;
@@ -36,27 +36,27 @@ const Congratulation: React.FC<IProps> = ({
   if (!visible) return null;
 
   if (visible) {
-    let answers: { answer: string; challengeSlug: string }[] =
-      JSON.parse(localStorage.getItem("answers") as any) || [];
+    const answers: { answer: string; challengeSlug: string }[] =
+      JSON.parse(localStorage.getItem('answers') as any) || [];
 
     const found = answers.find((a) => a.challengeSlug === challengeSlug);
     if (found) found.answer = answer;
     else answers.push({ answer, challengeSlug });
 
-    localStorage.setItem("answers", JSON.stringify(answers));
+    localStorage.setItem('answers', JSON.stringify(answers));
   }
 
   return (
     <SCongrats>
       <div>
-        <Typography.Title level={4} style={{ fontWeight: "bold" }}>
+        <Typography.Title level={4} style={{ fontWeight: 'bold' }}>
           Congratulations!
         </Typography.Title>
-        <Typography.Text style={{ fontWeight: "lighter" }}>
+        <Typography.Text style={{ fontWeight: 'lighter' }}>
           You solved this challenge. Would you like to challenge your friends?
         </Typography.Text>
       </div>
-      <Link to="/contests" style={{ textDecoration: "none" }}>
+      <Link to="/contests" style={{ textDecoration: 'none' }}>
         <MyButton color="secondary" type="primary">
           Solve more challenge
         </MyButton>

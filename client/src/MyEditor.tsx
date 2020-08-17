@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Editor, EditorState, convertToRaw } from "draft-js";
-import Rich from "./Rich";
-import { useMutation, gql, useQuery } from "@apollo/client";
-import { Challenge } from "./graphql";
-import { stateToHTML } from "draft-js-export-html";
-import styled from "styled-components";
-import MyButton from "./components/common/MyButton";
+import React, { useState, useEffect } from 'react';
+import { Editor, EditorState, convertToRaw } from 'draft-js';
+import { useMutation, gql, useQuery } from '@apollo/client';
+import { stateToHTML } from 'draft-js-export-html';
+import styled from 'styled-components';
+import { Challenge } from './graphql';
+import Rich from './Rich';
+import MyButton from './components/common/MyButton';
 
 const EDIT_CHALLENGE = gql`
   mutation EditChallenge($challenge: EditChallengeInput!) {
@@ -42,16 +42,16 @@ const GET_CHALLENGE = gql`
 `;
 
 export const MyEditor: React.FC = (props) => {
-  const [challengeSeed, setChallengeSeed] = useState("");
-  const [problem, setProblem] = useState("");
-  const [inputFormat, setInputFormat] = useState("");
-  const [outputFormat, setOutputFormat] = useState("");
-  const [value, setValue] = useState("");
+  const [challengeSeed, setChallengeSeed] = useState('');
+  const [problem, setProblem] = useState('');
+  const [inputFormat, setInputFormat] = useState('');
+  const [outputFormat, setOutputFormat] = useState('');
+  const [value, setValue] = useState('');
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const { data } = useQuery<{ getChallenge: Challenge }>(GET_CHALLENGE, {
     variables: {
-      slug: "bubble-sort",
+      slug: 'bubble-sort',
     },
   });
 
@@ -80,33 +80,33 @@ export const MyEditor: React.FC = (props) => {
           points: data?.getChallenge.points,
           contestId: data?.getChallenge.contest.id,
           testCases: [
-            { text: "Must be 2", testString: "assert.strictEqual(result,2)" },
-            { text: "Must be 3", testString: "assert.strictEqual(result,3)" },
-            { text: "Must be 4", testString: "assert.strictEqual(result,4)" },
-            { text: "Must be 5", testString: "assert.strictEqual(result,5)" },
+            { text: 'Must be 2', testString: 'assert.strictEqual(result,2)' },
+            { text: 'Must be 3', testString: 'assert.strictEqual(result,3)' },
+            { text: 'Must be 4', testString: 'assert.strictEqual(result,4)' },
+            { text: 'Must be 5', testString: 'assert.strictEqual(result,5)' },
             {
-              text: "Must be 100",
-              testString: "assert.strictEqual(result,100)",
+              text: 'Must be 100',
+              testString: 'assert.strictEqual(result,100)',
             },
             {
-              text: "Must be 1000",
-              testString: "assert.strictEqual(result,1000)",
+              text: 'Must be 1000',
+              testString: 'assert.strictEqual(result,1000)',
             },
             {
-              text: "Must be 999",
-              testString: "assert.strictEqual(result,999)",
+              text: 'Must be 999',
+              testString: 'assert.strictEqual(result,999)',
             },
             {
-              text: "Must be -10",
-              testString: "assert.strictEqual(result,-10)",
+              text: 'Must be -10',
+              testString: 'assert.strictEqual(result,-10)',
             },
             {
-              text: "Must be -100",
-              testString: "assert.strictEqual(result,-100)",
+              text: 'Must be -100',
+              testString: 'assert.strictEqual(result,-100)',
             },
             {
-              text: "Must be -999",
-              testString: "assert.strictEqual(result,-999)",
+              text: 'Must be -999',
+              testString: 'assert.strictEqual(result,-999)',
             },
           ],
           testInputs: [],
@@ -129,11 +129,11 @@ export const MyEditor: React.FC = (props) => {
   };
 
   return (
-    <div style={{ margin: "50px" }}>
+    <div style={{ margin: '50px' }}>
       <Block>
         <p>Challenge Seed</p>
         <textarea
-          style={{ width: "50%", height: "200px", fontSize: "16px" }}
+          style={{ width: '50%', height: '200px', fontSize: '16px' }}
           value={challengeSeed}
           onChange={(e) => setChallengeSeed(e.currentTarget.value)}
         />
@@ -142,7 +142,7 @@ export const MyEditor: React.FC = (props) => {
       <Block>
         <p>Problem</p>
         <textarea
-          style={{ width: "50%", height: "200px", fontSize: "16px" }}
+          style={{ width: '50%', height: '200px', fontSize: '16px' }}
           value={problem}
           onChange={(e) => setProblem(e.currentTarget.value)}
         />
@@ -150,7 +150,7 @@ export const MyEditor: React.FC = (props) => {
       <Block>
         <p>Input Format</p>
         <textarea
-          style={{ width: "50%", height: "200px", fontSize: "16px" }}
+          style={{ width: '50%', height: '200px', fontSize: '16px' }}
           value={inputFormat}
           onChange={(e) => setInputFormat(e.currentTarget.value)}
         />
@@ -158,7 +158,7 @@ export const MyEditor: React.FC = (props) => {
       <Block>
         <p>Output Format</p>
         <textarea
-          style={{ width: "50%", height: "200px", fontSize: "16px" }}
+          style={{ width: '50%', height: '200px', fontSize: '16px' }}
           value={outputFormat}
           onChange={(e) => setOutputFormat(e.currentTarget.value)}
         />
@@ -168,11 +168,12 @@ export const MyEditor: React.FC = (props) => {
       </Block>
       <div
         style={{
-          width: "100%",
-          height: "20vh",
-          backgroundColor: "white",
-          margin: "50px",
+          width: '100%',
+          height: '20vh',
+          backgroundColor: 'white',
+          margin: '50px',
         }}
+        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: stateToHTML(editorState.getCurrentContent()),
         }}

@@ -1,15 +1,15 @@
-import React, { useCallback } from "react";
-import styled, { keyframes, css } from "styled-components";
-import * as yup from "yup";
-import { Formik, Form, Field } from "formik";
-import * as Antd from "antd";
-import { Link } from "react-router-dom";
-import { SIGN_UP } from "../../mutations";
-import { useMutation } from "@apollo/client";
-import { signInWithJwt } from "../../services/authService";
-import { AccountDetails } from "../../graphql";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MyButton from "../common/MyButton";
+import React, { useCallback } from 'react';
+import styled, { keyframes, css } from 'styled-components';
+import * as yup from 'yup';
+import { Formik, Form, Field } from 'formik';
+import * as Antd from 'antd';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useMutation } from '@apollo/client';
+import { SIGN_UP } from '../../mutations';
+import { signInWithJwt } from '../../services/authService';
+import { AccountDetails } from '../../graphql';
+import MyButton from '../common/MyButton';
 
 interface FormValues {
   email: string;
@@ -20,29 +20,29 @@ interface FormValues {
 
 const RegisterForm: React.FC = (props) => {
   const initialValues = {
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
   };
 
   const validationSchema = yup.object().shape({
     firstName: yup
       .string()
-      .min(2, "FirstName at least 2 characters")
-      .required("FirstName is required"),
+      .min(2, 'FirstName at least 2 characters')
+      .required('FirstName is required'),
     lastName: yup
       .string()
-      .min(2, "LastName at least 2 characters")
-      .required("LastName is required"),
+      .min(2, 'LastName at least 2 characters')
+      .required('LastName is required'),
     email: yup
       .string()
-      .min(5, "Email must have at least 5 characters")
-      .required("Email is required"),
+      .min(5, 'Email must have at least 5 characters')
+      .required('Email is required'),
     password: yup
       .string()
-      .min(5, "Password must have at least 5 characters")
-      .required("Password is required"),
+      .min(5, 'Password must have at least 5 characters')
+      .required('Password is required'),
   });
 
   const [signUp, { loading, error }] = useMutation<
@@ -75,7 +75,7 @@ const RegisterForm: React.FC = (props) => {
           value={value}
           {...rest}
         />
-        <SErrorMessage trigger={error ? true : false}>{error}</SErrorMessage>
+        <SErrorMessage trigger={!!error}>{error}</SErrorMessage>
       </SAntdFormItem>
     );
   }, []);
@@ -84,7 +84,7 @@ const RegisterForm: React.FC = (props) => {
     try {
       const response = await signUp({ variables: { account: values } });
       if (response.data) signInWithJwt(response.data.signUp);
-      window.location.href = "/";
+      window.location.href = '/';
     } catch (error) {
       // Do nothing
     }
@@ -115,11 +115,11 @@ const RegisterForm: React.FC = (props) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={
-                  errors.firstName && touched.firstName ? errors.firstName : ""
+                  errors.firstName && touched.firstName ? errors.firstName : ''
                 }
                 value={values.firstName}
                 validateStatus={
-                  errors.firstName && touched.firstName ? "error" : ""
+                  errors.firstName && touched.firstName ? 'error' : ''
                 }
               />
               <MyField
@@ -131,11 +131,11 @@ const RegisterForm: React.FC = (props) => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={
-                  errors.lastName && touched.lastName ? errors.lastName : ""
+                  errors.lastName && touched.lastName ? errors.lastName : ''
                 }
                 value={values.lastName}
                 validateStatus={
-                  errors.lastName && touched.lastName ? "error" : ""
+                  errors.lastName && touched.lastName ? 'error' : ''
                 }
               />
             </SInfoBlock>
@@ -148,9 +148,9 @@ const RegisterForm: React.FC = (props) => {
               size="large"
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.email && touched.email ? errors.email : ""}
+              error={errors.email && touched.email ? errors.email : ''}
               value={values.email}
-              validateStatus={errors.email && touched.email ? "error" : ""}
+              validateStatus={errors.email && touched.email ? 'error' : ''}
             />
             <MyField
               as={Antd.Input.Password}
@@ -161,10 +161,10 @@ const RegisterForm: React.FC = (props) => {
               size="large"
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.password && touched.password ? errors.password : ""}
+              error={errors.password && touched.password ? errors.password : ''}
               value={values.password}
               validateStatus={
-                errors.password && touched.password ? "error" : ""
+                errors.password && touched.password ? 'error' : ''
               }
             />
             <MyButton
@@ -182,7 +182,7 @@ const RegisterForm: React.FC = (props) => {
       </Formik>
       <STo>
         <p>
-          <Link to={`signin`}>Already have an account ?</Link>
+          <Link to="signin">Already have an account ?</Link>
         </p>
       </STo>
     </SRegisterForm>
@@ -208,7 +208,7 @@ const STitle = styled.div`
 
 const SInfoBlock = styled.div`
   display: flex;
-  flex-direction: "row";
+  flex-direction: 'row';
 
   & > div:first-child {
     margin-right: 20px;

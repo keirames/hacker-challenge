@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { STheme } from "../../theme/theme";
-import { signOut } from "../../services/authService";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { STheme } from '../../theme/theme';
+import { signOut } from '../../services/authService';
 
 const UserOptions: React.FC = (props) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -13,11 +13,11 @@ const UserOptions: React.FC = (props) => {
 
   const handleSignOut = () => {
     signOut();
-    window.location.href = "/";
+    window.location.href = '/';
   };
 
   return (
-    <div></div>
+    <div>hello</div>
     // <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
     //   <SUserOptions onClick={handleTrigger}>
     //     <FontAwesomeIcon icon="id-card" size="2x" />
