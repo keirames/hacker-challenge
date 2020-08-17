@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { STheme } from '../../theme/theme';
-import Level from '../challenge/Level';
+import Level from './Level';
 
 interface Props {
   style?: React.CSSProperties;
