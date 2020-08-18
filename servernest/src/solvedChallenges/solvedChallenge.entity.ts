@@ -29,7 +29,7 @@ export class SolvedChallenge {
 
   constructor(params?: { challenge: Challenge }) {
     if (params !== undefined) {
-      this.challenge = this.challenge;
+      this.challenge = params.challenge;
     }
   }
 }

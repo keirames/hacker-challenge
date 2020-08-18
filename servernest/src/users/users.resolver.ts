@@ -73,7 +73,7 @@ export class UsersResolver {
     return this.subscriptionsService.findByUserId(user.id);
   }
 
-  //! Auth
+  // ! Auth
   @Mutation(() => [TestedResultDto])
   async submitAnswer(
     @Args('submitAnswerInput') submitAnswerInput: SubmitAnswerInput,

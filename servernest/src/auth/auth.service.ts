@@ -29,7 +29,11 @@ export class AuthService {
   ) {}
 
   async generateToken(user: User): Promise<{ accessToken: string }> {
-    const payload = { sub: user.id };
+    const payload = {
+      sub: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
     console.log(`Bearer ${this.jwtService.sign(payload)}`);
     return {
       accessToken: `Bearer ${this.jwtService.sign(payload)}`,
