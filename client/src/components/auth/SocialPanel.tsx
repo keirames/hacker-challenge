@@ -47,7 +47,10 @@ const SocialPanel: React.FC = (props) => {
         block
         onClick={() => navigateToSocialProvider('google')}
       >
-        <FontAwesomeIcon icon={['fab', 'google-plus-g']} />
+        <FontAwesomeIcon
+          icon={['fab', 'google-plus-g']}
+          style={{ marginRight: '10px' }}
+        />
         google
       </MyButton>
     </SSocialPanel>

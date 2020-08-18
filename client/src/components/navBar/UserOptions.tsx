@@ -17,7 +17,11 @@ const UserOptions: React.FC = (props) => {
   };
 
   return (
-    <div>hello</div>
+    <SUserOptions>
+      <span>Hello</span>
+      <FontAwesomeIcon icon="id-card" size="2x" />
+      <FontAwesomeIcon icon="angle-down" size="1x" />
+    </SUserOptions>
     // <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
     //   <SUserOptions onClick={handleTrigger}>
     //     <FontAwesomeIcon icon="id-card" size="2x" />

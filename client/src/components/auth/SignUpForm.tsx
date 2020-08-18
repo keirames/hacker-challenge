@@ -1,24 +1,23 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import * as yup from 'yup';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
 import * as Antd from 'antd';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useMutation } from '@apollo/client';
-import { SIGN_UP } from '../../mutations';
-import { signInWithJwt } from '../../services/authService';
-import { AccountDetails } from '../../graphql';
 import MyButton from '../common/MyButton';
+import { signUp } from '../../services/authService';
 
-interface FormValues {
+export interface SignUpInput {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
 }
 
-const RegisterForm: React.FC = (props) => {
+const SignUpForm: React.FC = (props) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const initialValues = {
     email: '',
     password: '',
@@ -29,7 +28,7 @@ const RegisterForm: React.FC = (props) => {
   const validationSchema = yup.object().shape({
     firstName: yup
       .string()
-      .min(2, 'FirstName at least 2 characters')
+      .min(0, 'FirstName at least 2 characters')
       .required('FirstName is required'),
     lastName: yup
       .string()
@@ -44,11 +43,6 @@ const RegisterForm: React.FC = (props) => {
       .min(5, 'Password must have at least 5 characters')
       .required('Password is required'),
   });
-
-  const [signUp, { loading, error }] = useMutation<
-    { signUp: string },
-    { account: AccountDetails }
-  >(SIGN_UP);
 
   const MyField = useCallback((props) => {
     const {
@@ -80,14 +74,23 @@ const RegisterForm: React.FC = (props) => {
     );
   }, []);
 
-  const handleSubmit = async (values: FormValues): Promise<void> => {
+  const handleSubmit: (
+    values: SignUpInput,
+    options: FormikHelpers<SignUpInput>
+  ) => Promise<void> = async (values: SignUpInput, options): Promise<void> => {
+    const { email, firstName, lastName, password } = values;
+
     try {
-      const response = await signUp({ variables: { account: values } });
-      if (response.data) signInWithJwt(response.data.signUp);
+      options.setStatus();
+      setLoading(true);
+      await signUp({ email, firstName, lastName, password });
       window.location.href = '/';
     } catch (error) {
-      // Do nothing
+      if (error.response.data.message instanceof Array)
+        options.setStatus({ message: error.response.data.message[0] });
+      else options.setStatus({ message: error.response.data.message });
     }
+    setLoading(false);
   };
 
   return (
@@ -102,7 +105,7 @@ const RegisterForm: React.FC = (props) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, errors, touched, handleChange, handleBlur }) => (
+        {({ values, errors, touched, status, handleChange, handleBlur }) => (
           <Form>
             <SInfoBlock>
               <MyField
@@ -176,7 +179,7 @@ const RegisterForm: React.FC = (props) => {
             >
               Sign Up
             </MyButton>
-            {error && <SGlobalError>{error.message}</SGlobalError>}
+            <SGlobalError>{status ? status.message : ''}</SGlobalError>
           </Form>
         )}
       </Formik>
@@ -192,7 +195,7 @@ const RegisterForm: React.FC = (props) => {
 const SRegisterForm = styled.div`
   width: 500px;
   background-color: ${({ theme }) => theme.palette.common.white};
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   border-radius: 5px;
 `;
 
@@ -220,12 +223,8 @@ const STo = styled.div`
 `;
 
 const SGlobalError = styled.div`
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
-  padding: 5px;
-  background-color: ${({ theme }) => theme.palette.common.lightRed};
-  text-transform: uppercase;
+  min-height: 25px;
+  color: red;
 `;
 
 const appear = keyframes`
@@ -261,4 +260,4 @@ const SAntdFormItem = styled(Antd.Form.Item)`
   }
 `;
 
-export default RegisterForm;
+export default SignUpForm;

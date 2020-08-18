@@ -1,23 +1,23 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import * as yup from 'yup';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FormikHelpers } from 'formik';
 import { Link } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 import * as Antd from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { LOGIN, LoginUserDetails } from '../../mutations';
-import { signInWithJwt } from '../../services/authService';
+import { signIn } from '../../services/authService';
 import MyButton from '../common/MyButton';
 import { STheme } from '../../theme/theme';
 
-interface FormValues {
+export interface SignInInput {
   email: string;
   password: string;
 }
 
-const LoginForm: React.FC = (props) => {
-  const initialValues: FormValues = {
+const SignInForm: React.FC = (props) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const initialValues: SignInInput = {
     email: '',
     password: '',
   };
@@ -33,21 +33,23 @@ const LoginForm: React.FC = (props) => {
       .required('Password is required'),
   });
 
-  const [login, { loading, error }] = useMutation<
-    { login: any },
-    LoginUserDetails
-  >(LOGIN);
-
-  const handleSubmit = async (values: FormValues) => {
+  const handleSubmit: (
+    values: SignInInput,
+    options: FormikHelpers<SignInInput>
+  ) => Promise<void> = async (values, options) => {
     const { email, password } = values;
 
     try {
-      const response = await login({ variables: { email, password } });
-      signInWithJwt(response.data?.login);
+      options.setStatus();
+      setLoading(true);
+      await signIn({ email, password });
       window.location.href = '/';
     } catch (error) {
-      // Do nothing
+      if (error.response.data.message instanceof Array)
+        options.setStatus({ message: [error.response.data.message] });
+      else options.setStatus({ message: error.response.data.message });
     }
+    setLoading(false);
   };
 
   const MyField = useCallback((props) => {
@@ -91,7 +93,7 @@ const LoginForm: React.FC = (props) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, errors, touched, handleChange, handleBlur }) => (
+        {({ values, errors, touched, status, handleChange, handleBlur }) => (
           <Form>
             <MyField
               as={Antd.Input}
@@ -130,13 +132,13 @@ const LoginForm: React.FC = (props) => {
             >
               Sign In
             </MyButton>
-            {error && <SGlobalError>{error.message}</SGlobalError>}
+            <SGlobalError>{status ? status.message : ''}</SGlobalError>
           </Form>
         )}
       </Formik>
       <STo>
         <p>
-          Need an account ? <Link to="signup">Register</Link>
+          Need an account ? <Link to="signup">Sign Up</Link>
         </p>
       </STo>
     </SLoginForm>
@@ -147,7 +149,7 @@ const SLoginForm = styled.div`
   width: 400px;
   background-color: ${({ theme }: { theme: STheme }) =>
     theme.palette.common.white};
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   border-radius: 5px;
 `;
 
@@ -162,16 +164,12 @@ const STitle = styled.div`
 `;
 
 const STo = styled.div`
-  margin-top: 10px;
+  margin-top: 5px;
 `;
 
 const SGlobalError = styled.div`
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
-  padding: 5px;
-  background-color: ${({ theme }) => theme.palette.common.lightRed};
-  text-transform: uppercase;
+  min-height: 25px;
+  color: red;
 `;
 
 const appear = keyframes`
@@ -207,4 +205,4 @@ const SAntdFormItem = styled(Antd.Form.Item)`
   }
 `;
 
-export default LoginForm;
+export default SignInForm;

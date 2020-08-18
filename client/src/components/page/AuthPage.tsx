@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import LoginForm from '../auth/LoginForm';
-import RegisterForm from '../auth/RegisterForm';
+import SignInForm from '../auth/SignInForm';
+import SignUpForm from '../auth/SignUpForm';
 import SocialPanel from '../auth/SocialPanel';
 
 interface Props {
@@ -15,11 +15,11 @@ const AuthPage: React.FC<Props> = (props) => {
     <SAuth>
       {type === 'signIn' && (
         <div style={{ display: 'flex' }}>
-          <LoginForm />
+          <SignInForm />
           <SocialPanel />
         </div>
       )}
-      {type === 'signUp' && <RegisterForm />}
+      {type === 'signUp' && <SignUpForm />}
       <img src="./images/hacker_mindset.svg" alt="" />
     </SAuth>
   );

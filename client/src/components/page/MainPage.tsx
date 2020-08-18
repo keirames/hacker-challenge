@@ -2,17 +2,17 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ContestsContainer from '../contest/ContestsContainer';
 import {
-  getCookie,
+  getAuthCookie,
   signInWithJwt,
-  deleteCookie,
+  deleteAuthCookie,
 } from '../../services/authService';
 
 const MainPage: React.FC = (props) => {
   useEffect(() => {
-    const jwt = getCookie('Authentication');
+    const jwt = getAuthCookie();
     if (jwt) {
       signInWithJwt(jwt);
-      deleteCookie('Authentication');
+      deleteAuthCookie();
       window.location.href = '/';
     }
   }, []);
