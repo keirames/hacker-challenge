@@ -11,12 +11,6 @@ export class UserAccount {
   @Column({ length: 255 })
   password: string;
 
-  @Column({ name: 'first_name', length: 25 })
-  firstName: string;
-
-  @Column({ name: 'last_name', length: 25 })
-  lastName: string;
-
   @Column({
     name: 'registration_time',
     type: 'timestamp with time zone',
@@ -40,15 +34,11 @@ export class UserAccount {
   constructor(params: {
     email: string;
     password: string;
-    firstName: string;
-    lastName: string;
     registrationTime?: Date;
   }) {
     if (params !== undefined) {
       this.email = params.email;
       this.password = params.password;
-      this.firstName = params.firstName;
-      this.lastName = params.lastName;
       this.registrationTime = params.registrationTime;
     }
   }

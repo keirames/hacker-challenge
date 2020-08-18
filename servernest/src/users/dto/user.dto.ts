@@ -18,6 +18,12 @@ export class UserDto {
   @Field(() => Int)
   totalPoints: number;
 
+  @Field(() => String)
+  firstName: string;
+
+  @Field(() => String)
+  lastName: string;
+
   @Field(() => [SolvedChallengeDto])
   solvedChallenges: SolvedChallenge[];
 

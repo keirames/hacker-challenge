@@ -9,12 +9,6 @@ export class UserAccountDto {
   email: string;
 
   @Field(() => String)
-  firstName: string;
-
-  @Field(() => String)
-  lastName: string;
-
-  @Field(() => String)
   registrationTime: Date;
 
   @Field(() => String, { nullable: true })

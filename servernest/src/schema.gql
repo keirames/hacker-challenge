@@ -19,8 +19,6 @@ type UserExternalLoginDto {
 type UserAccountDto {
   id: Int!
   email: String!
-  firstName: String!
-  lastName: String!
   registrationTime: String!
   emailConfirmationToken: String
   passwordReminderToken: String
@@ -82,6 +80,8 @@ type SubscriptionDto {
 type UserDto {
   id: Int!
   totalPoints: Int!
+  firstName: String!
+  lastName: String!
   solvedChallenges: [SolvedChallengeDto!]!
   likedChallenges: [ChallengeDto!]!
   userAccount: UserAccountDto

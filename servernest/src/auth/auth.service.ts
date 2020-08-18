@@ -78,7 +78,7 @@ export class AuthService {
           `External provider(${providerName}) not found`,
         );
 
-      user = new User({ totalPoints: 0 });
+      user = new User({ totalPoints: 0, firstName: payload?.name });
       user.userExternalLogins = [
         new UserExternalLogin({
           externalUserId: externalId,
@@ -128,11 +128,9 @@ export class AuthService {
     userAccount = new UserAccount({
       email,
       password: hashedPassword,
-      firstName,
-      lastName,
     });
 
-    const user = new User({ totalPoints: 0, userAccount });
+    const user = new User({ totalPoints: 0, firstName, lastName, userAccount });
     return this.usersRepository.save(user);
   }
 }
