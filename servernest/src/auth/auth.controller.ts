@@ -95,10 +95,10 @@ export class AuthController {
     return (req.user as any).accessToken;
   }
 
+  // Note if @Body('accountDetails') client must provide
+  // {accoutDetails: account} in axios
   @Post('/signup')
-  async signUp(
-    @Body('accountDetails') accountDetails: SignUpDto,
-  ): Promise<string> {
+  async signUp(@Body() accountDetails: SignUpDto): Promise<string> {
     const user = await this.authService.signUp(accountDetails);
     const { accessToken } = await this.authService.generateToken(user);
     return accessToken;
