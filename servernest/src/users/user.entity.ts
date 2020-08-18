@@ -87,7 +87,4 @@ export class User {
       this.userAccount = params.userAccount;
     }
   }
-  public generateAuthToken(): string {
-    return '';
-  }
 }
