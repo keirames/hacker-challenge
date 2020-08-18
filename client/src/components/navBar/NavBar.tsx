@@ -42,7 +42,7 @@ const SNavBar = styled.div`
   width: 100%;
   background-color: ${({ theme }: { theme: STheme }) =>
     theme.palette.common.dark};
-  min-height: 5vh;
+  min-height: 55px;
 `;
 
 export default NavBar;
