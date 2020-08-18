@@ -31,6 +31,7 @@ export class AuthService {
   async generateToken(user: User): Promise<{ accessToken: string }> {
     const payload = {
       sub: user.id,
+      totalPoints: user.totalPoints,
       firstName: user.firstName,
       lastName: user.lastName,
     };
