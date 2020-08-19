@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Popover, Space, Button } from 'antd';
+import { Link } from 'react-router-dom';
 import { STheme } from '../../theme/theme';
 import { signOut } from '../../services/authService';
 import MyButton from '../common/MyButton';
@@ -19,8 +20,10 @@ const UserOptions: React.FC = (props) => {
         Merge Accounts
       </MyButton>
       <MyButton color="primary" type="text" block>
-        <FontAwesomeIcon icon="cog" style={{ marginRight: '5px' }} />
-        Settings
+        <Link to={`${process.env.PUBLIC_URL}/settings`}>
+          <FontAwesomeIcon icon="cog" style={{ marginRight: '5px' }} />
+          Settings
+        </Link>
       </MyButton>
       <MyButton color="thirdary" type="primary" block onClick={handleSignOut}>
         <FontAwesomeIcon icon="sign-out-alt" style={{ marginRight: '5px' }} />

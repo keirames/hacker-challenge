@@ -6,7 +6,7 @@ import { STheme } from '../../theme/theme';
 import MyButton from '../common/MyButton';
 
 //! This interface is common use, need refactor
-interface IProps {
+interface Props {
   contest: {
     id: string;
     name: string;
@@ -14,14 +14,11 @@ interface IProps {
   };
 }
 
-const CategoryBlock: React.FC<IProps> = ({ contest }) => {
+const CategoryBlock: React.FC<Props> = ({ contest }) => {
   const { name, slug } = contest;
 
   return (
-    <Link
-      to={`contests/${slug}`}
-      style={{ textDecoration: 'none', color: 'black' }}
-    >
+    <Link to={`${slug}`} style={{ textDecoration: 'none', color: 'black' }}>
       <SContestBlock>
         <Typography.Title
           level={4}

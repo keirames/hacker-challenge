@@ -2,7 +2,7 @@ import React from 'react';
 import { Checkbox } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import styled from 'styled-components';
-import { LevelFilter, StatusFilter } from '../page/ContestDetailsPage';
+import { LevelFilter, StatusFilter } from '../contest/ContestDetailsContainer';
 import { STheme } from '../../theme/theme';
 
 interface Props {

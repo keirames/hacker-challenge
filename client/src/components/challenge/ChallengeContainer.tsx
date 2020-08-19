@@ -48,7 +48,7 @@ const GET_CHALLENGE = gql`
   }
 `;
 
-const ChallengePage: React.FC<Props> = (props) => {
+const ChallengeContainer: React.FC<Props> = (props) => {
   const { slug } = useParams();
 
   const { data, loading, error } = useQuery<ChallengeData, ChallengeVars>(
@@ -59,7 +59,7 @@ const ChallengePage: React.FC<Props> = (props) => {
   if (!data?.getChallenge) return null;
 
   return (
-    <SChallengePage style={props.style}>
+    <SChallengeContainer style={props.style}>
       <Row gutter={[48, 12]}>
         <Col span={16}>
           <ChallengeDetails challenge={data.getChallenge} />
@@ -72,14 +72,13 @@ const ChallengePage: React.FC<Props> = (props) => {
           />
         </Col>
       </Row>
-    </SChallengePage>
+    </SChallengeContainer>
   );
 };
 
-const SChallengePage = styled.div`
-  width: 70%;
-  margin: auto;
+const SChallengeContainer = styled.div`
+  width: 100%;
   min-height: 100vh;
 `;
 
-export default ChallengePage;
+export default ChallengeContainer;

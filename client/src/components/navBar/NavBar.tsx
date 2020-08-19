@@ -11,7 +11,11 @@ import Logo from './Logo';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import MyButton from '../common/MyButton';
 
-const NavBar: React.FC = (props) => {
+interface Props {
+  enableBreadcrumbs?: boolean;
+}
+
+const NavBar: React.FC<Props> = ({ enableBreadcrumbs = true }) => {
   const { data } = useQuery(GET_USER_CLIENT);
 
   return (
@@ -23,14 +27,17 @@ const NavBar: React.FC = (props) => {
         {data?.user ? (
           <UserOptions />
         ) : (
-          <Link to="/signIn" style={{ textDecoration: 'none' }}>
+          <Link
+            to={`${process.env.PUBLIC_URL}/auth/signIn`}
+            style={{ textDecoration: 'none' }}
+          >
             <MyButton color="primary" type="primary" size="small">
               Sign In
             </MyButton>
           </Link>
         )}
       </SNavBar>
-      <RouterBreadcrumbs />
+      {enableBreadcrumbs && <RouterBreadcrumbs />}
     </>
   );
 };

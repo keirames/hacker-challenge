@@ -5,7 +5,7 @@ import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { Contest, Challenge, User } from '../../graphql';
-import ChallengesContainer from '../challenge/ChallengesContainer';
+import ChallengesList from '../challenge/ChallengesList';
 import SortTable from '../challenge/SortTable';
 
 export interface StatusFilter {
@@ -64,7 +64,7 @@ const GET_ME = gql`
   }
 `;
 
-const ContestDetailsPage: React.FC = (props) => {
+const ContestDetailsContainer: React.FC = (props) => {
   const { slug } = useParams();
 
   const [challenges, setChallenges] = useState<Challenge[]>([]);
@@ -167,10 +167,10 @@ const ContestDetailsPage: React.FC = (props) => {
   if (error) return <div>Error</div>;
 
   return (
-    <SContestDetailsPage>
+    <SContestDetailsContainer>
       <Row gutter={[48, 0]} justify="space-around">
         <Col span={16}>
-          <ChallengesContainer challenges={sortedChallenges} />
+          <ChallengesList challenges={sortedChallenges} />
         </Col>
         <Col span={5}>
           <SortTable
@@ -181,14 +181,13 @@ const ContestDetailsPage: React.FC = (props) => {
           />
         </Col>
       </Row>
-    </SContestDetailsPage>
+    </SContestDetailsContainer>
   );
 };
 
-const SContestDetailsPage = styled.div`
-  width: 70%;
-  margin: auto;
+const SContestDetailsContainer = styled.div`
+  width: 100%;
   margin-top: 20px;
 `;
 
-export default ContestDetailsPage;
+export default ContestDetailsContainer;

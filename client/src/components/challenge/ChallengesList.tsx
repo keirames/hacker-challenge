@@ -5,26 +5,26 @@ import { Challenge } from '../../graphql';
 import ChallengeBlock from './ChallengeBlock';
 import { STheme } from '../../theme/theme';
 
-const ChallengesContainer: React.FC<{
+const ChallengesList: React.FC<{
   challenges: Challenge[];
 }> = ({ challenges }) => {
   if (challenges.length === 0)
     return (
-      <SChallengesContainer>
+      <SChallengesList>
         <SEmptyBlock>Empty Challenges</SEmptyBlock>
-      </SChallengesContainer>
+      </SChallengesList>
     );
 
   return (
-    <SChallengesContainer direction="vertical" size="middle">
+    <SChallengesList direction="vertical" size="middle">
       {challenges.map((challenge) => (
         <ChallengeBlock key={challenge.id} challenge={challenge} />
       ))}
-    </SChallengesContainer>
+    </SChallengesList>
   );
 };
 
-const SChallengesContainer = styled(Space)`
+const SChallengesList = styled(Space)`
   width: 100%;
 `;
 
@@ -41,4 +41,4 @@ const SEmptyBlock = styled.div`
     theme.palette.common.lightGrey};
 `;
 
-export default ChallengesContainer;
+export default ChallengesList;
