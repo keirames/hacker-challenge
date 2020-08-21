@@ -3,6 +3,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { UsersService } from '../../users/users.service';
 import { jwtPrivateKey } from '../../config/vars';
+import { User } from '../../users/user.entity';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,12 +15,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: { sub: number }): Promise<{ userId: number }> {
+  async validate(payload: { sub: number }): Promise<User> {
     const user = await this.usersService.findById(payload.sub);
     // If user account is revoked
     // you can add check here
     if (!user) throw new NotFoundException('User is deleted or revoked.');
 
-    return { userId: payload.sub };
+    return user;
   }
 }

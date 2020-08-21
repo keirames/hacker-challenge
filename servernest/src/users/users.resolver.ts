@@ -53,10 +53,8 @@ export class UsersResolver {
 
   @Query(() => UserDto, { nullable: true })
   @UseGuards(GqlJwtAuthGuard)
-  async getMe(
-    @CurrentUser() user: { userId: number },
-  ): Promise<User | undefined> {
-    return this.usersService.findById(user.userId);
+  async getMe(@CurrentUser() user: User): Promise<User> {
+    return user;
   }
 
   @ResolveField('solvedChallenges', () => [SolvedChallengeDto])
