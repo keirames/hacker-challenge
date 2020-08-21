@@ -26,6 +26,9 @@ import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 import { SubmitAnswerInput } from './input/submitAnswerInput.input';
 import { TestedResult } from '../codeExecutor/codeExecutor';
 import { TestedResultDto } from './dto/testedResult.dto';
+import { UseGuards } from '@nestjs/common';
+import { GqlJwtAuthGuard } from '../auth/guards/gqlJwtAuth.guard';
+import { CurrentUser } from './decorator/user.decorator';
 
 @Resolver(() => UserDto)
 export class UsersResolver {
@@ -46,6 +49,14 @@ export class UsersResolver {
     @Args('id', { type: () => Int }) id: number,
   ): Promise<User | undefined> {
     return this.usersService.findById(id);
+  }
+
+  @Query(() => UserDto, { nullable: true })
+  @UseGuards(GqlJwtAuthGuard)
+  async getMe(
+    @CurrentUser() user: { userId: number },
+  ): Promise<User | undefined> {
+    return this.usersService.findById(user.userId);
   }
 
   @ResolveField('solvedChallenges', () => [SolvedChallengeDto])

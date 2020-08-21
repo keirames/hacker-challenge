@@ -111,6 +111,7 @@ type SubmissionDto {
 type Query {
   getUsers: [UserDto!]!
   getUser(id: Int!): UserDto
+  getMe: UserDto
   getChallenges: [ChallengeDto!]!
   getChallenge(slug: String!): ChallengeDto
   getContests: [ContestDto!]!
