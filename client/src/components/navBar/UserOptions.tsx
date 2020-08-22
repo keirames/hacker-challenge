@@ -20,7 +20,7 @@ const UserOptions: React.FC = (props) => {
         Merge Accounts
       </MyButton>
       <MyButton color="primary" type="text" block>
-        <Link to={`${process.env.PUBLIC_URL}/settings`}>
+        <Link to={`${process.env.PUBLIC_URL}/settings/account`}>
           <FontAwesomeIcon icon="cog" style={{ marginRight: '5px' }} />
           Settings
         </Link>

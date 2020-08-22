@@ -1,9 +1,11 @@
 export interface User {
   id: number;
+  firstName: string;
+  lastName: string;
   totalPoints: number;
   solvedChallenges: SolvedChallenge[];
   likedChallenges: Challenge[];
-  userAccount: UserAccount;
+  userAccount: UserAccount | null;
   userExternalLogins: UserExternalLogin[];
   subscriptionPlans: Subscription[];
 }
@@ -16,8 +18,6 @@ export interface SolvedChallenge {
 export interface UserAccount {
   id: number;
   email: string;
-  firstName: string;
-  lastName: string;
   registrationTime: string;
   emailConfirmationToken: string;
   passwordReminderToken: string;

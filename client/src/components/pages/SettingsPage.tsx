@@ -4,9 +4,9 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import NavBar from '../navBar/NavBar';
 import Footer from '../footer/Footer';
-import Account from '../account/Account';
-import Password from '../account/Password';
-import SideTabsBar from '../account/SideTabsBar';
+import AccountContainer from '../settings/account/AccountContainer';
+import Password from '../settings/password/Password';
+import SideTabsBar from '../settings/SideTabsBar';
 import { STheme } from '../../theme/theme';
 
 const SettingsPage: React.FC = () => {
@@ -20,9 +20,9 @@ const SettingsPage: React.FC = () => {
           <Col span={6}>
             <SideTabsBar />
           </Col>
-          <Col span={18}>
+          <Col span={12}>
             <Switch>
-              <Route path={`${path}/account`} component={Account} />
+              <Route path={`${path}/account`} component={AccountContainer} />
               <Route path={`${path}/password`} component={Password} />
             </Switch>
           </Col>

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { STheme } from '../../theme/theme';
 import { navigateToSocialProvider } from '../../services/authService';
 import MyButton from '../common/MyButton';
+import Provider from '../provider/Provider';
 
 const SocialPanel: React.FC = (props) => {
   return (
@@ -13,46 +14,15 @@ const SocialPanel: React.FC = (props) => {
         <Typography.Title level={4}>Social Account</Typography.Title>
         <span>Select any provider !</span>
       </div>
-      <MyButton
-        color="primary"
-        type="primary"
-        block
-        style={{
-          backgroundColor: '#2f2e41',
-          borderColor: '#2f2e41',
-        }}
-        onClick={() => navigateToSocialProvider('github')}
-      >
-        <FontAwesomeIcon
-          icon={['fab', 'github-alt']}
-          style={{ marginRight: '10px' }}
-        />
+      <Provider provider="github" block>
         github
-      </MyButton>
-      <MyButton
-        color="primary"
-        type="primary"
-        block
-        onClick={() => navigateToSocialProvider('facebook')}
-      >
-        <FontAwesomeIcon
-          icon={['fab', 'facebook']}
-          style={{ marginRight: '10px' }}
-        />
+      </Provider>
+      <Provider provider="facebook" block>
         facebook
-      </MyButton>
-      <MyButton
-        color="thirdary"
-        type="primary"
-        block
-        onClick={() => navigateToSocialProvider('google')}
-      >
-        <FontAwesomeIcon
-          icon={['fab', 'google-plus-g']}
-          style={{ marginRight: '10px' }}
-        />
+      </Provider>
+      <Provider provider="google" block>
         google
-      </MyButton>
+      </Provider>
     </SSocialPanel>
   );
 };
