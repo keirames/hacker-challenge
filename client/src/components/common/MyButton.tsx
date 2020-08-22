@@ -34,13 +34,14 @@ const primary = css`
       theme.palette.common.lightBlue};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightBlue};
-  }
-  &.ant-btn-primary:hover {
-    color: white;
-    background-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkBlue};
-    border-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkBlue};
+
+    &:hover {
+      color: white;
+      background-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkBlue};
+      border-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkBlue};
+    }
   }
 
   &.ant-btn-dashed,
@@ -49,10 +50,7 @@ const primary = css`
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.lightBlue};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightBlue};
-  }
-  &.ant-btn-dashed:hover,
-  &.ant-btn-ghost:hover,
-  &.ant-btn-default:hover {
+
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkBlue};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.darkBlue};
@@ -60,9 +58,26 @@ const primary = css`
 
   &.ant-btn-text {
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.lightBlue};
+
+    &:hover {
+      color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkBlue};
+    }
   }
-  &.ant-btn-text:hover {
-    color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkBlue};
+
+  &:disabled {
+    color: rgba(0, 0, 0, 0.25);
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+    text-shadow: none;
+    box-shadow: none;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.25);
+      background: #f5f5f5;
+      border-color: #d9d9d9;
+      text-shadow: none;
+      box-shadow: none;
+    }
   }
 `;
 
@@ -74,13 +89,14 @@ const secondary = css`
       theme.palette.common.lightGreen};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightGreen};
-  }
-  &.ant-btn-primary:hover {
-    color: black;
-    background-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkGreen};
-    border-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkGreen};
+
+    &:hover {
+      color: black;
+      background-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkGreen};
+      border-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkGreen};
+    }
   }
 
   &.ant-btn-dashed,
@@ -89,20 +105,38 @@ const secondary = css`
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.lightGreen};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightGreen};
-  }
-  &.ant-btn-dashed:hover,
-  &.ant-btn-ghost:hover,
-  &.ant-btn-default:hover {
-    color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkGreen};
-    border-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkGreen};
+
+    &:hover {
+      color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkGreen};
+      border-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkGreen};
+    }
   }
 
   &.ant-btn-text {
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.lightGreen};
+
+    &:hover {
+      color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkGreen};
+    }
   }
-  &.ant-btn-text:hover {
-    color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkGreen};
+
+  &:disabled {
+    color: rgba(0, 0, 0, 0.25);
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+    text-shadow: none;
+    box-shadow: none;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.25);
+      background: #f5f5f5;
+      border-color: #d9d9d9;
+      text-shadow: none;
+      box-shadow: none;
+    }
   }
 `;
 
@@ -114,13 +148,14 @@ const thirdary = css`
       theme.palette.common.lightCrimson};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightCrimson};
-  }
-  &.ant-btn-primary:hover {
-    color: white;
-    background-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkCrimson};
-    border-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkCrimson};
+
+    &:hover {
+      color: white;
+      background-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkCrimson};
+      border-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkCrimson};
+    }
   }
 
   &.ant-btn-dashed,
@@ -130,23 +165,39 @@ const thirdary = css`
       theme.palette.common.lightCrimson};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightCrimson};
-  }
-  &.ant-btn-dashed:hover,
-  &.ant-btn-ghost:hover,
-  &.ant-btn-default:hover {
-    color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkCrimson};
-    border-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkCrimson};
+
+    &:hover {
+      color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkCrimson};
+      border-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkCrimson};
+    }
   }
 
   &.ant-btn-text {
     color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightCrimson};
+
+    &:hover {
+      color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkCrimson};
+    }
   }
-  &.ant-btn-text:hover {
-    color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkCrimson};
+
+  &:disabled {
+    color: rgba(0, 0, 0, 0.25);
+    background: #f5f5f5;
+    border-color: #d9d9d9;
+    text-shadow: none;
+    box-shadow: none;
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.25);
+      background: #f5f5f5;
+      border-color: #d9d9d9;
+      text-shadow: none;
+      box-shadow: none;
+    }
   }
 `;
 
@@ -158,13 +209,14 @@ const warning = css`
       theme.palette.common.lightGold};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightGold};
-  }
-  &.ant-btn-primary:hover {
-    color: black;
-    background-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkGold};
-    border-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkGold};
+
+    &:hover {
+      color: black;
+      background-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkGold};
+      border-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkGold};
+    }
   }
 
   &.ant-btn-dashed,
@@ -173,20 +225,20 @@ const warning = css`
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.lightGold};
     border-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightGold};
-  }
-  &.ant-btn-dashed:hover,
-  &.ant-btn-ghost:hover,
-  &.ant-btn-default:hover {
-    color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkGold};
-    border-color: ${({ theme }: { theme: STheme }) =>
-      theme.palette.common.darkGold};
+
+    &:hover {
+      color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkGold};
+      border-color: ${({ theme }: { theme: STheme }) =>
+        theme.palette.common.darkGold};
+    }
   }
 
   &.ant-btn-text {
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.lightGold};
-  }
-  &.ant-btn-text:hover {
-    color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkGold};
+
+    &:hover {
+      color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkGold};
+    }
   }
 `;
 
