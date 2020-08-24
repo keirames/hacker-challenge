@@ -12,6 +12,7 @@ import {
   serverUrl,
 } from '../../config/vars';
 import { AuthProvider } from '../../externalAuthenticationProviders/externalAuthenticationProvider.entity';
+import { Request } from 'express';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(OAuth2Strategy) {
@@ -33,7 +34,6 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy) {
     done: (error: any, user?: any, info?: any) => void,
   ): Promise<void> {
     const { sub, name, email } = profile._json;
-    console.log(profile);
 
     const user = await this.authService.signInWithExternalProvider(
       sub,

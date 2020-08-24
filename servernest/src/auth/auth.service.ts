@@ -67,7 +67,7 @@ export class AuthService {
   async signInWithExternalProvider(
     externalId: string,
     providerName: AuthProvider,
-    payload?: { email: string; name: string },
+    payload?: { email: string | undefined; name: string | undefined },
   ): Promise<User> {
     let user = await this.usersService.findUserBySocialId(
       externalId,
