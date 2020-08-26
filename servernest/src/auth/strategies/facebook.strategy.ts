@@ -20,7 +20,7 @@ export class FacebookStrategy extends PassportStrategy(Strategy) {
     super({
       clientID: facebookClientId,
       clientSecret: facebookClientSecret,
-      callbackURL: `${serverUrl}/api/auth/facebook/callback`,
+      callbackURL: `${serverUrl}/api/auth/facebook/callback/signin`,
       passReqToCallback: true,
       scopeSeparator: 'profile',
     } as StrategyOptionWithRequest);

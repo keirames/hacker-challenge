@@ -15,7 +15,7 @@ export class GithubStrategy extends PassportStrategy(Strategy) {
     super({
       clientID: githubClientId,
       clientSecret: githubClientSecret,
-      callbackURL: `${serverUrl}/api/auth/github/callback`,
+      callbackURL: `${serverUrl}/api/auth/github/callback/signin`,
     } as StrategyOptionsWithRequest);
   }
 

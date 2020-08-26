@@ -16,25 +16,32 @@ import { FacebookAuthGuard } from './guards/facebookAuth.guard';
 import { clientUrl } from '../config/vars';
 import { GoogleAuthGuard } from './guards/googleAuth.guard';
 import { SignUpDto } from './dto/signUpDto.dto';
+// import { GithubAuthMergeGuard } from './guards/githubAuthMerge.guard';
 
 @Controller('/api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(FacebookAuthGuard)
-  @Get('/facebook')
+  @Get('/facebook/signin')
   facebookSignIn(): void {
     // Initiates facebook oauth2 flow
   }
 
   @UseGuards(GithubAuthGuard)
-  @Get('/github')
+  @Get('/github/signin')
   githubSignIn(): void {
     // Initiates github oauth2 flow
   }
 
+  // @UseGuards(GithubAuthMergeGuard)
+  // @Get('/github/merge')
+  // githubMerge(): void {
+  //   // Initiates github oauth2 flow
+  // }
+
   @UseGuards(GoogleAuthGuard)
-  @Get('/google')
+  @Get('/google/signin')
   googleSignIn(): void {
     // Initiates google oauth2 flow
   }
@@ -43,7 +50,7 @@ export class AuthController {
   // cause not declare this @UseGuards for social explicitly
   // Nest will not yelling 'missing @UseGuards'
   @UseGuards(FacebookAuthGuard)
-  @Get('/facebook/callback')
+  @Get('/facebook/callback/signin')
   async facebookSignInCallback(
     @Req() req: Request,
     @Res() res: Response,
@@ -58,7 +65,7 @@ export class AuthController {
   }
 
   @UseGuards(GithubAuthGuard)
-  @Get('/github/callback')
+  @Get('/github/callback/signin')
   async githubSignInCallback(
     @Req() req: Request,
     @Res() res: Response,
@@ -72,8 +79,23 @@ export class AuthController {
     res.redirect(`${clientUrl}/auth/failure`);
   }
 
+  // @UseGuards(GithubAuthMergeGuard)
+  // @Get('/github/callback/merge')
+  // async githubMergeCallback(
+  //   @Req() req: Request,
+  //   @Res() res: Response,
+  // ): Promise<void> {
+  //   if (req.user) {
+  //     res.cookie('Authentication', (<any>req).user.accessToken, {
+  //       maxAge: 10000,
+  //     });
+  //     res.redirect(`${clientUrl}/settings/account`);
+  //   }
+  //   res.redirect(`${clientUrl}/settings/account`);
+  // }
+
   @UseGuards(GoogleAuthGuard)
-  @Get('/google/callback')
+  @Get('/google/callback/signin')
   async googleSignInCallback(
     @Req() req: Request,
     @Res() res: Response,

@@ -20,7 +20,7 @@ export class GoogleStrategy extends PassportStrategy(OAuth2Strategy) {
     super({
       clientID: googleClientId,
       clientSecret: googleClientSecret,
-      callbackURL: `${serverUrl}/api/auth/google/callback`,
+      callbackURL: `${serverUrl}/api/auth/google/callback/signin`,
       passReqToCallback: true,
       scope: ['profile', 'email'],
     } as IOAuth2StrategyOptionWithRequest);
