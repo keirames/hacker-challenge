@@ -13,6 +13,7 @@ import { STheme } from '../../theme/theme';
 
 interface Props {
   provider: 'google' | 'facebook' | 'github';
+  type: 'merge' | 'signin';
   block?: boolean;
   disabled?: boolean;
   children?: React.ReactNode;
@@ -20,6 +21,7 @@ interface Props {
 
 const Provider: React.FC<Props> = ({
   provider,
+  type,
   block = false,
   disabled = false,
   children,
@@ -30,7 +32,7 @@ const Provider: React.FC<Props> = ({
       type="primary"
       block={block}
       disabled={disabled}
-      onClick={() => navigateToSocialProvider('github')}
+      onClick={() => navigateToSocialProvider({ provider: 'github', type })}
     >
       {/* <FontAwesomeIcon
         icon={['fab', 'github-alt']}
@@ -50,7 +52,7 @@ const Provider: React.FC<Props> = ({
         type="primary"
         block={block}
         disabled={disabled}
-        onClick={() => navigateToSocialProvider('google')}
+        onClick={() => navigateToSocialProvider({ provider: 'google', type })}
       >
         {/* <FontAwesomeIcon
           icon={['fab', 'google-plus-g']}
@@ -67,7 +69,7 @@ const Provider: React.FC<Props> = ({
       type="primary"
       block={block}
       disabled={disabled}
-      onClick={() => navigateToSocialProvider('facebook')}
+      onClick={() => navigateToSocialProvider({ provider: 'facebook', type })}
     >
       {/* <FontAwesomeIcon
         icon={['fab', 'facebook']}

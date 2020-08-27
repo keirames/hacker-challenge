@@ -1,26 +1,23 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Typography, Space } from 'antd';
 import styled from 'styled-components';
 import { STheme } from '../../theme/theme';
-import { navigateToSocialProvider } from '../../services/authService';
-import MyButton from '../common/MyButton';
 import Provider from '../provider/Provider';
 
-const SocialPanel: React.FC = (props) => {
+const SocialPanel: React.FC = () => {
   return (
     <SSocialPanel direction="vertical" size="middle">
       <div>
         <Typography.Title level={4}>Social Account</Typography.Title>
         <span>Select any provider !</span>
       </div>
-      <Provider provider="github" block>
+      <Provider provider="github" type="signin" block>
         github
       </Provider>
-      <Provider provider="facebook" block>
+      <Provider provider="facebook" type="signin" block>
         facebook
       </Provider>
-      <Provider provider="google" block>
+      <Provider provider="google" type="signin" block>
         google
       </Provider>
     </SSocialPanel>

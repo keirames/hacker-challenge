@@ -27,7 +27,7 @@ const ConnectedAccounts: React.FC<Props> = ({ externalLogins, children }) => {
         return (
           <Row gutter={[8, 16]} key={p} align="middle">
             <Col span={isConnected ? 4 : 12}>
-              <Provider provider={p} block disabled={isConnected}>
+              <Provider provider={p} type="merge" block disabled={isConnected}>
                 {isConnected ? '' : `connect to ${p}`}
               </Provider>
             </Col>

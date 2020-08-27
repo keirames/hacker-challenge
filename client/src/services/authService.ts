@@ -40,8 +40,14 @@ export const getCurrentUser = (): unknown => {
 };
 
 // !Should use enum AuthProvider
-export const navigateToSocialProvider = (provider: string): void => {
-  window.location.href = `${process.env.REACT_APP_API_REST_URL}${apiEndPoint}/${provider}`;
+export const navigateToSocialProvider = ({
+  provider,
+  type = 'signin',
+}: {
+  provider: 'github' | 'google' | 'facebook';
+  type: 'signin' | 'merge';
+}): void => {
+  window.location.href = `${process.env.REACT_APP_API_REST_URL}${apiEndPoint}/${provider}?type=${type}&userId=2`;
 };
 
 export const getAuthCookie = (cookieName = authCookie): string | null => {
