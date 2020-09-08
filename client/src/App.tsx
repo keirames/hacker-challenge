@@ -11,15 +11,15 @@ import { STheme } from './theme/theme';
 import SettingsPage from './components/pages/SettingsPage';
 
 const App: React.FC = () => {
-  const { client } = useQuery(GET_USER_CLIENT);
+  // const { client } = useQuery(GET_USER_CLIENT);
 
-  useEffect(() => {
-    const user = getCurrentUser();
-    client.writeQuery({
-      query: GET_USER_CLIENT,
-      data: { user },
-    });
-  }, [client]);
+  // useEffect(() => {
+  //   const user = getCurrentUser();
+  //   client.writeQuery({
+  //     query: GET_USER_CLIENT,
+  //     data: { user },
+  //   });
+  // }, [client]);
 
   // const ProtectedRoute = ({
   //   component: Component,

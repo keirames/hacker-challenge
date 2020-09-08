@@ -7,7 +7,12 @@ import { STheme } from '../../theme/theme';
 import { signOut } from '../../services/authService';
 import MyButton from '../common/MyButton';
 
-const UserOptions: React.FC = (props) => {
+interface Props {
+  firstName?: string;
+  lastName?: string;
+}
+
+const UserOptions: React.FC<Props> = ({ firstName = 'a', lastName = 'b' }) => {
   const handleSignOut = () => {
     signOut();
     window.location.href = '/';
@@ -34,7 +39,7 @@ const UserOptions: React.FC = (props) => {
 
   return (
     <SUserOptions>
-      <span>Hello</span>
+      <span>Hello {`${firstName} ${lastName}`}</span>
       <Popover content={content} trigger="click">
         <Space>
           <FontAwesomeIcon icon="id-card" size="2x" />

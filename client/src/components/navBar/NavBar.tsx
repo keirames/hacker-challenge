@@ -1,22 +1,30 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useQuery } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import Burger from './Burger';
 import Links from './Links';
 import UserOptions from './UserOptions';
-import { GET_USER_CLIENT } from '../../mutations';
 import { STheme } from '../../theme/theme';
 import Logo from './Logo';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import MyButton from '../common/MyButton';
+import { GetMeData } from '../../interfaces';
 
 interface Props {
   enableBreadcrumbs?: boolean;
 }
 
+const GET_ME = gql`
+  query GetMe {
+    getMe {
+      userTokenDecode @client
+    }
+  }
+`;
+
 const NavBar: React.FC<Props> = ({ enableBreadcrumbs = true }) => {
-  const { data } = useQuery(GET_USER_CLIENT);
+  const { data } = useQuery<GetMeData>(GET_ME);
 
   return (
     <>
@@ -24,8 +32,11 @@ const NavBar: React.FC<Props> = ({ enableBreadcrumbs = true }) => {
         <Logo />
         <Links />
         {/* <Burger /> */}
-        {data?.user ? (
-          <UserOptions />
+        {data?.getMe.userTokenDecode ? (
+          <UserOptions
+            firstName={data.getMe.userTokenDecode.firstName}
+            lastName={data.getMe.userTokenDecode.lastName}
+          />
         ) : (
           <Link
             to={`${process.env.PUBLIC_URL}/auth/signIn`}

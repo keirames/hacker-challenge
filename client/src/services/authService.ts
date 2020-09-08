@@ -43,11 +43,13 @@ export const getCurrentUser = (): unknown => {
 export const navigateToSocialProvider = ({
   provider,
   type = 'signin',
+  userId,
 }: {
   provider: 'github' | 'google' | 'facebook';
   type: 'signin' | 'merge';
+  userId: number | undefined;
 }): void => {
-  window.location.href = `${process.env.REACT_APP_API_REST_URL}${apiEndPoint}/${provider}?type=${type}&userId=2`;
+  window.location.href = `${process.env.REACT_APP_API_REST_URL}${apiEndPoint}/${provider}?type=${type}&userId=${userId}`;
 };
 
 export const getAuthCookie = (cookieName = authCookie): string | null => {

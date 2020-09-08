@@ -14,7 +14,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { theme } from './theme/theme';
-import { getJwt } from './services/authService';
+import { getJwt, getCurrentUser } from './services/authService';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'antd/dist/antd.css';
@@ -36,7 +36,17 @@ const authLink = setContext((_, { headers }) => {
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      UserDto: {
+        fields: {
+          userTokenDecode: {
+            read: getCurrentUser,
+          },
+        },
+      },
+    },
+  }),
 });
 
 library.add(fab, fas, far);

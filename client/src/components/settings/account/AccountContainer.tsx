@@ -5,17 +5,9 @@ import Email from './Email';
 import ConnectedAccounts from './ConnectedAccounts';
 import { STheme } from '../../../theme/theme';
 import DeleteAccounts from './DeleteAccounts';
-import { User } from '../../../graphql';
+import { GetMeData } from '../../../interfaces';
 
-interface GetUserData {
-  getMe: User;
-}
-
-interface GetUserVars {
-  id: number;
-}
-
-const GET_USER = gql`
+const GET_ME = gql`
   query GetMe {
     getMe {
       id
@@ -42,11 +34,11 @@ const GET_USER = gql`
 `;
 
 const AccountContainer: React.FC = () => {
-  const { loading, error, data } = useQuery<GetUserData, GetUserVars>(GET_USER);
+  const { loading, error, data } = useQuery<GetMeData>(GET_ME);
 
   if (loading) return <div>Loading</div>;
 
-  if (!data) return <div>Error</div>;
+  if (!data || error) return <div>Error</div>;
 
   return (
     <SAccountContainer>

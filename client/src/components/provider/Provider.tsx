@@ -1,7 +1,7 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { darken } from 'polished';
+import { useQuery, gql } from '@apollo/client';
 import {
   GithubOutlined,
   FacebookFilled,
@@ -10,6 +10,7 @@ import {
 import MyButton from '../common/MyButton';
 import { navigateToSocialProvider } from '../../services/authService';
 import { STheme } from '../../theme/theme';
+import { GetMeData } from '../../interfaces';
 
 interface Props {
   provider: 'google' | 'facebook' | 'github';
@@ -19,6 +20,14 @@ interface Props {
   children?: React.ReactNode;
 }
 
+const GET_ME = gql`
+  query GetMe {
+    getMe {
+      userTokenDecode @client
+    }
+  }
+`;
+
 const Provider: React.FC<Props> = ({
   provider,
   type,
@@ -26,24 +35,31 @@ const Provider: React.FC<Props> = ({
   disabled = false,
   children,
 }) => {
-  const Github = () => (
-    <SGithub
-      color="primary"
-      type="primary"
-      block={block}
-      disabled={disabled}
-      onClick={() => navigateToSocialProvider({ provider: 'github', type })}
-    >
-      {/* <FontAwesomeIcon
+  const { data, error } = useQuery<GetMeData>(GET_ME);
+
+  if (provider === 'github')
+    return (
+      <SGithub
+        color="primary"
+        type="primary"
+        block={block}
+        disabled={disabled}
+        onClick={() =>
+          navigateToSocialProvider({
+            provider: 'github',
+            type,
+            userId: data?.getMe.userTokenDecode.sub,
+          })
+        }
+      >
+        {/* <FontAwesomeIcon
         icon={['fab', 'github-alt']}
         style={{ marginRight: '10px' }}
       /> */}
-      <GithubOutlined />
-      {children}
-    </SGithub>
-  );
-
-  if (provider === 'github') return <Github />;
+        <GithubOutlined />
+        {children}
+      </SGithub>
+    );
 
   if (provider === 'google')
     return (
@@ -52,7 +68,13 @@ const Provider: React.FC<Props> = ({
         type="primary"
         block={block}
         disabled={disabled}
-        onClick={() => navigateToSocialProvider({ provider: 'google', type })}
+        onClick={() =>
+          navigateToSocialProvider({
+            provider: 'google',
+            type,
+            userId: data?.getMe.userTokenDecode.sub,
+          })
+        }
       >
         {/* <FontAwesomeIcon
           icon={['fab', 'google-plus-g']}
@@ -69,7 +91,13 @@ const Provider: React.FC<Props> = ({
       type="primary"
       block={block}
       disabled={disabled}
-      onClick={() => navigateToSocialProvider({ provider: 'facebook', type })}
+      onClick={() =>
+        navigateToSocialProvider({
+          provider: 'facebook',
+          type,
+          userId: data?.getMe.userTokenDecode.sub,
+        })
+      }
     >
       {/* <FontAwesomeIcon
         icon={['fab', 'facebook']}
