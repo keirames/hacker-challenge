@@ -15,7 +15,7 @@ import {
 import { AuthProvider } from '../../externalAuthenticationProviders/externalAuthenticationProvider.entity';
 
 @Injectable()
-export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
+export class FacebookStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authService: AuthService) {
     super({
       clientID: facebookClientId,

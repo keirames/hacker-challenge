@@ -8,10 +8,11 @@ import { UserAccountsModule } from '../userAccounts/userAccounts.module';
 import { UserExternalLoginsModule } from '../userExternalLogins/userExternalLogins.module';
 import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
 import { ChallengesModule } from '../challenges/challenges.module';
+import { UserAccount } from '../userAccounts/userAccount.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, UserAccount]),
     ChallengesModule,
     UserAccountsModule,
     UserExternalLoginsModule,

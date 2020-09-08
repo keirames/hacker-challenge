@@ -1,29 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import {
-  Strategy,
-  StrategyOptionWithRequest,
+  OAuth2Strategy,
+  IOAuth2StrategyOptionWithRequest,
   Profile,
-} from 'passport-facebook';
+} from 'passport-google-oauth';
 import { AuthService } from '../auth.service';
-import { Request } from 'express';
 import {
-  facebookClientId,
-  facebookClientSecret,
+  googleClientId,
+  googleClientSecret,
   serverUrl,
 } from '../../config/vars';
 import { AuthProvider } from '../../externalAuthenticationProviders/externalAuthenticationProvider.entity';
+import { Request } from 'express';
 
 @Injectable()
-export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
+export class GoogleStrategy extends PassportStrategy(OAuth2Strategy) {
   constructor(private readonly authService: AuthService) {
     super({
-      clientID: facebookClientId,
-      clientSecret: facebookClientSecret,
-      callbackURL: `${serverUrl}/api/auth/facebook/callback/signin`,
+      clientID: googleClientId,
+      clientSecret: googleClientSecret,
+      callbackURL: `${serverUrl}/api/auth/google/callback/signin`,
       passReqToCallback: true,
-      scopeSeparator: 'profile',
-    } as StrategyOptionWithRequest);
+      scope: ['profile', 'email'],
+    } as IOAuth2StrategyOptionWithRequest);
   }
 
   async validate(
@@ -33,17 +33,14 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     profile: Profile,
     done: (error: any, user?: any, info?: any) => void,
   ): Promise<void> {
-    const { id, name, email } = profile._json;
+    const { sub, name, email } = profile._json;
 
     const user = await this.authService.signInWithExternalProvider(
-      id,
-      AuthProvider.FACEBOOK,
+      sub,
+      AuthProvider.GOOGLE,
       { email, name },
     );
 
-    /**
-     * token : {accessToken : '' }
-     */
     const token = await this.authService.generateToken(user);
     return done(null, token);
   }

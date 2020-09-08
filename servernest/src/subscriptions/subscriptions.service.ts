@@ -18,4 +18,18 @@ export class SubscriptionsService {
       order: { startTime: 'ASC' },
     });
   }
+
+  async removeByUserId(userId: number): Promise<void> {
+    const subscriptions = await this.findByUserId(userId);
+    await this.subscriptionsRepository.remove(subscriptions);
+  }
+
+  async isInSubscriptionTime(userId: number): Promise<boolean> {
+    const subscriptions = await this.findByUserId(userId);
+    const [lastSubscription] = subscriptions;
+
+    if (lastSubscription && lastSubscription.endTime > new Date()) return true;
+
+    return false;
+  }
 }

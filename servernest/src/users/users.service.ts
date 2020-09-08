@@ -1,4 +1,10 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -8,14 +14,19 @@ import { UserAccountsService } from '../userAccounts/userAccounts.service';
 import { SubmitAnswerInput } from './input/submitAnswerInput.input';
 import { ChallengesService } from '../challenges/challenges.service';
 import { executeSolution, TestedResult } from '../codeExecutor/codeExecutor';
+import { UserAccount } from '../userAccounts/userAccount.entity';
+import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    @InjectRepository(UserAccount)
+    private readonly userAccountsRepository: Repository<UserAccount>,
 
     private readonly userAccountsService: UserAccountsService,
     private readonly challengesService: ChallengesService,
+    private readonly subscriptionsService: SubscriptionsService,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -147,5 +158,37 @@ export class UsersService {
     }
 
     return executeResult;
+  }
+
+  /**
+   * @usageNotes
+   * Totaly remove user `cannot recovered`. It will remove any persist data such as:
+   * - Delete userAccount data.
+   * - Delete userExternalLogins data.
+   * - Delete subscriptions data. (Try to delete account not expired yet will cause Error).
+   * - Delete solvedChallenges data.
+   * - Delete likedChallenges data.
+   * - Delete submissions data.
+   * @param userId a number stand for user's id in database
+   */
+  async completelyRemoveUserById(userId: number): Promise<User> {
+    let user = await this.findById(userId);
+    if (!user) throw new NotFoundException(`Invalid user's id`);
+
+    const isInSubscriptionTime = await this.subscriptionsService.isInSubscriptionTime(
+      userId,
+    );
+    if (isInSubscriptionTime)
+      throw new BadRequestException(`User still in subscription time`);
+    else await this.subscriptionsService.removeByUserId(userId);
+
+    user = await this.usersRepository.remove(user);
+
+    const userAccount = await this.userAccountsService.findById(
+      user.userAccountId,
+    );
+    if (userAccount) this.userAccountsRepository.remove(userAccount);
+
+    return user;
   }
 }

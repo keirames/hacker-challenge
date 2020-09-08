@@ -42,6 +42,7 @@ export class Submission {
   @ManyToOne(
     () => User,
     user => user.submissions,
+    { onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'user_id' })
   user: User;

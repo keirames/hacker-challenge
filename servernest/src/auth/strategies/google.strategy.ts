@@ -15,7 +15,7 @@ import { AuthProvider } from '../../externalAuthenticationProviders/externalAuth
 import { Request } from 'express';
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(OAuth2Strategy) {
+export class GoogleStrategy extends PassportStrategy(OAuth2Strategy, 'google') {
   constructor(private readonly authService: AuthService) {
     super({
       clientID: googleClientId,

@@ -41,7 +41,7 @@ export class User {
   @OneToMany(
     () => UserExternalLogin,
     userExternalLogin => userExternalLogin.user,
-    { cascade: true },
+    { cascade: true, onDelete: 'CASCADE' },
   )
   userExternalLogins: UserExternalLogin[];
 
@@ -60,6 +60,7 @@ export class User {
   @ManyToMany(
     () => Challenge,
     challenge => challenge.likedUsers,
+    { onDelete: 'CASCADE' },
   )
   @JoinTable({
     name: 'liked_challenges',

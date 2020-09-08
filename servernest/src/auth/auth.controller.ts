@@ -1,55 +1,41 @@
 import {
   Controller,
   Get,
-  UseGuards,
   Req,
   Post,
   Res,
   NotFoundException,
   Body,
+  UseGuards,
 } from '@nestjs/common';
-import { GithubAuthGuard } from './guards/githubAuth.guard';
 import { Request, Response } from 'express';
-import { LocalAuthGuard } from './guards/localAuth.guard';
 import { AuthService } from './auth.service';
-import { FacebookAuthGuard } from './guards/facebookAuth.guard';
 import { clientUrl } from '../config/vars';
-import { GoogleAuthGuard } from './guards/googleAuth.guard';
 import { SignUpDto } from './dto/signUpDto.dto';
-// import { GithubAuthMergeGuard } from './guards/githubAuthMerge.guard';
+import { LocalAuthGuard } from './guards/localAuth.guard';
 
 @Controller('/api/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(FacebookAuthGuard)
   @Get('/facebook/signin')
   facebookSignIn(): void {
     // Initiates facebook oauth2 flow
   }
 
-  @UseGuards(GithubAuthGuard)
-  @Get('/github/signin')
+  @Get('/github')
   githubSignIn(): void {
     // Initiates github oauth2 flow
   }
 
-  // @UseGuards(GithubAuthMergeGuard)
-  // @Get('/github/merge')
-  // githubMerge(): void {
-  //   // Initiates github oauth2 flow
-  // }
-
-  @UseGuards(GoogleAuthGuard)
   @Get('/google/signin')
   googleSignIn(): void {
     // Initiates google oauth2 flow
   }
 
-  // Encounter validate fnc is not trigger
+  // Encounter validate fnc is not trigger (in case using guard)
   // cause not declare this @UseGuards for social explicitly
   // Nest will not yelling 'missing @UseGuards'
-  @UseGuards(FacebookAuthGuard)
   @Get('/facebook/callback/signin')
   async facebookSignInCallback(
     @Req() req: Request,
@@ -64,13 +50,30 @@ export class AuthController {
     res.redirect(`${clientUrl}/auth/failure`);
   }
 
-  @UseGuards(GithubAuthGuard)
-  @Get('/github/callback/signin')
-  async githubSignInCallback(
+  // @Get('/github/callback/signin')
+  // async githubSignInCallback(
+  //   @Req() req: Request,
+  //   @Res() res: Response,
+  // ): Promise<void> {
+  //   if (req.user) {
+  //     res.cookie('Authentication', (<any>req).user.accessToken, {
+  //       maxAge: 10000,
+  //     });
+  //     res.redirect(`${clientUrl}/auth/success`);
+  //   }
+  //   res.redirect(`${clientUrl}/auth/failure`);
+  // }
+
+  @Get('/github/callback')
+  async githubMergeCallback(
     @Req() req: Request,
     @Res() res: Response,
   ): Promise<void> {
     if (req.user) {
+      if ((<any>req).user.accessToken === '') {
+        res.redirect(`${clientUrl}/settings/account`);
+      }
+
       res.cookie('Authentication', (<any>req).user.accessToken, {
         maxAge: 10000,
       });
@@ -79,22 +82,6 @@ export class AuthController {
     res.redirect(`${clientUrl}/auth/failure`);
   }
 
-  // @UseGuards(GithubAuthMergeGuard)
-  // @Get('/github/callback/merge')
-  // async githubMergeCallback(
-  //   @Req() req: Request,
-  //   @Res() res: Response,
-  // ): Promise<void> {
-  //   if (req.user) {
-  //     res.cookie('Authentication', (<any>req).user.accessToken, {
-  //       maxAge: 10000,
-  //     });
-  //     res.redirect(`${clientUrl}/settings/account`);
-  //   }
-  //   res.redirect(`${clientUrl}/settings/account`);
-  // }
-
-  @UseGuards(GoogleAuthGuard)
   @Get('/google/callback/signin')
   async googleSignInCallback(
     @Req() req: Request,
@@ -124,5 +111,10 @@ export class AuthController {
     const user = await this.authService.signUp(accountDetails);
     const { accessToken } = await this.authService.generateToken(user);
     return accessToken;
+  }
+
+  @Get('/test')
+  async test(): Promise<void> {
+    await this.authService.test();
   }
 }

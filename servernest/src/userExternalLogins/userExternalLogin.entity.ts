@@ -36,6 +36,7 @@ export class UserExternalLogin {
   @ManyToOne(
     () => User,
     user => user.userExternalLogins,
+    { onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'user_id' })
   user: User;

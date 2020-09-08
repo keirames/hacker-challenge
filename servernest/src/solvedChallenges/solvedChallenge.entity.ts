@@ -7,7 +7,7 @@ export class SolvedChallenge {
   @ManyToOne(
     () => User,
     user => user.solvedChallenges,
-    { primary: true },
+    { primary: true, onDelete: 'CASCADE' },
   )
   @JoinColumn({ name: 'user_id' })
   user: User;

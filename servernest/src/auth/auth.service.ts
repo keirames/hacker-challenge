@@ -16,11 +16,17 @@ import { ExternalAuthenticationProvidersService } from '../externalAuthenticatio
 import { AuthProvider } from '../externalAuthenticationProviders/externalAuthenticationProvider.entity';
 import { SignUpDto } from './dto/signUpDto.dto';
 import { SignInDto } from './dto/signInDto.dto';
+import { Challenge } from '../challenges/challenge.entity';
+import { TestCase } from '../testCases/testCase.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    @InjectRepository(Challenge)
+    private readonly challengesRepository: Repository<Challenge>,
+    @InjectRepository(TestCase)
+    private readonly testCasesRepository: Repository<TestCase>,
 
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
@@ -98,6 +104,51 @@ export class AuthService {
     return user;
   }
 
+  async mergeExternalProvider(
+    currentUserId: number,
+    mergeUserId: number,
+  ): Promise<void> {
+    const currentUser = await this.usersRepository.findOne({
+      where: { id: currentUserId },
+      relations: ['userExternalLogins', 'likedChallenges'],
+    });
+    if (!currentUser) throw new NotFoundException(`Invalid current user id`);
+
+    const mergeUser = await this.usersRepository.findOne({
+      where: { id: mergeUserId },
+      relations: ['userExternalLogins', 'likedChallenges'],
+    });
+    if (!mergeUser) throw new NotFoundException(`Invalid merge user id`);
+
+    // If mergeUser is currentUser (malicious request)
+    if (mergeUser === currentUser)
+      throw new BadRequestException('Invalid userId & provider');
+
+    const notUndefined = <T>(x: T | undefined): x is T => x !== undefined;
+    const combinedChallenges = [
+      ...currentUser.likedChallenges,
+      ...mergeUser.likedChallenges,
+    ];
+    const combinedUniqueChallenges = combinedChallenges
+      .map(c => c.id)
+      .filter(
+        (challengeId, index, arrChallengeId) =>
+          arrChallengeId.indexOf(challengeId) === index,
+      )
+      .map(challengeId => combinedChallenges.find(c => c.id === challengeId))
+      .filter(notUndefined);
+
+    // Already use guard to ensure that account dont have multiple provider
+    const [provider] = mergeUser.userExternalLogins;
+
+    currentUser.likedChallenges = combinedUniqueChallenges;
+    currentUser.userExternalLogins.push(provider);
+
+    // await this.usersRepository.remove(mergeUser);
+    await this.usersService.completelyRemoveUserById(mergeUser.id);
+    await this.usersRepository.save(currentUser);
+  }
+
   // async signIn(account: SignInInput): Promise<string> {
   //   const { email, password } = account;
 
@@ -137,5 +188,15 @@ export class AuthService {
 
     const user = new User({ totalPoints: 0, firstName, lastName, userAccount });
     return this.usersRepository.save(user);
+  }
+
+  async test(): Promise<void> {
+    const challenge = await this.challengesRepository.findOne({
+      title: 'bubble sort',
+    });
+
+    if (!challenge) throw new NotFoundException();
+
+    await this.challengesRepository.remove(challenge);
   }
 }

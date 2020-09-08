@@ -103,7 +103,7 @@ export class Challenge {
   @OneToMany(
     () => TestCase,
     testCase => testCase.challenge,
-    { eager: true, cascade: true },
+    { eager: true, cascade: true, onDelete: 'CASCADE' },
   )
   testCases: TestCase[];
 
