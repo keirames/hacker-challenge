@@ -1,0 +1,191 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ExternalAuthenticationProviderDto {
+  id: Int!
+  name: String!
+}
+
+type UserExternalLoginDto {
+  id: Int!
+  externalUserId: String!
+  email: String
+  firstName: String
+  lastName: String
+  externalAuthenticationProvider: ExternalAuthenticationProviderDto!
+}
+
+type UserAccountDto {
+  id: Int!
+  email: String!
+  registrationTime: String!
+  emailConfirmationToken: String
+  passwordReminderToken: String
+  passwordReminderExpire: String
+}
+
+type ContestDto {
+  id: Int!
+  name: String!
+  slug: String!
+  challenges: [ChallengeDto!]!
+}
+
+type TestCaseDto {
+  id: Int!
+  text: String!
+  testString: String!
+}
+
+type TestInputDto {
+  input: String!
+}
+
+type ChallengeDto {
+  id: Int!
+  title: String!
+  slug: String!
+  problem: String!
+  inputFormat: String!
+  outputFormat: String!
+  challengeSeed: String!
+  testInputs: [TestInputDto!]!
+  level: String!
+  points: Int!
+  testCases: [TestCaseDto!]!
+  contest: ContestDto!
+  passedUsers: [UserDto!]!
+  likedUsers: [UserDto!]!
+}
+
+type SolvedChallengeDto {
+  challenge: ChallengeDto!
+  createdAt: String!
+}
+
+type PlanDto {
+  id: Int!
+  name: String!
+  pricePerMonth: Float!
+}
+
+type SubscriptionDto {
+  id: Int!
+  plan: PlanDto!
+  startTime: String!
+  endTime: String!
+}
+
+type UserDto {
+  id: Int!
+  totalPoints: Int!
+  firstName: String!
+  lastName: String!
+  solvedChallenges: [SolvedChallengeDto!]!
+  likedChallenges: [ChallengeDto!]!
+  userAccount: UserAccountDto
+  userExternalLogins: [UserExternalLoginDto!]!
+  subscriptionPlans: [SubscriptionDto!]!
+}
+
+type AssertDto {
+  message: String!
+}
+
+type TestedResultDto {
+  passed: Boolean!
+  assert: AssertDto!
+  time: Int!
+}
+
+type SubmissionDto {
+  id: Int!
+  answer: String!
+  isPassed: Boolean!
+  createdAt: String!
+  user: UserDto!
+  challenge: ChallengeDto!
+}
+
+type Query {
+  getUsers: [UserDto!]!
+  getUser(id: Int!): UserDto
+  getMe: UserDto
+  getChallenges: [ChallengeDto!]!
+  getChallenge(slug: String!): ChallengeDto
+  getContests: [ContestDto!]!
+  getContest(slug: String!): ContestDto
+  getSubmissions(challengeId: Int!, userId: Int!): [SubmissionDto!]!
+}
+
+type Mutation {
+  submitAnswer(submitAnswerInput: SubmitAnswerInput!): [TestedResultDto!]!
+  addChallenge(challenge: AddChallengeInput!): ChallengeDto!
+  editChallenge(challenge: EditChallengeInput!): ChallengeDto!
+  likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!
+  addContest(contest: AddContestInput!): ContestDto!
+  editContest(contest: EditContestInput!): ContestDto!
+}
+
+input SubmitAnswerInput {
+  userId: Int!
+  challengeId: Int!
+  answer: String!
+}
+
+input AddChallengeInput {
+  title: String!
+  problem: String!
+  inputFormat: String!
+  outputFormat: String!
+  challengeSeed: String!
+  level: Level!
+  points: Int!
+  contestId: Int!
+  testCases: [TestCaseInput!]!
+  testInputs: [TestInputInput!]!
+}
+
+enum Level {
+  EASY
+  MEDIUM
+  HARD
+}
+
+input TestCaseInput {
+  text: String!
+  testString: String!
+}
+
+input TestInputInput {
+  input: String!
+}
+
+input EditChallengeInput {
+  id: Int!
+  title: String!
+  problem: String!
+  inputFormat: String!
+  outputFormat: String!
+  challengeSeed: String!
+  level: Level!
+  points: Int!
+  contestId: Int!
+  testCases: [TestCaseInput!]!
+  testInputs: [TestInputInput!]!
+}
+
+input MarkLikeChallengeInput {
+  userId: Int!
+  challengeId: Int!
+}
+
+input AddContestInput {
+  name: String!
+}
+
+input EditContestInput {
+  id: Int!
+  name: String!
+}

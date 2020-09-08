@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
+import React from 'react';
+import styled from 'styled-components';
+import { STheme } from '../../theme/theme';
 
 const Footer: React.FC = (props) => {
   return (

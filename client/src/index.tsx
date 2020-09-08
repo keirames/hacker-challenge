@@ -1,26 +1,26 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {
   createHttpLink,
   InMemoryCache,
   ApolloProvider,
   ApolloClient,
-} from "@apollo/client";
-import { setContext } from "@apollo/link-context";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { ThemeProvider } from "styled-components";
-import { theme } from "./theme/theme";
-import { BrowserRouter } from "react-router-dom";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-import { far } from "@fortawesome/free-regular-svg-icons";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { getJwt } from "./services/authService";
+} from '@apollo/client';
+import { setContext } from '@apollo/link-context';
+import { ThemeProvider } from 'styled-components';
+import { BrowserRouter } from 'react-router-dom';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { theme } from './theme/theme';
+import { getJwt } from './services/authService';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import 'antd/dist/antd.css';
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:3000/graphql",
+  uri: 'http://localhost:3000/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -29,7 +29,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
+      Authorization: token || '',
     },
   };
 });
@@ -42,17 +42,14 @@ const client = new ApolloClient({
 library.add(fab, fas, far);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ApolloProvider client={client}>
-        <CssBaseline />
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </ApolloProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
+  <BrowserRouter>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </ApolloProvider>
+  </BrowserRouter>,
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -1,8 +1,8 @@
-import React from "react";
-import { gql, useQuery } from "@apollo/client";
-import ContestBlock from "./ContestBlock";
-import { Grid } from "@material-ui/core";
-import styled from "styled-components";
+import React from 'react';
+import { gql, useQuery } from '@apollo/client';
+import styled from 'styled-components';
+import { Row, Col } from 'antd';
+import ContestBlock from './ContestBlock';
 
 export const GET_CONTESTS = gql`
   {
@@ -22,13 +22,13 @@ const ContestsContainer: React.FC = (props) => {
 
   return (
     <SContestsContainer>
-      <Grid container spacing={5}>
+      <Row gutter={[48, 48]}>
         {data.getContests.map((contest: any) => (
-          <Grid item xs={6} key={contest.id}>
+          <Col span={12} key={contest.id}>
             <ContestBlock contest={contest} />
-          </Grid>
+          </Col>
         ))}
-      </Grid>
+      </Row>
     </SContestsContainer>
   );
 };

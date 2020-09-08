@@ -1,6 +1,6 @@
 import { ApolloServer } from "apollo-server-express";
-import { typeDefs } from "../graphql/schema";
-import resolvers from "../graphql/resolvers";
+import resolvers from "../resolvers";
+import typeDefs from "../graphql/schema";
 
 const constructTestServer = ({ context }: { context: Function }) => {
   const server = new ApolloServer({
@@ -13,4 +13,4 @@ const constructTestServer = ({ context }: { context: Function }) => {
   return { server };
 };
 
-export { constructTestServer };
+export default constructTestServer;

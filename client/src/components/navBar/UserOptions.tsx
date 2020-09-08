@@ -1,45 +1,47 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { STheme } from "../../theme/theme";
-import { Popper, ClickAwayListener, Paper, Button } from "@material-ui/core";
-import { signOut } from "../../services/authService";
+import React from 'react';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Popover, Space, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import { STheme } from '../../theme/theme';
+import { signOut } from '../../services/authService';
+import MyButton from '../common/MyButton';
 
 const UserOptions: React.FC = (props) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-
-  const handleTrigger = (e: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : e.currentTarget);
-  };
-
   const handleSignOut = () => {
     signOut();
-    window.location.href = "/";
+    window.location.href = '/';
   };
 
+  const content = (
+    <Space direction="vertical">
+      <MyButton color="primary" type="text" block>
+        <FontAwesomeIcon icon="tasks" style={{ marginRight: '5px' }} />
+        Merge Accounts
+      </MyButton>
+      <MyButton color="primary" type="text" block>
+        <Link to={`${process.env.PUBLIC_URL}/settings/account`}>
+          <FontAwesomeIcon icon="cog" style={{ marginRight: '5px' }} />
+          Settings
+        </Link>
+      </MyButton>
+      <MyButton color="thirdary" type="primary" block onClick={handleSignOut}>
+        <FontAwesomeIcon icon="sign-out-alt" style={{ marginRight: '5px' }} />
+        Sign Out
+      </MyButton>
+    </Space>
+  );
+
   return (
-    <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
-      <SUserOptions onClick={handleTrigger}>
-        <FontAwesomeIcon icon="id-card" size="2x" />
-        <FontAwesomeIcon icon="angle-down" size="1x" />
-        <Popper
-          id={Boolean(anchorEl) ? "simple-popper" : undefined}
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-        >
-          <Paper elevation={3} style={{ padding: "10px" }}>
-            <Button
-              variant="contained"
-              color="secondary"
-              fullWidth
-              onClick={handleSignOut}
-            >
-              Sign Out
-            </Button>
-          </Paper>
-        </Popper>
-      </SUserOptions>
-    </ClickAwayListener>
+    <SUserOptions>
+      <span>Hello</span>
+      <Popover content={content} trigger="click">
+        <Space>
+          <FontAwesomeIcon icon="id-card" size="2x" />
+          <FontAwesomeIcon icon="angle-down" size="1x" />
+        </Space>
+      </Popover>
+    </SUserOptions>
   );
 };
 
@@ -49,6 +51,10 @@ const SUserOptions = styled.div`
   border: 1px solid transparent;
   color: ${({ theme }: { theme: STheme }) => theme.palette.common.white};
   cursor: pointer;
+
+  span {
+    font-weight: 500;
+  }
 
   & > * {
     margin-right: 10px;

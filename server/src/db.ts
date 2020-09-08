@@ -12,7 +12,7 @@ const mongooseServer = () => {
   })
     .then(() => console.log(`Connected to ${connectionString}`))
     .catch((err: { message: any }) =>
-      console.log(`Cannot connected to mongoDB with err : ${err.message}`)
+      console.log(`Cannot connected to mongoDB with err : ${err.message}`),
     );
 };
 

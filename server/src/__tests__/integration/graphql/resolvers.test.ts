@@ -1,11 +1,11 @@
 import { gql, ApolloServer } from "apollo-server-express";
 const { createTestClient } = require("apollo-server-testing");
 import { typeDefs } from "../../../graphql/schema";
-import resolvers from "../../../graphql/resolvers";
+import resolvers from "../../../resolvers";
 import mongooseServer from "../../../db";
 import { constructTestServer } from "../../__utils";
 import * as auth from "../../../utils/auth";
-import { User } from "../../../models/user";
+import { User } from "../../../models/users";
 import { sign } from "jsonwebtoken";
 
 // Connect to mongoDB
@@ -334,7 +334,7 @@ describe("Queries", () => {
               firstname: user?.firstname,
               lastname: user?.lastname,
             },
-            "helloworld"
+            "helloworld",
           );
 
           return { req: { headers: { authorization: `Bearer ${token}` } } };

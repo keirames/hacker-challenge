@@ -1,17 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import { STheme } from "../../theme/theme";
-import Logo from "./Logo";
-import Burger from "./Burger";
-import { Hidden, Button } from "@material-ui/core";
-import Links from "./Links";
-import UserOptions from "./UserOptions";
-import { GET_USER_CLIENT } from "../../mutations";
-import { useQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
-import RouterBreadcrumbs from "./RouterBreadcrumbs";
+import React from 'react';
+import styled from 'styled-components';
+import { useQuery } from '@apollo/client';
+import { Link } from 'react-router-dom';
+import Burger from './Burger';
+import Links from './Links';
+import UserOptions from './UserOptions';
+import { GET_USER_CLIENT } from '../../mutations';
+import { STheme } from '../../theme/theme';
+import Logo from './Logo';
+import RouterBreadcrumbs from './RouterBreadcrumbs';
+import MyButton from '../common/MyButton';
 
-const NavBar: React.FC = (props) => {
+interface Props {
+  enableBreadcrumbs?: boolean;
+}
+
+const NavBar: React.FC<Props> = ({ enableBreadcrumbs = true }) => {
   const { data } = useQuery(GET_USER_CLIENT);
 
   return (
@@ -19,20 +23,21 @@ const NavBar: React.FC = (props) => {
       <SNavBar>
         <Logo />
         <Links />
-        <Hidden lgUp>
-          <Burger />
-        </Hidden>
+        {/* <Burger /> */}
         {data?.user ? (
           <UserOptions />
         ) : (
-          <Link to="/signIn" style={{ textDecoration: "none" }}>
-            <Button variant="contained" color="primary" size="small">
+          <Link
+            to={`${process.env.PUBLIC_URL}/auth/signIn`}
+            style={{ textDecoration: 'none' }}
+          >
+            <MyButton color="primary" type="primary" size="small">
               Sign In
-            </Button>
+            </MyButton>
           </Link>
         )}
       </SNavBar>
-      <RouterBreadcrumbs />
+      {enableBreadcrumbs && <RouterBreadcrumbs />}
     </>
   );
 };
@@ -44,7 +49,7 @@ const SNavBar = styled.div`
   width: 100%;
   background-color: ${({ theme }: { theme: STheme }) =>
     theme.palette.common.dark};
-  min-height: 5vh;
+  min-height: 55px;
 `;
 
 export default NavBar;

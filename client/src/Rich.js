@@ -1,6 +1,7 @@
-import React from "react";
-import Draft from "draft-js";
-import "./rich.css";
+/* eslint-disable */
+import React from 'react';
+import Draft from 'draft-js';
+import './rich.css';
 
 const { Editor, EditorState, RichUtils, getDefaultKeyBinding } = Draft;
 
@@ -18,6 +19,7 @@ export default class RichEditorExample extends React.Component {
     this.toggleBlockType = this._toggleBlockType.bind(this);
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
   }
+
   _handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -26,6 +28,7 @@ export default class RichEditorExample extends React.Component {
     }
     return false;
   }
+
   _mapKeyToEditorCommand(e) {
     if (e.keyCode === 9 /* TAB */) {
       const newEditorState = RichUtils.onTab(
@@ -40,23 +43,26 @@ export default class RichEditorExample extends React.Component {
     }
     return getDefaultKeyBinding(e);
   }
+
   _toggleBlockType(blockType) {
     this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
   }
+
   _toggleInlineStyle(inlineStyle) {
     this.onChange(
       RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle)
     );
   }
+
   render() {
     const { editorState } = this.state;
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
-    let className = "RichEditor-editor";
-    var contentState = editorState.getCurrentContent();
+    let className = 'RichEditor-editor';
+    const contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
-      if (contentState.getBlockMap().first().getType() !== "unstyled") {
-        className += " RichEditor-hidePlaceholder";
+      if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+        className += ' RichEditor-hidePlaceholder';
       }
     }
     return (
@@ -91,7 +97,7 @@ export default class RichEditorExample extends React.Component {
 // Custom overrides for "code" style.
 const styleMap = {
   CODE: {
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
     fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
     fontSize: 16,
     padding: 2,
@@ -99,8 +105,8 @@ const styleMap = {
 };
 function getBlockStyle(block) {
   switch (block.getType()) {
-    case "blockquote":
-      return "RichEditor-blockquote";
+    case 'blockquote':
+      return 'RichEditor-blockquote';
     default:
       return null;
   }
@@ -113,10 +119,11 @@ class StyleButton extends React.Component {
       this.props.onToggle(this.props.style);
     };
   }
+
   render() {
-    let className = "RichEditor-styleButton";
+    let className = 'RichEditor-styleButton';
     if (this.props.active) {
-      className += " RichEditor-activeButton";
+      className += ' RichEditor-activeButton';
     }
     return (
       <span className={className} onMouseDown={this.onToggle}>
@@ -126,16 +133,16 @@ class StyleButton extends React.Component {
   }
 }
 const BLOCK_TYPES = [
-  { label: "H1", style: "header-one" },
-  { label: "H2", style: "header-two" },
-  { label: "H3", style: "header-three" },
-  { label: "H4", style: "header-four" },
-  { label: "H5", style: "header-five" },
-  { label: "H6", style: "header-six" },
-  { label: "Blockquote", style: "blockquote" },
-  { label: "UL", style: "unordered-list-item" },
-  { label: "OL", style: "ordered-list-item" },
-  { label: "Code Block", style: "code-block" },
+  { label: 'H1', style: 'header-one' },
+  { label: 'H2', style: 'header-two' },
+  { label: 'H3', style: 'header-three' },
+  { label: 'H4', style: 'header-four' },
+  { label: 'H5', style: 'header-five' },
+  { label: 'H6', style: 'header-six' },
+  { label: 'Blockquote', style: 'blockquote' },
+  { label: 'UL', style: 'unordered-list-item' },
+  { label: 'OL', style: 'ordered-list-item' },
+  { label: 'Code Block', style: 'code-block' },
 ];
 const BlockStyleControls = (props) => {
   const { editorState } = props;
@@ -158,11 +165,11 @@ const BlockStyleControls = (props) => {
     </div>
   );
 };
-var INLINE_STYLES = [
-  { label: "Bold", style: "BOLD" },
-  { label: "Italic", style: "ITALIC" },
-  { label: "Underline", style: "UNDERLINE" },
-  { label: "Monospace", style: "CODE" },
+const INLINE_STYLES = [
+  { label: 'Bold', style: 'BOLD' },
+  { label: 'Italic', style: 'ITALIC' },
+  { label: 'Underline', style: 'UNDERLINE' },
+  { label: 'Monospace', style: 'CODE' },
 ];
 const InlineStyleControls = (props) => {
   const currentStyle = props.editorState.getCurrentInlineStyle();

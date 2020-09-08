@@ -1,12 +1,12 @@
 import { verify } from "jsonwebtoken";
-import { User } from "../models/user";
 import { AuthenticationError } from "apollo-server-express";
+import { User } from "../models/users";
 
 const authenticateUser = async (context: any) => {
   let token: string = context.req.headers.authorization || "";
 
   // Split Bearer
-  token = token.split(" ")[1];
+  [, token] = token.split(" ");
 
   //! Refactor privatekey into ENV
   try {
@@ -21,4 +21,4 @@ const authenticateUser = async (context: any) => {
   }
 };
 
-export { authenticateUser };
+export default authenticateUser;

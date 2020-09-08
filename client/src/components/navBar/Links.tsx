@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import { STheme } from "../../theme/theme";
+import React from 'react';
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import { STheme } from '../../theme/theme';
 
 const Links: React.FC = (props) => {
   return (
@@ -40,12 +40,12 @@ const SLinks = styled.div`
         text-decoration: none;
 
         &::after {
-          content: "";
+          content: '';
           background-color: transparent;
           display: block;
           border-bottom: 2px solid;
           border-bottom-color: ${({ theme }: { theme: STheme }) =>
-            theme.palette.common.green};
+            theme.palette.common.lightGreen};
           transform: scale(0);
           transition: 0.2s ease-in-out;
         }
