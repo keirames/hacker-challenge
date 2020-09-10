@@ -209,15 +209,4 @@ export class AuthService {
 
     return user;
   }
-
-  // !Remove
-  async test(): Promise<void> {
-    const challenge = await this.challengesRepository.findOne({
-      title: 'bubble sort',
-    });
-
-    if (!challenge) throw new NotFoundException();
-
-    await this.challengesRepository.remove(challenge);
-  }
 }
