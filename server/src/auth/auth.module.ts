@@ -23,9 +23,12 @@ import { Request, Response } from 'express';
 import { UserExternalLoginsModule } from '../userExternalLogins/userExternalLogins.module';
 import { Challenge } from '../challenges/challenge.entity';
 import { TestCase } from '../testCases/testCase.entity';
+import { MailService } from '../mail/mail.service';
+import { ConfiguredCacheModule } from '../mail/mail.module';
 
 @Module({
   imports: [
+    ConfiguredCacheModule,
     TypeOrmModule.forFeature([User, Challenge, TestCase]),
     // PassportModule.register({
     //   defaultStrategy: 'jwt',
@@ -43,6 +46,7 @@ import { TestCase } from '../testCases/testCase.entity';
   ],
   controllers: [AuthController],
   providers: [
+    MailService,
     AuthService,
     LocalStrategy,
     JwtStrategy,

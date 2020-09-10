@@ -19,6 +19,7 @@ import { TestInputsService } from './testInputs/testInputs.service';
 import { TestInputsModule } from './testInputs/testInputs.module';
 import { levelResolver } from './challenges/dto/challenge.dto';
 import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { AuthModule } from './auth/auth.module';
     TestCasesModule,
     TestInputsModule,
     AuthModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService, TestInputsService],

@@ -191,4 +191,12 @@ export class UsersService {
 
     return user;
   }
+
+  async activateUser(userId: number): Promise<void> {
+    const user = await this.findById(userId);
+    if (!user) throw new NotFoundException(`Invalid user's id`);
+
+    user.isActivated = true;
+    await this.usersRepository.save(user);
+  }
 }

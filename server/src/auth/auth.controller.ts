@@ -107,14 +107,16 @@ export class AuthController {
   // Note if @Body('accountDetails') client must provide
   // {accoutDetails: account} in axios
   @Post('/signup')
-  async signUp(@Body() accountDetails: SignUpDto): Promise<string> {
-    const user = await this.authService.signUp(accountDetails);
+  async signUp(
+    @Req() req: Request,
+    @Body() accountDetails: SignUpDto,
+  ): Promise<string> {
+    const host = req.get('host');
+    if (!host) throw new NotFoundException('Host cannot be found!');
+    const serverUrl = `${req.protocol}://${host}`;
+
+    const user = await this.authService.signUp(accountDetails, serverUrl);
     const { accessToken } = await this.authService.generateToken(user);
     return accessToken;
-  }
-
-  @Get('/test')
-  async test(): Promise<void> {
-    await this.authService.test();
   }
 }
