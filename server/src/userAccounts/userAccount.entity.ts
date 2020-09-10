@@ -21,15 +21,18 @@ export class UserAccount {
   @Column({ name: 'email_confirmation_token', length: 255, nullable: true })
   emailConfirmationToken: string;
 
-  @Column({ name: 'password_reminder_token', length: 255, nullable: true })
-  passwordReminderToken: string;
+  @Column({ name: 'is_activated', type: 'boolean', default: false })
+  isActivated: boolean;
 
-  @Column({
-    name: 'password_reminder_exprie',
-    type: 'timestamp with time zone',
-    nullable: true,
-  })
-  passwordReminderExpire: Date;
+  // @Column({ name: 'password_reminder_token', length: 255, nullable: true })
+  // passwordReminderToken: string;
+
+  // @Column({
+  //   name: 'password_reminder_exprie',
+  //   type: 'timestamp with time zone',
+  //   nullable: true,
+  // })
+  // passwordReminderExpire: Date;
 
   constructor(params: {
     email: string;
