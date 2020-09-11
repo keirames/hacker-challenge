@@ -4,4 +4,8 @@ import { ExternalAuthenticationProvider } from './externalAuthenticationProvider
 @EntityRepository(ExternalAuthenticationProvider)
 export class ExternalAuthenticationProvidersRepository extends Repository<
   ExternalAuthenticationProvider
-> {}
+> {
+  async deohieu(): Promise<void> {
+    return;
+  }
+}

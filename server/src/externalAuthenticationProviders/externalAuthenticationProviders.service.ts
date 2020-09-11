@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import {
   ExternalAuthenticationProvider,
   AuthProvider,
@@ -10,6 +12,12 @@ export class ExternalAuthenticationProvidersService {
   constructor(
     private readonly externalAuthenticationProvidersRepository: ExternalAuthenticationProvidersRepository,
   ) {}
+  // constructor(
+  //   @InjectRepository(ExternalAuthenticationProvider)
+  //   private readonly externalAuthenticationProviderRepository: Repository<
+  //     ExternalAuthenticationProvider
+  //   >,
+  // ) {}
 
   async findById(
     id: number,
