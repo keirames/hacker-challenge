@@ -14,4 +14,10 @@ export class TestInput {
     challenge => challenge.testInputs,
   )
   challenge: Challenge;
+
+  constructor(params: { input: string }) {
+    if (params !== undefined) {
+      this.input = params.input;
+    }
+  }
 }

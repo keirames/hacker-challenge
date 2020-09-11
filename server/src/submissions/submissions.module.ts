@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { SubmissionsController } from './submissions.controller';
 import { SubmissionsService } from './submissions.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Submission } from './submission.entity';
@@ -13,7 +12,7 @@ import { UsersModule } from '../users/users.module';
     ChallengesModule,
     UsersModule,
   ],
-  controllers: [SubmissionsController],
+  controllers: [],
   providers: [SubmissionsService, SubmissionsResolver],
   exports: [SubmissionsService],
 })

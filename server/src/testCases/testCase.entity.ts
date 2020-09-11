@@ -25,15 +25,10 @@ export class TestCase {
   @JoinColumn({ name: 'challenge_id' })
   challenge: Challenge;
 
-  constructor(params: {
-    text: string;
-    testString: string;
-    challenge: Challenge;
-  }) {
+  constructor(params: { text: string; testString: string }) {
     if (params !== undefined) {
       this.text = params.text;
       this.testString = params.testString;
-      this.challenge = params.challenge;
     }
   }
 }
