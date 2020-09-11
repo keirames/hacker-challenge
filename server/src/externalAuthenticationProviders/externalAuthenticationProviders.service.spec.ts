@@ -30,6 +30,7 @@ describe('ExternalAuthenticationProvidersService', () => {
     externalAuthenticationProvidersRepository = module.get(
       'ExternalAuthenticationProvidersRepository',
     );
+
     app = module.createNestApplication();
     await app.init();
   });
