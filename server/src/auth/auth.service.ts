@@ -18,6 +18,7 @@ import { SignUpDto } from './dto/signUpDto.dto';
 import { SignInDto } from './dto/signInDto.dto';
 import { Challenge } from '../challenges/challenge.entity';
 import { TestCase } from '../testCases/testCase.entity';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -32,6 +33,7 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly userAccountsService: UserAccountsService,
     private readonly externalAuthenticationProvidersService: ExternalAuthenticationProvidersService,
+    private readonly mailService: MailService,
   ) {}
 
   async generateToken(user: User): Promise<{ accessToken: string }> {
@@ -89,7 +91,11 @@ export class AuthService {
           `External provider(${providerName}) not found`,
         );
 
-      user = new User({ totalPoints: 0, firstName: payload?.name });
+      user = new User({
+        totalPoints: 0,
+        firstName: payload?.name,
+        isActivated: true,
+      });
       user.userExternalLogins = [
         new UserExternalLogin({
           externalUserId: externalId,
@@ -174,7 +180,7 @@ export class AuthService {
   //   return token;
   // }
 
-  async signUp(accountDetails: SignUpDto): Promise<User> {
+  async signUp(accountDetails: SignUpDto, serverUrl: string): Promise<User> {
     const { email, firstName, lastName, password } = accountDetails;
 
     let userAccount = await this.userAccountsService.findByEmail(email);
@@ -186,17 +192,21 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const user = new User({ totalPoints: 0, firstName, lastName, userAccount });
-    return this.usersRepository.save(user);
-  }
+    let user = new User({
+      totalPoints: 0,
+      firstName,
+      lastName,
+      isActivated: false,
+      userAccount,
+    });
+    user = await this.usersRepository.save(user);
 
-  async test(): Promise<void> {
-    const challenge = await this.challengesRepository.findOne({
-      title: 'bubble sort',
+    await this.mailService.sendEmail(serverUrl, {
+      userId: user.id,
+      email,
+      name: `${user.firstName} ${user.lastName}`,
     });
 
-    if (!challenge) throw new NotFoundException();
-
-    await this.challengesRepository.remove(challenge);
+    return user;
   }
 }

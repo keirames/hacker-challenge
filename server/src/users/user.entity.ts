@@ -31,6 +31,9 @@ export class User {
   @Column({ name: 'last_name', length: 25, default: '' })
   lastName?: string;
 
+  @Column({ name: 'is_activated', type: 'boolean', default: false })
+  isActivated: boolean;
+
   @Column({ name: 'user_account_id', nullable: true })
   userAccountId: number;
 
@@ -79,12 +82,14 @@ export class User {
     totalPoints: number;
     firstName?: string;
     lastName?: string;
+    isActivated: boolean;
     userAccount?: UserAccount;
   }) {
     if (params !== undefined) {
       this.totalPoints = params.totalPoints;
       this.firstName = params.firstName;
       this.lastName = params.lastName;
+      this.isActivated = params.isActivated;
       this.userAccount = params.userAccount;
     }
   }
