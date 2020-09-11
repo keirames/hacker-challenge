@@ -4,15 +4,13 @@ import {
   ExternalAuthenticationProvider,
   AuthProvider,
 } from './externalAuthenticationProvider.entity';
-import { Repository } from 'typeorm';
+import { ExternalAuthenticationProvidersRepository } from './externalAuthenticationProviders.repository';
 
 @Injectable()
 export class ExternalAuthenticationProvidersService {
   constructor(
-    @InjectRepository(ExternalAuthenticationProvider)
-    private readonly externalAuthenticationProvidersRepository: Repository<
-      ExternalAuthenticationProvider
-    >,
+    @InjectRepository(ExternalAuthenticationProvidersRepository)
+    private readonly externalAuthenticationProvidersRepository: ExternalAuthenticationProvidersRepository,
   ) {}
 
   async findById(
