@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from '../config/config.service';
-import { ExternalAuthenticationProvider } from './externalAuthenticationProvider.entity';
+import { ExternalAuthenticationProvidersRepository } from './externalAuthenticationProviders.repository';
 import { ExternalAuthenticationProvidersService } from './externalAuthenticationProviders.service';
 
 describe('ExternalAuthenticationProvidersService', () => {
@@ -9,21 +9,29 @@ describe('ExternalAuthenticationProvidersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
-        // TypeOrmModule.forFeature([ExternalAuthenticationProvider]),
+      imports: [TypeOrmModule.forRoot(configService.getTypeOrmConfig())],
+      providers: [
+        ExternalAuthenticationProvidersService,
+        {
+          provide: 'ExternalAuthenticationProvidersRepository',
+          useValue: ExternalAuthenticationProvidersRepository,
+        },
       ],
-      providers: [ExternalAuthenticationProvidersService],
     }).compile();
 
-    // service = module.get<ExternalAuthenticationProvidersService>(
-    //   ExternalAuthenticationProvidersService,
-    // );
-    service = await module.resolve(ExternalAuthenticationProvidersService);
+    service = module.get<ExternalAuthenticationProvidersService>(
+      ExternalAuthenticationProvidersService,
+    );
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  describe('findById', () => {
+    it('should be defined', () => {
+      expect(service).toBeDefined();
+    });
   });
 
   // describe('findById', () => {

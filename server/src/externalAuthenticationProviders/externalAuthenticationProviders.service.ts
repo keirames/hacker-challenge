@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import {
   ExternalAuthenticationProvider,
   AuthProvider,
@@ -9,7 +8,6 @@ import { ExternalAuthenticationProvidersRepository } from './externalAuthenticat
 @Injectable()
 export class ExternalAuthenticationProvidersService {
   constructor(
-    @InjectRepository(ExternalAuthenticationProvidersRepository)
     private readonly externalAuthenticationProvidersRepository: ExternalAuthenticationProvidersRepository,
   ) {}
 
