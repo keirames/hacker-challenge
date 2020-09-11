@@ -32,7 +32,7 @@ describe('PlansService', () => {
   });
 
   describe('findById', () => {
-    it('should be return a plan', async () => {
+    it('should return a plan', async () => {
       let plan = new Plan();
       plan.name = 'testPlan';
       plan.pricePerMonth = 100;
@@ -43,7 +43,7 @@ describe('PlansService', () => {
       expect(result).toMatchObject(plan);
     });
 
-    it('should be return undefined if invalid id is passed', async () => {
+    it('should return undefined if invalid id is passed', async () => {
       const result = await plansService.findById(1);
 
       expect(result).toBeUndefined();

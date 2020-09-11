@@ -40,7 +40,7 @@ describe('ExternalAuthenticationProvidersService', () => {
   });
 
   describe('findById', () => {
-    it('should be return a provider', async () => {
+    it('should return a provider', async () => {
       let facebook = new ExternalAuthenticationProvider({
         name: AuthProvider.FACEBOOK,
       });
@@ -53,7 +53,7 @@ describe('ExternalAuthenticationProvidersService', () => {
       expect(result).toMatchObject(facebook);
     });
 
-    it('should be return undefined if invalid id is passed', async () => {
+    it('should return undefined if invalid id is passed', async () => {
       const result = await externalAuthenticationProvidersService.findById(1);
 
       expect(result).toBeUndefined();
@@ -61,7 +61,7 @@ describe('ExternalAuthenticationProvidersService', () => {
   });
 
   describe('findByName', () => {
-    it('should be return a provider', async () => {
+    it('should return a provider', async () => {
       let facebook = new ExternalAuthenticationProvider({
         name: AuthProvider.FACEBOOK,
       });
@@ -74,7 +74,7 @@ describe('ExternalAuthenticationProvidersService', () => {
       expect(result).toMatchObject(facebook);
     });
 
-    it('should be return undefined if invalid name is passed', async () => {
+    it('should return undefined if invalid name is passed', async () => {
       const result = await externalAuthenticationProvidersService.findByName(
         'invalidName' as any,
       );
