@@ -187,7 +187,7 @@ export class UsersService {
     const userAccount = await this.userAccountsService.findById(
       user.userAccountId,
     );
-    if (userAccount) this.userAccountsRepository.remove(userAccount);
+    if (userAccount) await this.userAccountsRepository.remove(userAccount);
 
     return user;
   }
@@ -198,5 +198,45 @@ export class UsersService {
 
     user.isActivated = true;
     await this.usersRepository.save(user);
+  }
+
+  /**
+   * @usageNotes Find all accounts that inactive for 24h
+   */
+  async findInactiveAccounts(): Promise<User[]> {
+    // a day ago
+    const limitTime = new Date(Date.now() - 1000 * 60 * 60 * 24);
+
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .where('user.isActivated = false')
+      .leftJoinAndSelect('user.userAccount', 'userAccount')
+      .where('userAccount.registrationTime <= :limitTime', {
+        limitTime,
+      })
+      .getMany();
+  }
+
+  async removeUserWithUserAccountByUserId(userId: number): Promise<User> {
+    let user = await this.findById(userId);
+    if (!user) throw new NotFoundException(`Invalid user's id`);
+
+    user = await this.usersRepository.remove(user);
+
+    const userAccount = await this.userAccountsService.findById(
+      user.userAccountId,
+    );
+    if (userAccount) await this.userAccountsRepository.remove(userAccount);
+
+    return user;
+  }
+
+  async removeInactiveAccounts(): Promise<void> {
+    const inactiveAccounts = await this.findInactiveAccounts();
+    await Promise.all(
+      inactiveAccounts
+        .map(u => u.id)
+        .map(userId => this.removeUserWithUserAccountByUserId(userId)),
+    );
   }
 }

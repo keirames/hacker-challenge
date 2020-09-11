@@ -13,6 +13,7 @@ import { ContestsModule } from './contests/contests.module';
 import { SubmissionsModule } from './submissions/submissions.module';
 import { TestCasesModule } from './testCases/testCases.module';
 import { GraphQLModule } from '@nestjs/graphql';
+import { ScheduleModule } from '@nestjs/schedule';
 import { join } from 'path';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { TestInputsService } from './testInputs/testInputs.service';
@@ -20,6 +21,7 @@ import { TestInputsModule } from './testInputs/testInputs.module';
 import { levelResolver } from './challenges/dto/challenge.dto';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -42,6 +44,7 @@ import { MailModule } from './mail/mail.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
+    ScheduleModule.forRoot(),
     ExternalAuthenticationProvidersModule,
     UserExternalLoginsModule,
     UsersModule,
@@ -54,6 +57,7 @@ import { MailModule } from './mail/mail.module';
     TestInputsModule,
     AuthModule,
     MailModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [AppService, TestInputsService],
