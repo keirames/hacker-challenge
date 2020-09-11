@@ -68,7 +68,7 @@ describe('ExternalAuthenticationProvidersService', () => {
     });
   });
 
-  describe('findByNam e', () => {
+  describe('findByName', () => {
     it('should be return a provider', async () => {
       let facebook = new ExternalAuthenticationProvider({
         name: AuthProvider.FACEBOOK,
