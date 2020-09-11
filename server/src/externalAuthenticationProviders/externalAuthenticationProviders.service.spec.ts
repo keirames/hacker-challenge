@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { configService } from '../config/config.service';
 import {
   AuthProvider,
   ExternalAuthenticationProvider,
@@ -16,17 +17,7 @@ describe('ExternalAuthenticationProvidersService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forRoot({
-          type: 'postgres',
-          host: '127.0.0.1',
-          port: 2345,
-          username: 'postgres',
-          password: '1234',
-          database: 'hacker_challenge_test',
-          entities: ['**/*.entity{.ts,.js}'],
-          dropSchema: true,
-          synchronize: true,
-        }),
+        TypeOrmModule.forRoot(configService.getTypeOrmTestConfig()),
         TypeOrmModule.forFeature([ExternalAuthenticationProvidersRepository]),
       ],
       providers: [ExternalAuthenticationProvidersService],

@@ -52,6 +52,23 @@ class ConfigService {
       logging: !this.isProduction(),
     };
   }
+
+  public getTypeOrmTestConfig(): TypeOrmModuleOptions {
+    return {
+      type: 'postgres',
+
+      host: this.getValue('POSTGRES_TEST_HOST'),
+      port: parseInt(this.getValue('POSTGRES_TEST_PORT')),
+      username: this.getValue('POSTGRES_TEST_USER'),
+      password: this.getValue('POSTGRES_TEST_PASSWORD'),
+      database: this.getValue('POSTGRES_TEST_DATABASE'),
+
+      entities: ['**/*.entity{.ts,.js}'],
+
+      dropSchema: true,
+      synchronize: true,
+    };
+  }
 }
 
 const configService = new ConfigService(process.env).ensureValues([
@@ -60,6 +77,13 @@ const configService = new ConfigService(process.env).ensureValues([
   'POSTGRES_USER',
   'POSTGRES_PASSWORD',
   'POSTGRES_DATABASE',
+
+  // testing
+  'POSTGRES_TEST_HOST',
+  'POSTGRES_TEST_PORT',
+  'POSTGRES_TEST_USER',
+  'POSTGRES_TEST_PASSWORD',
+  'POSTGRES_TEST_DATABASE',
 ]);
 
 export { configService };
