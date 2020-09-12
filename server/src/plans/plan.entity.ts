@@ -25,4 +25,11 @@ export class Plan {
     subcription => subcription.plan,
   )
   subscribers: Subscription[];
+
+  constructor(params: { name: string; pricePerMonth: number }) {
+    if (params !== undefined) {
+      this.name = params.name;
+      this.pricePerMonth = params.pricePerMonth;
+    }
+  }
 }
