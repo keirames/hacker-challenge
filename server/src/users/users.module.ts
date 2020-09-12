@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -18,7 +17,7 @@ import { UserAccount } from '../userAccounts/userAccount.entity';
     UserExternalLoginsModule,
     SubscriptionsModule,
   ],
-  controllers: [UsersController],
+  controllers: [],
   providers: [UsersService, UsersResolver],
   exports: [UsersService],
 })
