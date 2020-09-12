@@ -54,7 +54,7 @@ import { ConfiguredCacheModule } from '../mail/mail.module';
     FacebookStrategy,
     GoogleStrategy,
   ],
-  exports: [AuthService],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
