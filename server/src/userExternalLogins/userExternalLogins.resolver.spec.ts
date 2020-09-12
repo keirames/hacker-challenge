@@ -2,24 +2,24 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from '../config/config.service';
-import { UserExternalLogin } from './userExternalLogin.entity';
-import { UserExternalLoginsService } from './userExternalLogins.service';
+import { ExternalAuthenticationProvidersModule } from '../externalAuthenticationProviders/externalAuthenticationProviders.module';
+import { UserExternalLoginsResolver } from './userExternalLogins.resolver';
 
-describe('UserExternalLoginsService', () => {
+describe('UserExternalLoginsResolver', () => {
   let app: INestApplication;
-  let userExternalLoginsService: UserExternalLoginsService;
+  let resolver: UserExternalLoginsResolver;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(configService.getTypeOrmTestConfig()),
-        TypeOrmModule.forFeature([UserExternalLogin]),
+        ExternalAuthenticationProvidersModule,
       ],
-      providers: [UserExternalLoginsService],
+      providers: [UserExternalLoginsResolver],
     }).compile();
 
-    userExternalLoginsService = module.get<UserExternalLoginsService>(
-      UserExternalLoginsService,
+    resolver = module.get<UserExternalLoginsResolver>(
+      UserExternalLoginsResolver,
     );
 
     app = module.createNestApplication();
@@ -27,7 +27,7 @@ describe('UserExternalLoginsService', () => {
   });
 
   it('should be defined', () => {
-    expect(userExternalLoginsService).toBeDefined();
+    expect(resolver).toBeDefined();
   });
 
   afterEach(async () => await app.close());
