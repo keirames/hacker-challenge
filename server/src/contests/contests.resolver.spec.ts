@@ -1,4 +1,10 @@
+import { forwardRef } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ChallengesModule } from '../challenges/challenges.module';
+import { configService } from '../config/config.service';
+import { UsersModule } from '../users/users.module';
+import { ContestsModule } from './contests.module';
 import { ContestsResolver } from './contests.resolver';
 
 describe('ContestsResolver', () => {
@@ -6,7 +12,12 @@ describe('ContestsResolver', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ContestsResolver],
+      imports: [
+        TypeOrmModule.forRoot(configService.getTypeOrmTestConfig()),
+        forwardRef(() => ContestsModule),
+        forwardRef(() => UsersModule),
+      ],
+      providers: [],
     }).compile();
 
     resolver = module.get<ContestsResolver>(ContestsResolver);
