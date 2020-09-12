@@ -33,9 +33,7 @@ describe('PlansService', () => {
 
   describe('findById', () => {
     it('should return a plan', async () => {
-      let plan = new Plan();
-      plan.name = 'testPlan';
-      plan.pricePerMonth = 100;
+      let plan = new Plan({ name: 'testPlan', pricePerMonth: 100 });
       plan = await plansRepository.save(plan);
 
       const result = await plansService.findById(plan.id);
