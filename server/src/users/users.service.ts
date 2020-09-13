@@ -16,6 +16,8 @@ import { ChallengesService } from '../challenges/challenges.service';
 import { executeSolution, TestedResult } from '../codeExecutor/codeExecutor';
 import { UserAccount } from '../userAccounts/userAccount.entity';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
+import * as bcrypt from 'bcrypt';
+import { bcryptSaltRound } from '../config/vars';
 
 @Injectable()
 export class UsersService {
@@ -238,5 +240,22 @@ export class UsersService {
         .map(u => u.id)
         .map(userId => this.removeUserWithUserAccountByUserId(userId)),
     );
+  }
+
+  async changeAccountPassword(
+    userId: number,
+    newPassword: string,
+  ): Promise<void> {
+    const user = await this.findById(userId);
+    if (!user || !user.userAccountId)
+      throw new NotFoundException(`Invalid user's id`);
+
+    const account = await this.userAccountsService.findById(user.userAccountId);
+    if (!account) throw new NotFoundException(`Invalid user's id`);
+
+    const hashedPassword = await bcrypt.hash(newPassword, bcryptSaltRound);
+
+    account.password = hashedPassword;
+    await this.userAccountsRepository.save(account);
   }
 }
