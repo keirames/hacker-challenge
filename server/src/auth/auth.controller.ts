@@ -119,4 +119,9 @@ export class AuthController {
     const { accessToken } = await this.authService.generateToken(user);
     return accessToken;
   }
+
+  @Post('/forgot-password')
+  async recoverPassword(@Body('email') email: string): Promise<void> {
+    return this.authService.forgotPassword(email);
+  }
 }

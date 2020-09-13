@@ -19,6 +19,7 @@ import { SignInDto } from './dto/signInDto.dto';
 import { Challenge } from '../challenges/challenge.entity';
 import { TestCase } from '../testCases/testCase.entity';
 import { MailService } from '../mail/mail.service';
+import { clientUrl } from '../config/vars';
 
 @Injectable()
 export class AuthService {
@@ -201,12 +202,28 @@ export class AuthService {
     });
     user = await this.usersRepository.save(user);
 
-    await this.mailService.sendEmail(serverUrl, {
+    await this.mailService.sendActivateEmail(serverUrl, {
       userId: user.id,
       email,
       name: `${user.firstName} ${user.lastName}`,
     });
 
     return user;
+  }
+
+  async forgotPassword(email: string): Promise<void> {
+    // const user = await this.usersService.findUserAccountByEmail(email);
+    // if (!user || !user.userAccount)
+    //   throw new BadRequestException('Email is not valid');
+    // await this.mailService.sendRecoverPasswordEmail(clientUrl, {
+    //   email: user.userAccount.email,
+    //   name: `${user.firstName} ${user.lastName}`,
+    //   userId: user.id,
+    // });
+    await this.mailService.sendRecoverPasswordEmail(clientUrl, {
+      email,
+      name: 'test',
+      userId: 1,
+    });
   }
 }
