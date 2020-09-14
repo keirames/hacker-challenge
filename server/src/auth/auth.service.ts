@@ -19,7 +19,7 @@ import { SignInDto } from './dto/signInDto.dto';
 import { Challenge } from '../challenges/challenge.entity';
 import { TestCase } from '../testCases/testCase.entity';
 import { MailService } from '../mail/mail.service';
-import { clientUrl } from '../config/vars';
+import { bcryptSaltRound, clientUrl } from '../config/vars';
 
 @Injectable()
 export class AuthService {
@@ -187,7 +187,7 @@ export class AuthService {
     let userAccount = await this.userAccountsService.findByEmail(email);
     if (userAccount) throw new BadRequestException('Email is already exist');
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, bcryptSaltRound);
     userAccount = new UserAccount({
       email,
       password: hashedPassword,
