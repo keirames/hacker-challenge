@@ -103,6 +103,14 @@ export class UsersService {
       .getOne();
   }
 
+  async findUserAccountByUserId(userId: number): Promise<User | undefined> {
+    return this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.userAccount', 'account')
+      .where('user.id = :userId', { userId })
+      .getOne();
+  }
+
   async findUserBySocialId(
     socialId: string,
     providerName: 'google' | 'facebook' | 'github',
@@ -207,7 +215,7 @@ export class UsersService {
    */
   async findInactiveAccounts(): Promise<User[]> {
     // a day ago
-    const limitTime = new Date(Date.now() - 1000 * 60 * 60 * 24);
+    const limitTime = new Date(Date.now() > -1000 * 60 * 60 * 24);
 
     return this.usersRepository
       .createQueryBuilder('user')
@@ -257,5 +265,22 @@ export class UsersService {
 
     account.password = hashedPassword;
     await this.userAccountsRepository.save(account);
+  }
+
+  async isUserAccountActivated(userId: number): Promise<boolean>;
+  async isUserAccountActivated(email: string): Promise<boolean>;
+  async isUserAccountActivated(x: number | string): Promise<boolean> {
+    if (typeof x === 'number') {
+      const user = await this.findUserAccountByUserId(x);
+      if (!user || !user.isActivated) return false;
+
+      return true;
+    }
+
+    // x is a string
+    const user = await this.findUserAccountByEmail(x);
+    if (!user || !user.isActivated) return false;
+
+    return true;
   }
 }

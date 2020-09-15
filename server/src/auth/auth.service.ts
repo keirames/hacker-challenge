@@ -217,21 +217,18 @@ export class AuthService {
   }
 
   async forgotPassword(email: string): Promise<void> {
-    // const user = await this.usersService.findUserAccountByEmail(email);
-    // // return success we dont care user provide right email or not.
-    // // we also dont need to alert user that email is not valid.
-    // if (!user || !user.userAccount) return;
+    const user = await this.usersService.findUserAccountByEmail(email);
+    // return success we dont care user provide right email or not.
+    // we also dont need to alert user that email is not valid.
+    if (!user || !user.userAccount) return;
 
-    // await this.mailService.sendResetPasswordEmail(clientUrl, {
-    //   email: user.userAccount.email,
-    //   name: `${user.firstName} ${user.lastName}`,
-    //   userId: user.id,
-    // });
+    const isActivated = this.usersService.isUserAccountActivated(email);
+    if (!isActivated) return;
 
     await this.mailService.sendResetPasswordEmail(clientUrl, {
-      email,
-      name: `test`,
-      userId: 1,
+      email: user.userAccount.email,
+      name: `${user.firstName} ${user.lastName}`,
+      userId: user.id,
     });
   }
 
