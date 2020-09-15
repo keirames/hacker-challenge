@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { AxiosResponse } from 'axios';
 import http from './httpService';
 import { SignUpInput } from '../components/auth/SignUpForm';
 import { SignInInput } from '../components/auth/SignInForm';
@@ -70,4 +71,26 @@ export const getAuthCookie = (cookieName = authCookie): string | null => {
 
 export const deleteAuthCookie = (cookieName = authCookie): void => {
   document.cookie = `${cookieName}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+};
+
+export const checkResetPasswordToken = (
+  resetPasswordToken: string
+): Promise<AxiosResponse<any>> => {
+  return http.get(
+    `${apiEndPoint}/check-reset-password-token/${resetPasswordToken}`
+  );
+};
+
+export const forgotPassword = (email: string): Promise<AxiosResponse<any>> => {
+  return http.post(`${apiEndPoint}/forgot-password`, { email });
+};
+
+export const resetPassword = (
+  password: string,
+  resetPasswordToken: string
+): Promise<AxiosResponse<any>> => {
+  return http.patch(`${apiEndPoint}/reset-password`, {
+    password,
+    resetPasswordToken,
+  });
 };

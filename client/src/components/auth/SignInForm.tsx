@@ -139,6 +139,8 @@ const SignInForm: React.FC = (props) => {
       <STo>
         <p>
           Need an account ? <Link to="signup">Sign Up</Link>
+          {` or `}
+          <Link to="forgot-password">Forgot Password</Link>
         </p>
       </STo>
     </SLoginForm>

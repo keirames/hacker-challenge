@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
 import MainPage from './components/pages/MainPage';
 import AuthPage from './components/pages/AuthPage';
-import { GET_USER_CLIENT } from './mutations';
-import { getCurrentUser } from './services/authService';
 import { MyEditor } from './MyEditor';
 import { STheme } from './theme/theme';
 import SettingsPage from './components/pages/SettingsPage';
@@ -53,6 +50,9 @@ const App: React.FC = () => {
 export default App;
 
 const SApp = styled.div`
+  font-family: 'Open Sans', sans-serif;
+
+  min-height: 100vh;
   background-color: ${({ theme }: { theme: STheme }) =>
     theme.palette.background.whitesmoke};
 `;

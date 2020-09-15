@@ -21,8 +21,8 @@ const root = css`
   text-transform: uppercase;
   letter-spacing: 0.4px;
   border-radius: 4px;
-  padding: 4px 10px;
-  min-height: 30px;
+  /* padding: 4px 10px; */
+  /* min-height: 25px; */
   min-width: 64px;
 `;
 
