@@ -7,12 +7,12 @@ import { v4 } from 'uuid';
  * @examples
  * This link is client recover password route.
  */
-export const createRecoverPasswordLink = async (
+export const createResetPasswordLink = async (
   url: string,
   userId: number,
   cacheStore: CacheStore,
 ): Promise<string> => {
   const id = v4();
-  await cacheStore.set(id, userId, { ttl: 60 * 60 * 24 });
-  return `${url}/main/recover-password/${id}`;
+  await cacheStore.set(id, userId, { ttl: 60 * 20 });
+  return `${url}/auth/reset-password/${id}`;
 };

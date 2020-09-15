@@ -29,7 +29,7 @@ export const activateAccountMail = (
             </table>
         </div>`;
 
-export const recoverPasswordMail = (
+export const resetPasswordMail = (
   confirmUrl: string,
   name: string,
 ): string => `<div class="body" style="background-color: aliceblue;padding: 40px;">
@@ -49,7 +49,7 @@ export const recoverPasswordMail = (
                             <p style="font-weight: normal;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height: 1.7;margin-bottom: 0;font-size: 15px;color: #54616a;opacity: 0.8;padding-left: 40px;padding-right: 40px;padding-bottom: 0;">Click button bellow if you want to recover your password: </p>
                             <p class="button" style="font-weight: normal;padding: 8px 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height: 1.7;margin-bottom: 0;font-size: 15px;color: white;opacity: 0.8;margin: 20px auto;border-radius: 5px;background-color: #2ea450;max-width: 150px;text-align: center;cursor: pointer;"><a href="${confirmUrl}" style="color: white;text-decoration: none;font-weight: bold;">Change Password</a> </p>
                             <p style="font-weight: normal;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height: 1.7;margin-bottom: 0;font-size: 15px;color: #54616a;opacity: 0.8;padding-left: 40px;padding-right: 40px;padding-bottom: 0;">Once confirmed, you'll be able to log in to Hacker Challenge with your new account and all your log in account on different device will be logged out.</p>
-                            <p style="font-weight: bold;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height: 1.7;margin-bottom: 0;font-size: 15px;color: #54616a;opacity: 0.8;padding-left: 40px;padding-right: 40px;padding-bottom: 0;">If you not confirm email within 24 hours, this recover password link will be expired after 24h!.</p>
+                            <p style="font-weight: bold;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height: 1.7;margin-bottom: 0;font-size: 15px;color: #54616a;opacity: 0.8;padding-left: 40px;padding-right: 40px;padding-bottom: 0;">If you not confirm email within 20 mins, this recover password link will be expired.</p>
                             <p style="font-weight: normal;padding: 0;font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;line-height: 1.7;margin-bottom: 0;font-size: 15px;color: #54616a;opacity: 0.8;padding-left: 40px;padding-right: 40px;padding-bottom: 0;">
                                 Best wishes,<br>
                                 Hacker Challenge

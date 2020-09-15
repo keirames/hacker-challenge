@@ -7,16 +7,24 @@ import {
   NotFoundException,
   Body,
   UseGuards,
+  HttpCode,
+  Param,
+  Patch,
+  BadRequestException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { clientUrl } from '../config/vars';
 import { SignUpDto } from './dto/signUpDto.dto';
 import { LocalAuthGuard } from './guards/localAuth.guard';
+import { MailService } from '../mail/mail.service';
 
 @Controller('/api/auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly mailService: MailService,
+  ) {}
 
   @Get('/facebook/signin')
   facebookSignIn(): void {
@@ -96,6 +104,17 @@ export class AuthController {
     res.redirect(`${clientUrl}/auth/failure`);
   }
 
+  @Get('/check-reset-password-token/:token')
+  async checkResetPasswordToken(
+    @Param('token') token: string,
+  ): Promise<string> {
+    const userId = await this.authService.findResetPasswordTokenValue(token);
+
+    if (userId === null) throw new BadRequestException('Invalid token');
+
+    return 'Valid token';
+  }
+
   @UseGuards(LocalAuthGuard)
   @Post('/signin')
   async signIn(@Req() req: Request): Promise<string> {
@@ -121,7 +140,26 @@ export class AuthController {
   }
 
   @Post('/forgot-password')
-  async recoverPassword(@Body('email') email: string): Promise<void> {
+  @HttpCode(200)
+  async forgotPassword(@Body('email') email: string): Promise<void> {
     return this.authService.forgotPassword(email);
+  }
+
+  @Patch('/confirmation/:id')
+  async activateAccount(@Param('id') id: string): Promise<string> {
+    return this.mailService.confirmEmailActivateAccount(id);
+  }
+
+  @Patch('/reset-password')
+  async resetPassword(
+    @Body('password') newPassword: string,
+    @Body('resetPasswordToken') resetPasswordToken: string,
+  ): Promise<void> {
+    const isValid = await this.mailService.confirmEmailResetPassword(
+      newPassword,
+      resetPasswordToken,
+    );
+
+    if (!isValid) throw new BadRequestException('Invalid token');
   }
 }

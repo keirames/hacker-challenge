@@ -2,9 +2,9 @@ import { Injectable, Inject, CACHE_MANAGER, CacheStore } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
 import { gmailUser, gmailPass } from '../config/vars';
 import { createConfirmEmailLink } from './utils/createConfirmEmailLink';
-import { recoverPasswordMail, activateAccountMail } from './views/mailBody';
+import { resetPasswordMail, activateAccountMail } from './views/mailBody';
 import { UsersService } from '../users/users.service';
-import { createRecoverPasswordLink } from './utils/createRecoverPasswordLink';
+import { createResetPasswordLink } from './utils/createResetPasswordLink';
 
 @Injectable()
 export class MailService {
@@ -37,7 +37,7 @@ export class MailService {
     // send mail with defined transport object
     // without sync and dont care success or not
     transporter.sendMail({
-      from: '"Hacker_Bot 😎🤘🏻" 7paykun@gmail.com',
+      from: '"Hacker Bot 😎🤘🏻" 7paykun@gmail.com',
       to: email, // list of receivers
       subject: 'Confirmation email ✔',
       attachments: [
@@ -50,7 +50,7 @@ export class MailService {
     });
   }
 
-  async sendRecoverPasswordEmail(
+  async sendResetPasswordEmail(
     clientUrl: string,
     user: { userId: number; email: string; name: string },
   ): Promise<void> {
@@ -64,7 +64,7 @@ export class MailService {
       },
     });
 
-    const recoverPasswordLink = await createRecoverPasswordLink(
+    const resetPasswordLink = await createResetPasswordLink(
       clientUrl,
       userId,
       this.cacheStore,
@@ -73,16 +73,16 @@ export class MailService {
     // send mail with defined transport object
     // without sync and dont care success or not
     transporter.sendMail({
-      from: '"Hacker_Bot 😎🤘🏻" 7paykun@gmail.com',
+      from: '"Hacker Bot 😎🤘🏻" 7paykun@gmail.com',
       to: email, // list of receivers
-      subject: 'Recover password email ✔',
+      subject: 'Reset password email ✔',
       attachments: [
         {
           path: 'public/images/mail-logo.png',
           cid: 'mail-logo',
         },
       ],
-      html: recoverPasswordMail(recoverPasswordLink, name),
+      html: resetPasswordMail(resetPasswordLink, name),
     });
   }
 
@@ -100,21 +100,19 @@ export class MailService {
     return 'OK';
   }
 
-  async confirmEmailForgotPassword(
-    id: string,
+  async confirmEmailResetPassword(
     newPassword: string,
+    resetPasswordToken: string,
   ): Promise<boolean> {
-    const userId = await this.cacheStore.get(id);
+    const userId = await this.cacheStore.get(resetPasswordToken);
 
     if (typeof userId !== 'number' || !userId) {
       return false;
     }
 
-    await this.cacheStore.del(id);
+    await this.cacheStore.del(resetPasswordToken);
     // change password of user
     await this.usersService.changeAccountPassword(userId, newPassword);
-
-    // create revoke account on redis
 
     return true;
   }

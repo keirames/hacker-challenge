@@ -2,6 +2,9 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  Inject,
+  CACHE_MANAGER,
+  CacheStore,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
@@ -24,6 +27,8 @@ import { bcryptSaltRound, clientUrl } from '../config/vars';
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
+
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(Challenge)
     private readonly challengesRepository: Repository<Challenge>,
@@ -213,17 +218,37 @@ export class AuthService {
 
   async forgotPassword(email: string): Promise<void> {
     // const user = await this.usersService.findUserAccountByEmail(email);
-    // if (!user || !user.userAccount)
-    //   throw new BadRequestException('Email is not valid');
-    // await this.mailService.sendRecoverPasswordEmail(clientUrl, {
+    // // return success we dont care user provide right email or not.
+    // // we also dont need to alert user that email is not valid.
+    // if (!user || !user.userAccount) return;
+
+    // await this.mailService.sendResetPasswordEmail(clientUrl, {
     //   email: user.userAccount.email,
     //   name: `${user.firstName} ${user.lastName}`,
     //   userId: user.id,
     // });
-    await this.mailService.sendRecoverPasswordEmail(clientUrl, {
+
+    await this.mailService.sendResetPasswordEmail(clientUrl, {
       email,
-      name: 'test',
+      name: `test`,
       userId: 1,
     });
+  }
+
+  /**
+   * @param token resetPasswordToken
+   * @usageNotes
+   * - token is a key in redis storage,
+   * this func will return value of the key.
+   */
+  async findResetPasswordTokenValue(token: string): Promise<number | null> {
+    const result = await this.cacheStore.get(token);
+
+    if (result === null) return result;
+
+    if (typeof result !== 'number')
+      throw new BadRequestException('Invalid token');
+
+    return result;
   }
 }
