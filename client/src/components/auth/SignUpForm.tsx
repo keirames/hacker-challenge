@@ -86,9 +86,11 @@ const SignUpForm: React.FC = (props) => {
       await signUp({ email, firstName, lastName, password });
       window.location.href = '/';
     } catch (error) {
-      if (error.response.data.message instanceof Array)
-        options.setStatus({ message: error.response.data.message[0] });
-      else options.setStatus({ message: error.response.data.message });
+      if (error.response) {
+        if (error.response.data.message instanceof Array)
+          options.setStatus({ message: error.response.data.message[0] });
+        else options.setStatus({ message: error.response.data.message });
+      }
     }
     setLoading(false);
   };
