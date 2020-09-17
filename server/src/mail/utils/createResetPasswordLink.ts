@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
  * @param url The client url
  * @param userId The user's id persist in database
  * @examples
- * This link is client recover password route.
+ * This link is client reset password route.
  */
 export const createResetPasswordLink = async (
   url: string,

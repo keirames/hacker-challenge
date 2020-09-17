@@ -186,7 +186,7 @@ export class AuthService {
   //   return token;
   // }
 
-  async signUp(accountDetails: SignUpDto, serverUrl: string): Promise<User> {
+  async signUp(accountDetails: SignUpDto): Promise<User> {
     const { email, firstName, lastName, password } = accountDetails;
 
     let userAccount = await this.userAccountsService.findByEmail(email);
@@ -207,7 +207,7 @@ export class AuthService {
     });
     user = await this.usersRepository.save(user);
 
-    await this.mailService.sendActivateEmail(serverUrl, {
+    await this.mailService.sendActivateEmail(clientUrl, {
       userId: user.id,
       email,
       name: `${user.firstName} ${user.lastName}`,

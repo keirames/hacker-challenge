@@ -131,11 +131,11 @@ export class AuthController {
     @Req() req: Request,
     @Body() accountDetails: SignUpDto,
   ): Promise<string> {
-    const host = req.get('host');
-    if (!host) throw new NotFoundException('Host cannot be found!');
-    const serverUrl = `${req.protocol}://${host}`;
+    // const host = req.get('host');
+    // if (!host) throw new NotFoundException('Host cannot be found!');
+    // const serverUrl = `${req.protocol}://${host}`;
 
-    await this.authService.signUp(accountDetails, serverUrl);
+    await this.authService.signUp(accountDetails);
 
     return 'Sign up successfully.';
   }

@@ -1,7 +1,7 @@
 import { Injectable, Inject, CACHE_MANAGER, CacheStore } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
 import { gmailUser, gmailPass } from '../config/vars';
-import { createConfirmEmailLink } from './utils/createConfirmEmailLink';
+import { createConfirmationLink } from './utils/createConfirmationLink';
 import { resetPasswordMail, activateAccountMail } from './views/mailBody';
 import { UsersService } from '../users/users.service';
 import { createResetPasswordLink } from './utils/createResetPasswordLink';
@@ -15,7 +15,7 @@ export class MailService {
   ) {}
 
   async sendActivateEmail(
-    serverUrl: string,
+    clientUrl: string,
     user: { userId: number; email: string; name: string },
   ): Promise<void> {
     const { userId, email, name } = user;
@@ -28,8 +28,8 @@ export class MailService {
       },
     });
 
-    const confirmEmailLink = await createConfirmEmailLink(
-      serverUrl,
+    const confirmEmailLink = await createConfirmationLink(
+      clientUrl,
       userId,
       this.cacheStore,
     );

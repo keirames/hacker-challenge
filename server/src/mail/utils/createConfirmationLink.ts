@@ -2,18 +2,17 @@ import { v4 } from 'uuid';
 import { CacheStore } from '@nestjs/common';
 
 /**
- * @param url The server url
+ * @param url The client url
  * @param userId The user's id persist in database
  * @examples
- * Assume that you already have rest api `api/mail/confirmation` on your server
- * - `https://my-site.com` => `https://my-site.com/api/mail/confirmation/<id>`
+ * This link is client confirmation route.
  */
-export const createConfirmEmailLink = async (
+export const createConfirmationLink = async (
   url: string,
   userId: number,
   cacheStore: CacheStore,
 ): Promise<string> => {
   const id = v4();
   await cacheStore.set(id, userId, { ttl: 60 * 60 * 24 });
-  return `${url}/api/mail/confirmation/${id}`;
+  return `${url}/auth/confirmation/${id}`;
 };
