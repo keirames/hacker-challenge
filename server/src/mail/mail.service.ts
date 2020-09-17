@@ -86,21 +86,23 @@ export class MailService {
     });
   }
 
-  async confirmEmailActivateAccount(id: string): Promise<string> {
-    const userId = await this.cacheStore.get(id);
+  async confirmActivateAccountLink(
+    confirmationToken: string,
+  ): Promise<boolean> {
+    const userId = await this.cacheStore.get(confirmationToken);
 
     if (typeof userId !== 'number' || !userId) {
-      return 'Invalid link or it is expired';
+      return false;
     }
 
-    await this.cacheStore.del(id);
+    await this.cacheStore.del(confirmationToken);
     // change status of user to activated
     await this.usersService.activateUser(userId);
 
-    return 'OK';
+    return true;
   }
 
-  async confirmEmailResetPassword(
+  async confirmResetPasswordLink(
     newPassword: string,
     resetPasswordToken: string,
   ): Promise<boolean> {

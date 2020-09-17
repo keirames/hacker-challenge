@@ -126,6 +126,7 @@ export class AuthController {
   // Note if @Body('accountDetails') client must provide
   // {accoutDetails: account} in axios
   @Post('/signup')
+  @HttpCode(200)
   async signUp(
     @Req() req: Request,
     @Body() accountDetails: SignUpDto,
@@ -134,9 +135,9 @@ export class AuthController {
     if (!host) throw new NotFoundException('Host cannot be found!');
     const serverUrl = `${req.protocol}://${host}`;
 
-    const user = await this.authService.signUp(accountDetails, serverUrl);
-    const { accessToken } = await this.authService.generateToken(user);
-    return accessToken;
+    await this.authService.signUp(accountDetails, serverUrl);
+
+    return 'Sign up successfully.';
   }
 
   @Post('/forgot-password')
@@ -145,9 +146,15 @@ export class AuthController {
     return this.authService.forgotPassword(email);
   }
 
-  @Patch('/confirmation/:id')
-  async activateAccount(@Param('id') id: string): Promise<string> {
-    return this.mailService.confirmEmailActivateAccount(id);
+  @Patch('/confirmation')
+  async activateAccount(
+    @Body('confirmationToken') confirmationToken: string,
+  ): Promise<void> {
+    const isValid = await this.mailService.confirmActivateAccountLink(
+      confirmationToken,
+    );
+
+    if (!isValid) throw new BadRequestException('Invalid token');
   }
 
   @Patch('/reset-password')
@@ -155,7 +162,7 @@ export class AuthController {
     @Body('password') newPassword: string,
     @Body('resetPasswordToken') resetPasswordToken: string,
   ): Promise<void> {
-    const isValid = await this.mailService.confirmEmailResetPassword(
+    const isValid = await this.mailService.confirmResetPasswordLink(
       newPassword,
       resetPasswordToken,
     );
