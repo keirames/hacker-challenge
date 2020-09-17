@@ -4,9 +4,9 @@ import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import SignInForm from '../auth/SignInForm';
 import SignUpForm from '../auth/SignUpForm';
 import SocialPanel from '../auth/SocialPanel';
-import Success from '../auth/Success';
 import ForgotPassword from '../auth/ForgotPassword';
 import ResetPasswordContainer from '../auth/ResetPasswordContainer';
+import ConfirmationContainer from '../auth/ConfirmationContainer';
 
 const AuthPage: React.FC = () => {
   const { path } = useRouteMatch();
@@ -29,11 +29,15 @@ const AuthPage: React.FC = () => {
             <img src="../images/hacker_mindset.svg" alt="A person" />
           </SAuthentication>
         </Route>
-        <Route exact path={`${path}/success`} component={Success} />
         <Route
           exact
           path={`${path}/forgot-password`}
           component={ForgotPassword}
+        />
+        <Route
+          exact
+          path={`${path}/confirmation/:confirmationToken`}
+          component={ConfirmationContainer}
         />
         <Route
           exact

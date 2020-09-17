@@ -5,7 +5,7 @@ import { checkResetPasswordToken } from '../../services/authService';
 import { STheme } from '../../theme/theme';
 import MySpin from '../common/MySpin';
 import AuthBanner from './AuthBanner';
-import ResetLinkExpired from './ResetLinkExpired';
+import ResetPassLinkExpired from './ResetPassLinkExpired';
 import ResetPassword from './ResetPassword';
 import ResetSuccess from './ResetSuccess';
 
@@ -42,7 +42,7 @@ const ResetPasswordContainer: React.FC = () => {
         />
       );
 
-    return <ResetLinkExpired />;
+    return <ResetPassLinkExpired />;
   };
 
   return (
@@ -53,13 +53,13 @@ const ResetPasswordContainer: React.FC = () => {
   );
 };
 
-const SResetPasswordContainer = styled.div`
+export const SResetPasswordContainer = styled.div`
   margin: auto;
   padding: 50px 0;
   width: 500px;
 `;
 
-const SPanel = styled.div`
+export const SPanel = styled.div`
   box-shadow: ${({ theme }: { theme: STheme }) => theme.shadows[1]};
   border-radius: 6px;
   padding: 20px;

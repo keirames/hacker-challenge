@@ -94,3 +94,9 @@ export const resetPassword = (
     resetPasswordToken,
   });
 };
+
+export const confirmation = (
+  confirmationToken: string
+): Promise<AxiosResponse<any>> => {
+  return http.patch(`${apiEndPoint}/confirmation`, { confirmationToken });
+};

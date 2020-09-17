@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import MyButton from '../common/MyButton';
 import { signUp } from '../../services/authService';
+import SignUpSuccess from './SignUpSuccess';
 
 export interface SignUpInput {
   email: string;
@@ -16,7 +17,9 @@ export interface SignUpInput {
 }
 
 const SignUpForm: React.FC = (props) => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [inProgress, setInProgress] = useState<boolean>(false);
+  const [showSignUpSuccess, setShowSignUpSuccess] = useState<boolean>(false);
 
   const initialValues = {
     email: '',
@@ -82,9 +85,11 @@ const SignUpForm: React.FC = (props) => {
 
     try {
       options.setStatus();
-      setLoading(true);
+      setInProgress(true);
       await signUp({ email, firstName, lastName, password });
-      window.location.href = '/';
+
+      setEmail(email);
+      setShowSignUpSuccess(true);
     } catch (error) {
       if (error.response) {
         if (error.response.data.message instanceof Array)
@@ -92,8 +97,15 @@ const SignUpForm: React.FC = (props) => {
         else options.setStatus({ message: error.response.data.message });
       }
     }
-    setLoading(false);
+    setInProgress(false);
   };
+
+  if (showSignUpSuccess)
+    return (
+      <SRegisterForm>
+        <SignUpSuccess email={email} />
+      </SRegisterForm>
+    );
 
   return (
     <SRegisterForm>
@@ -177,7 +189,7 @@ const SignUpForm: React.FC = (props) => {
               type="primary"
               htmlType="submit"
               block
-              loading={loading}
+              loading={inProgress}
             >
               Sign Up
             </MyButton>
@@ -186,9 +198,7 @@ const SignUpForm: React.FC = (props) => {
         )}
       </Formik>
       <STo>
-        <p>
-          <Link to="signin">Already have an account ?</Link>
-        </p>
+        <Link to="signin">Already have an account ?</Link>
       </STo>
     </SRegisterForm>
   );
@@ -197,7 +207,7 @@ const SignUpForm: React.FC = (props) => {
 const SRegisterForm = styled.div`
   width: 500px;
   background-color: ${({ theme }) => theme.palette.common.white};
-  padding: 20px 20px 0 20px;
+  padding: 20px;
   border-radius: 5px;
 `;
 
@@ -220,9 +230,7 @@ const SInfoBlock = styled.div`
   }
 `;
 
-const STo = styled.div`
-  margin-top: 10px;
-`;
+const STo = styled.div``;
 
 const SGlobalError = styled.div`
   min-height: 25px;
