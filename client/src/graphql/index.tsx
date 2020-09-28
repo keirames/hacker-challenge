@@ -92,17 +92,14 @@ export interface TestCase {
   testString: string;
 }
 
-//! actual & expected i think will better to be a string
-interface TestedResultError {
+export interface TestResult {
+  text: string;
+  testString: string;
+  pass: boolean;
+  err: string;
   message: string;
-  // actual: number;
-  // expected: number;
-}
-
-export interface TestedResult {
-  passed: boolean;
-  time: number;
-  assert: TestedResultError;
+  stack: string;
+  log?: string;
 }
 
 // export interface Answer {

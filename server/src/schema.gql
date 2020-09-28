@@ -89,14 +89,14 @@ type UserDto {
   subscriptionPlans: [SubscriptionDto!]!
 }
 
-type AssertDto {
+type TestResultDto {
+  text: String!
+  testString: String!
+  pass: Boolean!
+  err: String!
   message: String!
-}
-
-type TestedResultDto {
-  passed: Boolean!
-  assert: AssertDto!
-  time: Int!
+  stack: String!
+  log: String
 }
 
 type SubmissionDto {
@@ -120,7 +120,7 @@ type Query {
 }
 
 type Mutation {
-  submitAnswer(submitAnswerInput: SubmitAnswerInput!): [TestedResultDto!]!
+  submitAnswer(submitAnswerInput: SubmitAnswerInput!): [TestResultDto!]!
   addChallenge(challenge: AddChallengeInput!): ChallengeDto!
   editChallenge(challenge: EditChallengeInput!): ChallengeDto!
   likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!

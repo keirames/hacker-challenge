@@ -1,27 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Row, Col } from 'antd';
-import { TestedResult, TestCase, TestInput } from '../../graphql';
+import { TestResult, TestCase, TestInput } from '../../graphql';
 import TestBlock from './TestBlock';
 
 interface IProps {
   loading: boolean;
-  testedResults: TestedResult[];
+  testResults: TestResult[];
   testCases: TestCase[];
   testInputs: TestInput[];
 }
 
-const TestTable: React.FC<IProps> = ({ loading, testedResults, testCases }) => {
+const TestTable: React.FC<IProps> = ({ loading, testResults, testCases }) => {
   return (
     <STestTable>
       <Row gutter={[16, 16]}>
         {testCases.map((testCase, index) => (
           // eslint-disable-next-line react/no-array-index-key
-          <Col span={12} key={index}>
+          <Col span={24} key={index}>
             <TestBlock
               loading={loading}
               testCase={testCase}
-              testedResult={testedResults[index]}
+              testResult={testResults[index]}
             />
           </Col>
         ))}

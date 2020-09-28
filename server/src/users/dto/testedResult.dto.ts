@@ -1,19 +1,25 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 
 @ObjectType()
-export class AssertDto {
+export class TestResultDto {
+  @Field(() => String)
+  text: string;
+
+  @Field(() => String)
+  testString: string;
+
+  @Field(() => Boolean)
+  pass: boolean;
+
+  @Field(() => String)
+  err: string;
+
   @Field(() => String)
   message: string;
-}
 
-@ObjectType()
-export class TestedResultDto {
-  @Field(() => Boolean)
-  passed: boolean;
+  @Field(() => String)
+  stack: string;
 
-  @Field(() => AssertDto)
-  assert?: { message: string };
-
-  @Field(() => Int)
-  time: number;
+  @Field(() => String, { nullable: true })
+  log?: string;
 }

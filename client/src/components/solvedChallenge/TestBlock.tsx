@@ -1,30 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Typography } from 'antd';
 import styled from 'styled-components';
-import { TestCase, TestedResult } from '../../graphql';
+import { TestCase, TestResult } from '../../graphql';
 import { STheme } from '../../theme/theme';
 
 interface Props {
   loading: boolean;
   testCase: TestCase;
-  testedResult: TestedResult | undefined;
+  testResult?: TestResult;
 }
 
-const TestBlock: React.FC<Props> = ({ loading, testCase, testedResult }) => {
-  const [selfLoading, setSelfLoading] = useState(false);
+const TestBlock: React.FC<Props> = ({ loading, testCase, testResult }) => {
+  const [selfLoading, setSelfLoading] = useState<boolean>(loading);
 
   useEffect(() => {
-    let delay: any = null;
     if (loading) setSelfLoading(true);
-    else {
-      const time = testedResult?.time || 0;
-      delay = setTimeout(() => {
-        setSelfLoading(false);
-      }, time);
-    }
-    return () => clearTimeout(delay);
-  }, [loading, testedResult]);
+    else setSelfLoading(false);
+  }, [loading, testResult]);
 
   const MyIcon: React.FC<{ passed: boolean }> = ({ passed }) => {
     return (
@@ -36,17 +28,25 @@ const TestBlock: React.FC<Props> = ({ loading, testCase, testedResult }) => {
     );
   };
 
+  const renderIcon = (): JSX.Element => {
+    if (selfLoading)
+      return (
+        <FontAwesomeIcon icon="circle-notch" spin size="2x" color="#3f51b5" />
+      );
+
+    if (!testResult)
+      return <FontAwesomeIcon icon={['far', 'circle']} size="2x" />;
+
+    return <MyIcon passed={testResult.pass} />;
+  };
+
   return (
     <STestBlock>
-      <SColor passed={testedResult?.passed} selfLoading={selfLoading} />
-      {selfLoading ? (
-        <FontAwesomeIcon icon="circle-notch" spin size="2x" color="#3f51b5" />
-      ) : !testedResult ? (
-        <FontAwesomeIcon icon={['far', 'circle']} size="2x" />
-      ) : (
-        <MyIcon passed={testedResult.passed} />
-      )}
-      <Typography.Text>{testCase.text}</Typography.Text>
+      <SColorBar passed={testResult?.pass} selfLoading={selfLoading} />
+      {renderIcon()}
+      <STestString>
+        <div dangerouslySetInnerHTML={{ __html: testCase.text }} />
+      </STestString>
     </STestBlock>
   );
 };
@@ -56,7 +56,7 @@ const STestBlock = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  height: 50px;
+  min-height: 50px;
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 10px;
@@ -71,7 +71,7 @@ const STestBlock = styled.div`
   }
 `;
 
-const SColor = styled.div`
+const SColorBar = styled.span`
   align-self: stretch;
   background-color: ${({
     theme,
@@ -87,10 +87,14 @@ const SColor = styled.div`
       : passed
       ? theme.palette.common.darkGreen
       : theme.palette.common.lightRed};
-  height: 100%;
+  /* height: 100%; */
   width: 8px;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
+`;
+
+const STestString = styled.div`
+  width: 90%;
 `;
 
 const SFontAwesomeIcon = styled(FontAwesomeIcon)`

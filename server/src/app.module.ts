@@ -22,6 +22,7 @@ import { levelResolver } from './challenges/dto/challenge.dto';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { TasksModule } from './tasks/tasks.module';
+import { CodeEvaluatorModule } from './codeEvaluator/codeEvaluator.module';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { TasksModule } from './tasks/tasks.module';
     AuthModule,
     MailModule,
     TasksModule,
+    CodeEvaluatorModule,
   ],
   controllers: [AppController],
   providers: [AppService, TestInputsService],

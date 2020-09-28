@@ -1,7 +1,5 @@
 import {
   Injectable,
-  HttpException,
-  HttpStatus,
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
@@ -13,11 +11,14 @@ import { Challenge } from '../challenges/challenge.entity';
 import { UserAccountsService } from '../userAccounts/userAccounts.service';
 import { SubmitAnswerInput } from './input/submitAnswerInput.input';
 import { ChallengesService } from '../challenges/challenges.service';
-import { executeSolution, TestedResult } from '../codeExecutor/codeExecutor';
 import { UserAccount } from '../userAccounts/userAccount.entity';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 import * as bcrypt from 'bcrypt';
 import { bcryptSaltRound } from '../config/vars';
+import {
+  CodeEvaluatorService,
+  TestResult,
+} from '../codeEvaluator/codeEvaluator.service';
 
 @Injectable()
 export class UsersService {
@@ -29,6 +30,7 @@ export class UsersService {
     private readonly userAccountsService: UserAccountsService,
     private readonly challengesService: ChallengesService,
     private readonly subscriptionsService: SubscriptionsService,
+    private readonly codeEvaluatorService: CodeEvaluatorService,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -131,43 +133,53 @@ export class UsersService {
 
   async submitAnswer(
     submitAnswerInput: SubmitAnswerInput,
-  ): Promise<TestedResult[] | Error> {
+  ): Promise<TestResult[]> {
     const { userId, answer, challengeId } = submitAnswerInput;
 
     const user = await this.findById(userId);
-    if (!user)
-      throw new HttpException(`Invalid user's id`, HttpStatus.NOT_FOUND);
+    if (!user) throw new NotFoundException(`Invalid user's id`);
 
     const challenge = await this.challengesService.findById(challengeId);
-    if (!challenge)
-      throw new HttpException(`Invalid challenge's id`, HttpStatus.NOT_FOUND);
+    if (!challenge) throw new NotFoundException(`Invalid challenge's id`);
 
     const { inputFormat, testCases } = challenge;
-    const testInputs = inputFormat.split(' ');
-    const testAssertions = testCases.map(testCase => testCase.testString);
-    const executeResult = await executeSolution(userId, {
+
+    const tests = testCases.map(tc => ({
+      text: tc.text,
+      testString: tc.testString,
+    }));
+
+    const testResults = await this.codeEvaluatorService.executeChallenge(
       answer,
-      testAssertions,
-      testInputs,
-    });
+      tests,
+    );
 
-    // If error occur
-    if (executeResult instanceof Error) return executeResult;
+    return testResults;
 
-    // If successfully solve challenge
-    const solvedChallenges = await this.findSolvedChallengesByUserId(userId);
-    if (solvedChallenges.map(sc => sc.challenge.id).includes(challengeId)) {
-      const isPassed =
-        executeResult.filter(r => r.passed).length === testCases.length;
+    // const testInputs = inputFormat.split(' ');
+    // const testAssertions = testCases.map(testCase => testCase.testString);
+    // const executeResult = await executeSolution(userId, {
+    //   answer,
+    //   testAssertions,
+    //   testInputs,
+    // });
 
-      if (isPassed) {
-        const solvedChallenge = new SolvedChallenge({ challenge });
-        user.solvedChallenges.push(solvedChallenge);
-        await this.usersRepository.save(user);
-      }
-    }
+    // // If error occur
+    // if (executeResult instanceof Error) return executeResult;
 
-    return executeResult;
+    // // If successfully solve challenge
+    // const solvedChallenges = await this.findSolvedChallengesByUserId(userId);
+    // if (solvedChallenges.map(sc => sc.challenge.id).includes(challengeId)) {
+    //   const isPassed =
+    //     executeResult.filter(r => r.passed).length === testCases.length;
+
+    //   if (isPassed) {
+    //     const solvedChallenge = new SolvedChallenge({ challenge });
+    //     user.solvedChallenges.push(solvedChallenge);
+    //     await this.usersRepository.save(user);
+    //   }
+    // }
+    // return executeResult;
   }
 
   /**

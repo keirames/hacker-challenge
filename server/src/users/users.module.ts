@@ -8,6 +8,7 @@ import { UserExternalLoginsModule } from '../userExternalLogins/userExternalLogi
 import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
 import { ChallengesModule } from '../challenges/challenges.module';
 import { UserAccount } from '../userAccounts/userAccount.entity';
+import { CodeEvaluatorModule } from '../codeEvaluator/codeEvaluator.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserAccount } from '../userAccounts/userAccount.entity';
     UserAccountsModule,
     UserExternalLoginsModule,
     SubscriptionsModule,
+    CodeEvaluatorModule,
   ],
   controllers: [],
   providers: [UsersService, UsersResolver],

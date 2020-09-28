@@ -24,11 +24,11 @@ import { SubscriptionDto } from '../subscriptions/dto/subscription.dto';
 import { Subscription } from '../subscriptions/subscription.entity';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 import { SubmitAnswerInput } from './input/submitAnswerInput.input';
-import { TestedResult } from '../codeExecutor/codeExecutor';
-import { TestedResultDto } from './dto/testedResult.dto';
+import { TestResultDto } from './dto/testedResult.dto';
 import { UseGuards } from '@nestjs/common';
 import { GqlJwtAuthGuard } from '../auth/guards/gqlJwtAuth.guard';
 import { CurrentUser } from './decorator/user.decorator';
+import { TestResult } from '../codeEvaluator/codeEvaluator.service';
 
 @Resolver(() => UserDto)
 export class UsersResolver {
@@ -83,10 +83,10 @@ export class UsersResolver {
   }
 
   // ! Auth
-  @Mutation(() => [TestedResultDto])
+  @Mutation(() => [TestResultDto])
   async submitAnswer(
     @Args('submitAnswerInput') submitAnswerInput: SubmitAnswerInput,
-  ): Promise<TestedResult[] | Error> {
+  ): Promise<TestResult[]> {
     return this.usersService.submitAnswer(submitAnswerInput);
   }
 }

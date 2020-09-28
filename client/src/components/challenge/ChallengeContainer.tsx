@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { Row, Col } from 'antd';
 import ChallengeDetails from '../solvedChallenge/ChallengeDetails';
@@ -49,11 +49,11 @@ const GET_CHALLENGE = gql`
 `;
 
 const ChallengeContainer: React.FC<Props> = (props) => {
-  const { slug } = useParams();
+  const { params } = useRouteMatch<{ slug: string }>();
 
   const { data, loading, error } = useQuery<ChallengeData, ChallengeVars>(
     GET_CHALLENGE,
-    { variables: { slug } }
+    { variables: { slug: params.slug } }
   );
 
   if (!data?.getChallenge) return null;

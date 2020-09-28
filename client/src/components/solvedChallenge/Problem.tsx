@@ -3,26 +3,27 @@ import { useMutation, gql } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Space } from 'antd';
-import { Challenge, TestedResult } from '../../graphql';
+import { Challenge, TestResult } from '../../graphql';
 import Editor from './Editor';
 import TestTable from './TestTable';
 import ProblemContent from './ProblemContent';
 import Congratulation from './Congratulation';
 import MyButton from '../common/MyButton';
+import Console from './Console';
 
 const SUBMIT_ANSWER = gql`
   mutation SubmitAnswer($submitAnswerInput: SubmitAnswerInput!) {
     submitAnswer(submitAnswerInput: $submitAnswerInput) {
-      passed
-      time
-      assert {
-        message
-      }
+      text
+      testString
+      pass
+      err
+      message
+      stack
+      log
     }
   }
 `;
-// actual
-// expected
 
 interface Props {
   style?: React.CSSProperties;
@@ -50,11 +51,11 @@ const Problem: React.FC<Props> = (props) => {
     testInputs,
   } = challenge;
 
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
   const [code, setCode] = useState<string>(challengeSeed);
 
   const [submitAnswer, { error, data, loading }] = useMutation<
-    { submitAnswer: TestedResult[] },
+    { submitAnswer: TestResult[] },
     SubmitAnswerInput
   >(SUBMIT_ANSWER);
 
@@ -92,6 +93,7 @@ const Problem: React.FC<Props> = (props) => {
         outputFormat={outputFormat}
       />
       <Editor code={code} onCode={handleCode} />
+      <Console content={data?.submitAnswer[0].log || ''} />
       <SSpace size="middle">
         <MyButton color="primary" type="ghost" size="middle">
           Run Code
@@ -114,7 +116,7 @@ const Problem: React.FC<Props> = (props) => {
       /> */}
       <TestTable
         loading={loading}
-        testedResults={data?.submitAnswer || []}
+        testResults={data?.submitAnswer || []}
         testCases={testCases}
         testInputs={testInputs}
       />

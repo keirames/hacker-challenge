@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Typography } from 'antd';
 import styled from 'styled-components';
-import { TestedResult, TestCase } from '../../graphql';
+import { TestResult, TestCase } from '../../graphql';
 import { STheme } from '../../theme/theme';
 import MyButton from '../common/MyButton';
 
 interface IProps {
   challengeSlug: string;
   answer: string;
-  testedResults: TestedResult[];
+  testedResults: TestResult[];
   testCases: TestCase[];
 }
 
@@ -22,15 +22,14 @@ const Congratulation: React.FC<IProps> = ({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (testedResults.filter((r) => r.passed).length === testCases.length) {
-      const longestTime: number = testedResults
-        .map((t) => t.time)
-        .reduce((a, b) => Math.max(a, b), 0);
-
-      setTimeout(() => {
-        setVisible(true);
-      }, longestTime);
-    } else setVisible(false);
+    // if (testedResults.filter((r) => r.passed).length === testCases.length) {
+    //   const longestTime: number = testedResults
+    //     .map((t) => t.time)
+    //     .reduce((a, b) => Math.max(a, b), 0);
+    //   setTimeout(() => {
+    //     setVisible(true);
+    //   }, longestTime);
+    // } else setVisible(false);
   }, [testCases.length, testedResults]);
 
   if (!visible) return null;
