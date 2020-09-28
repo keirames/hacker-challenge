@@ -51,7 +51,7 @@ export default App;
 
 const SApp = styled.div`
   font-family: 'Open Sans', sans-serif;
-
+  display: flex;
   min-height: 100vh;
   background-color: ${({ theme }: { theme: STheme }) =>
     theme.palette.background.whitesmoke};

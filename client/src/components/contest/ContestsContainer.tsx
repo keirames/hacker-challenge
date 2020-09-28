@@ -6,7 +6,7 @@ import ContestBlock from './ContestBlock';
 
 export const GET_CONTESTS = gql`
   query GetContests {
-    getContests @client {
+    getContests {
       id
       name
       slug

@@ -28,7 +28,7 @@ const MainPage: React.FC = (props) => {
     <SMainPage>
       <NavBar />
       <Switch>
-        <SMainBody>
+        <SMainBody style={{ flex: 1 }}>
           <Route exact path={`${path}/`} component={ContestsContainer} />
           <Route
             exact
@@ -49,6 +49,8 @@ const MainPage: React.FC = (props) => {
 };
 
 const SMainPage = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
 `;
 
