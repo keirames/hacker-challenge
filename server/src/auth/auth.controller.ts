@@ -18,6 +18,7 @@ import { clientUrl } from '../config/vars';
 import { SignUpDto } from './dto/signUpDto.dto';
 import { LocalAuthGuard } from './guards/localAuth.guard';
 import { MailService } from '../mail/mail.service';
+import { SignInDto } from './dto/signInDto.dto';
 
 @Controller('/api/auth')
 export class AuthController {
@@ -115,22 +116,21 @@ export class AuthController {
     return 'Valid token';
   }
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(LocalAuthGuard)
   @Post('/signin')
-  async signIn(@Req() req: Request): Promise<string> {
-    if (!req.user)
-      throw new NotFoundException('Local token is not passing properly');
-    return (req.user as any).accessToken;
+  async signIn(@Body() account: SignInDto): Promise<string> {
+    const user = await this.authService.signIn(account);
+
+    const { accessToken } = await this.authService.generateToken(user);
+
+    return accessToken;
   }
 
   // Note if @Body('accountDetails') client must provide
   // {accoutDetails: account} in axios
   @Post('/signup')
   @HttpCode(200)
-  async signUp(
-    @Req() req: Request,
-    @Body() accountDetails: SignUpDto,
-  ): Promise<string> {
+  async signUp(@Body() accountDetails: SignUpDto): Promise<string> {
     // const host = req.get('host');
     // if (!host) throw new NotFoundException('Host cannot be found!');
     // const serverUrl = `${req.protocol}://${host}`;
