@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { TestCase, TestResult } from '../../graphql';
-import { STheme } from '../../theme/theme';
+import { STheme, theme } from '../../theme/theme';
 
 interface Props {
   loading: boolean;
@@ -28,6 +28,18 @@ const TestBlock: React.FC<Props> = ({ loading, testCase, testResult }) => {
     );
   };
 
+  const renderColorBar = (): JSX.Element => {
+    if (typeof testResult?.pass === 'undefined' || selfLoading)
+      return <SColorBar style={{ background: theme.palette.common.blue }} />;
+
+    if (testResult.pass)
+      return (
+        <SColorBar style={{ background: theme.palette.common.darkGreen }} />
+      );
+
+    return <SColorBar style={{ background: theme.palette.common.lightRed }} />;
+  };
+
   const renderIcon = (): JSX.Element => {
     if (selfLoading)
       return (
@@ -42,7 +54,7 @@ const TestBlock: React.FC<Props> = ({ loading, testCase, testResult }) => {
 
   return (
     <STestBlock>
-      <SColorBar passed={testResult?.pass} selfLoading={selfLoading} />
+      {renderColorBar()}
       {renderIcon()}
       <STestString>
         <div dangerouslySetInnerHTML={{ __html: testCase.text }} />
@@ -73,21 +85,6 @@ const STestBlock = styled.div`
 
 const SColorBar = styled.span`
   align-self: stretch;
-  background-color: ${({
-    theme,
-    passed,
-    selfLoading,
-  }: {
-    theme: STheme;
-    passed: boolean | undefined;
-    selfLoading: boolean;
-  }) =>
-    selfLoading || passed === undefined
-      ? theme.palette.common.blue
-      : passed
-      ? theme.palette.common.darkGreen
-      : theme.palette.common.lightRed};
-  /* height: 100%; */
   width: 8px;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;

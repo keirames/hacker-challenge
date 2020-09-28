@@ -4,14 +4,14 @@ import { Row, Col } from 'antd';
 import { TestResult, TestCase, TestInput } from '../../graphql';
 import TestBlock from './TestBlock';
 
-interface IProps {
+interface Props {
   loading: boolean;
   testResults: TestResult[];
   testCases: TestCase[];
   testInputs: TestInput[];
 }
 
-const TestTable: React.FC<IProps> = ({ loading, testResults, testCases }) => {
+const TestTable: React.FC<Props> = ({ loading, testResults, testCases }) => {
   return (
     <STestTable>
       <Row gutter={[16, 16]}>

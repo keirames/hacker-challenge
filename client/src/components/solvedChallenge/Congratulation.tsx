@@ -6,14 +6,14 @@ import { TestResult, TestCase } from '../../graphql';
 import { STheme } from '../../theme/theme';
 import MyButton from '../common/MyButton';
 
-interface IProps {
+interface Props {
   challengeSlug: string;
   answer: string;
   testedResults: TestResult[];
   testCases: TestCase[];
 }
 
-const Congratulation: React.FC<IProps> = ({
+const Congratulation: React.FC<Props> = ({
   challengeSlug,
   answer,
   testedResults,
