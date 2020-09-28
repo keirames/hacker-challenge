@@ -30,10 +30,10 @@ export const getJwt = (): string | null => {
   return localStorage.getItem(tokenKey);
 };
 
-export const getCurrentUser = (): unknown => {
+export const getCurrentUser = (): string | null => {
   try {
     const jwt = localStorage.getItem(tokenKey);
-    if (jwt) return jwtDecode(jwt);
+    if (jwt) return jwtDecode<string>(jwt);
     return null;
   } catch (error) {
     return null;

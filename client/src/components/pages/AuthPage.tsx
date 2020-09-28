@@ -1,49 +1,56 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Switch, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import { useReactiveVar } from '@apollo/client';
 import SignInForm from '../auth/SignInForm';
 import SignUpForm from '../auth/SignUpForm';
 import SocialPanel from '../auth/SocialPanel';
 import ForgotPassword from '../auth/ForgotPassword';
 import ResetPasswordContainer from '../auth/ResetPasswordContainer';
 import ConfirmationContainer from '../auth/ConfirmationContainer';
+import { isSignedInVar } from '../../graphql/localState';
 
 const AuthPage: React.FC = () => {
   const { path } = useRouteMatch();
+  const isSignedIn = useReactiveVar(isSignedInVar);
 
   return (
     <SAuthPage>
       <Switch>
-        <Route exact path={`${path}/signin`}>
-          <SAuthentication>
-            <div style={{ display: 'flex' }}>
-              <SignInForm />
-              <SocialPanel />
-            </div>
-            <img src="../images/hacker_mindset.svg" alt="A person" />
-          </SAuthentication>
-        </Route>
-        <Route exact path={`${path}/signup`}>
-          <SAuthentication>
-            <SignUpForm />
-            <img src="../images/hacker_mindset.svg" alt="A person" />
-          </SAuthentication>
-        </Route>
-        <Route
-          exact
-          path={`${path}/forgot-password`}
-          component={ForgotPassword}
-        />
-        <Route
-          exact
-          path={`${path}/confirmation/:confirmationToken`}
-          component={ConfirmationContainer}
-        />
-        <Route
-          exact
-          path={`${path}/reset-password/:resetPasswordToken`}
-          component={ResetPasswordContainer}
-        />
+        {isSignedIn && (
+          <>
+            <Route exact path={`${path}/signin`}>
+              <SAuthentication>
+                <div style={{ display: 'flex' }}>
+                  <SignInForm />
+                  <SocialPanel />
+                </div>
+                <img src="../images/hacker_mindset.svg" alt="A person" />
+              </SAuthentication>
+            </Route>
+            <Route exact path={`${path}/signup`}>
+              <SAuthentication>
+                <SignUpForm />
+                <img src="../images/hacker_mindset.svg" alt="A person" />
+              </SAuthentication>
+            </Route>
+            <Route
+              exact
+              path={`${path}/forgot-password`}
+              component={ForgotPassword}
+            />
+            <Route
+              exact
+              path={`${path}/confirmation/:confirmationToken`}
+              component={ConfirmationContainer}
+            />
+            <Route
+              exact
+              path={`${path}/reset-password/:resetPasswordToken`}
+              component={ResetPasswordContainer}
+            />
+          </>
+        )}
         <Redirect to="/" />
       </Switch>
     </SAuthPage>

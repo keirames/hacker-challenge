@@ -1,22 +1,48 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Popover, Space, Button } from 'antd';
+import { gql, useQuery } from '@apollo/client';
+import { Popover, Space } from 'antd';
 import { Link } from 'react-router-dom';
 import { STheme } from '../../theme/theme';
 import { signOut } from '../../services/authService';
 import MyButton from '../common/MyButton';
+import MySpin from '../common/MySpin';
 
-interface Props {
-  firstName?: string;
-  lastName?: string;
+interface GetMe {
+  id: number;
+  totalPoints: number;
+  firstName: string;
+  lastName: string;
 }
 
-const UserOptions: React.FC<Props> = ({ firstName = 'a', lastName = 'b' }) => {
+interface GetMeData {
+  getMe: GetMe;
+}
+
+const GET_ME = gql`
+  query GetMe {
+    getMe {
+      id
+      totalPoints
+      firstName
+      lastName
+    }
+  }
+`;
+
+const UserOptions: React.FC = () => {
+  const { data, loading, error } = useQuery<GetMeData>(GET_ME);
+
   const handleSignOut = () => {
     signOut();
     window.location.href = '/';
   };
+
+  // todo: do sthing here
+  if (error || !data) return null;
+
+  if (loading) return <MySpin />;
 
   const content = (
     <Space direction="vertical">
@@ -39,7 +65,7 @@ const UserOptions: React.FC<Props> = ({ firstName = 'a', lastName = 'b' }) => {
 
   return (
     <SUserOptions>
-      <span>Hello {`${firstName} ${lastName}`}</span>
+      <span>Hello {`${data.getMe.firstName} ${data.getMe.lastName}`}</span>
       <Popover content={content} trigger="click">
         <Space>
           <FontAwesomeIcon icon="id-card" size="2x" />
