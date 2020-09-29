@@ -17,21 +17,19 @@ const ProblemContent: React.FC<Props> = ({
   return (
     <SProblemContent>
       <div dangerouslySetInnerHTML={{ __html: problem }} />
-      <Typography.Title level={4}>Input Sample</Typography.Title>
+      <STitle>Input Sample</STitle>
       <div dangerouslySetInnerHTML={{ __html: inputFormat }} />
-      <Typography.Title level={4}>Output Sample</Typography.Title>
+      <STitle>Output Sample</STitle>
       <div dangerouslySetInnerHTML={{ __html: outputFormat }} />
     </SProblemContent>
   );
 };
 
 const SProblemContent = styled.div`
-  margin: 0 0 20px 0;
   padding: 20px;
   font-size: ${({ theme }: { theme: STheme }) =>
     theme.typography.fontSize.medium};
-  box-shadow: ${({ theme }: { theme: STheme }) => theme.shadows[2]};
-  font-weight: normal;
+  box-shadow: ${({ theme }: { theme: STheme }) => theme.shadows[1]};
   background-color: ${({ theme }: { theme: STheme }) =>
     theme.palette.common.white};
 
@@ -40,6 +38,13 @@ const SProblemContent = styled.div`
     background-color: ${({ theme }: { theme: STheme }) =>
       theme.palette.common.lightGrey};
   }
+`;
+
+const STitle = styled.p`
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
 `;
 
 export default ProblemContent;
