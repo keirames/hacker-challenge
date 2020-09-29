@@ -20,6 +20,7 @@ import {
   TestResult,
 } from '../codeEvaluator/codeEvaluator.service';
 import { SolvedChallengesService } from '../solvedChallenges/solvedChallenges.service';
+import { Submission } from '../submissions/submission.entity';
 
 @Injectable()
 export class UsersService {
@@ -27,6 +28,8 @@ export class UsersService {
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(UserAccount)
     private readonly userAccountsRepository: Repository<UserAccount>,
+    @InjectRepository(Submission)
+    private readonly submissionsRepository: Repository<Submission>,
 
     private readonly userAccountsService: UserAccountsService,
     private readonly challengesService: ChallengesService,
@@ -140,12 +143,9 @@ export class UsersService {
 
     const user = await this.usersRepository
       .createQueryBuilder('user')
-      .leftJoinAndSelect(
-        'user.solvedChallenges',
-        'solvedChallenge',
-        'user.id = :userId',
-        { userId },
-      )
+      .leftJoinAndSelect('user.solvedChallenges', 'solvedChallenge')
+      .leftJoinAndSelect('user.submissions', 'submission')
+      .where('user.id = :userId', { userId })
       .getOne();
     if (!user) throw new NotFoundException(`Invalid user's id`);
 
@@ -164,18 +164,33 @@ export class UsersService {
       tests,
     );
 
-    const isPassed = testResults.filter(tr => tr.pass).length === tests.length;
-    if (!onlyRunCode && isPassed) {
-      const userWasPassed = this.solvedChallengesService.isUserPassedChallenge(
+    if (!onlyRunCode) {
+      // User already pass challenge
+      const userWasPassed = await this.solvedChallengesService.isUserPassedChallenge(
         userId,
         challengeId,
       );
       if (userWasPassed) return testResults;
 
-      const solvedChallenge = new SolvedChallenge({ challenge });
-      user.solvedChallenges.push(solvedChallenge);
+      const isPassed =
+        testResults.filter(tr => tr.pass).length === tests.length;
+      if (isPassed) {
+        const solvedChallenge = new SolvedChallenge({ challenge });
+        user.solvedChallenges.push(solvedChallenge);
+        // Save 1 time below
+      }
+
+      console.log(answer);
+      let newSubmission = new Submission({
+        answer,
+        challenge,
+        user,
+        isPassed,
+      });
+      newSubmission = await this.submissionsRepository.save(newSubmission);
+
+      user.submissions.push(newSubmission);
       await this.usersRepository.save(user);
-      // todo: save to submission
     }
 
     return testResults;

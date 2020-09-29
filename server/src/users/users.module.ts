@@ -10,10 +10,11 @@ import { ChallengesModule } from '../challenges/challenges.module';
 import { UserAccount } from '../userAccounts/userAccount.entity';
 import { CodeEvaluatorModule } from '../codeEvaluator/codeEvaluator.module';
 import { SolvedChallengesModule } from '../solvedChallenges/solvedChallenges.module';
+import { Submission } from '../submissions/submission.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, UserAccount]),
+    TypeOrmModule.forFeature([User, UserAccount, Submission]),
     ChallengesModule,
     UserAccountsModule,
     UserExternalLoginsModule,
