@@ -180,7 +180,6 @@ export class UsersService {
         // Save 1 time below
       }
 
-      console.log(answer);
       let newSubmission = new Submission({
         answer,
         challenge,
