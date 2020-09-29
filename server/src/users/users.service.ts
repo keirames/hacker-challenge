@@ -19,6 +19,7 @@ import {
   CodeEvaluatorService,
   TestResult,
 } from '../codeEvaluator/codeEvaluator.service';
+import { SolvedChallengesService } from '../solvedChallenges/solvedChallenges.service';
 
 @Injectable()
 export class UsersService {
@@ -30,6 +31,7 @@ export class UsersService {
     private readonly userAccountsService: UserAccountsService,
     private readonly challengesService: ChallengesService,
     private readonly subscriptionsService: SubscriptionsService,
+    private readonly solvedChallengesService: SolvedChallengesService,
     private readonly codeEvaluatorService: CodeEvaluatorService,
   ) {}
 
@@ -134,15 +136,23 @@ export class UsersService {
   async submitAnswer(
     submitAnswerInput: SubmitAnswerInput,
   ): Promise<TestResult[]> {
-    const { userId, answer, challengeId } = submitAnswerInput;
+    const { userId, answer, challengeId, onlyRunCode } = submitAnswerInput;
 
-    const user = await this.findById(userId);
+    const user = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect(
+        'user.solvedChallenges',
+        'solvedChallenge',
+        'user.id = :userId',
+        { userId },
+      )
+      .getOne();
     if (!user) throw new NotFoundException(`Invalid user's id`);
 
     const challenge = await this.challengesService.findById(challengeId);
     if (!challenge) throw new NotFoundException(`Invalid challenge's id`);
 
-    const { inputFormat, testCases } = challenge;
+    const { testCases } = challenge;
 
     const tests = testCases.map(tc => ({
       text: tc.text,
@@ -154,32 +164,21 @@ export class UsersService {
       tests,
     );
 
+    const isPassed = testResults.filter(tr => tr.pass).length === tests.length;
+    if (!onlyRunCode && isPassed) {
+      const userWasPassed = this.solvedChallengesService.isUserPassedChallenge(
+        userId,
+        challengeId,
+      );
+      if (userWasPassed) return testResults;
+
+      const solvedChallenge = new SolvedChallenge({ challenge });
+      user.solvedChallenges.push(solvedChallenge);
+      await this.usersRepository.save(user);
+      // todo: save to submission
+    }
+
     return testResults;
-
-    // const testInputs = inputFormat.split(' ');
-    // const testAssertions = testCases.map(testCase => testCase.testString);
-    // const executeResult = await executeSolution(userId, {
-    //   answer,
-    //   testAssertions,
-    //   testInputs,
-    // });
-
-    // // If error occur
-    // if (executeResult instanceof Error) return executeResult;
-
-    // // If successfully solve challenge
-    // const solvedChallenges = await this.findSolvedChallengesByUserId(userId);
-    // if (solvedChallenges.map(sc => sc.challenge.id).includes(challengeId)) {
-    //   const isPassed =
-    //     executeResult.filter(r => r.passed).length === testCases.length;
-
-    //   if (isPassed) {
-    //     const solvedChallenge = new SolvedChallenge({ challenge });
-    //     user.solvedChallenges.push(solvedChallenge);
-    //     await this.usersRepository.save(user);
-    //   }
-    // }
-    // return executeResult;
   }
 
   /**

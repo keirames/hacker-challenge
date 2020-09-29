@@ -132,6 +132,7 @@ input SubmitAnswerInput {
   userId: Int!
   challengeId: Int!
   answer: String!
+  onlyRunCode: Boolean!
 }
 
 input AddChallengeInput {

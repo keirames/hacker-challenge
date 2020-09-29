@@ -9,6 +9,7 @@ import { SubscriptionsModule } from '../subscriptions/subscriptions.module';
 import { ChallengesModule } from '../challenges/challenges.module';
 import { UserAccount } from '../userAccounts/userAccount.entity';
 import { CodeEvaluatorModule } from '../codeEvaluator/codeEvaluator.module';
+import { SolvedChallengesModule } from '../solvedChallenges/solvedChallenges.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { CodeEvaluatorModule } from '../codeEvaluator/codeEvaluator.module';
     UserAccountsModule,
     UserExternalLoginsModule,
     SubscriptionsModule,
+    SolvedChallengesModule,
     CodeEvaluatorModule,
   ],
   controllers: [],
