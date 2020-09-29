@@ -6,4 +6,11 @@ export const IS_SIGNED_IN = gql`
   }
 `;
 
+export const SolvedChallengesId = gql`
+  query SolvedChallengesId {
+    solvedChallengesId @client
+  }
+`;
+
 export const isSignedInVar = makeVar<boolean>(false);
+export const solvedChallengesIdVar = makeVar<number[]>([]);
