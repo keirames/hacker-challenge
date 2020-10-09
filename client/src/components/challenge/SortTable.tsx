@@ -2,13 +2,10 @@ import React from 'react';
 import { Checkbox } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import styled from 'styled-components';
-import { LevelFilter, StatusFilter } from '../contest/ContestDetailsContainer';
 import { STheme } from '../../theme/theme';
 
 interface Props {
   style?: React.CSSProperties;
-  levelFilter: LevelFilter;
-  statusFilter: StatusFilter;
   onChangeLevelFilter?: (checkedValue: CheckboxValueType[]) => void;
   onChangeStatusFilter?: (checkedValue: CheckboxValueType[]) => void;
 }
@@ -25,13 +22,7 @@ const levelOptions = [
 ];
 
 const SortTable: React.FC<Props> = (props) => {
-  const {
-    style,
-    levelFilter,
-    statusFilter,
-    onChangeLevelFilter,
-    onChangeStatusFilter,
-  } = props;
+  const { style, onChangeLevelFilter, onChangeStatusFilter } = props;
 
   return (
     <SSortTable style={style}>

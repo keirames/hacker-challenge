@@ -33,8 +33,8 @@ const SSCoreTable = styled.div`
   padding: 10px;
   width: 100%;
   min-height: 100px;
-  border: ${({ theme }: { theme: STheme }) =>
-    `1px solid ${theme.palette.common.lightGrey}`};
+  background-color: ${({ theme }: { theme: STheme }) =>
+    theme.palette.background.white};
 
   & > div {
     color: ${({ theme }: { theme: STheme }) => theme.palette.common.darkCyan};

@@ -6,7 +6,7 @@ import {
   ApolloProvider,
   ApolloClient,
 } from '@apollo/client';
-import { setContext } from '@apollo/link-context';
+import { setContext } from '@apollo/client/link/context';
 import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -18,6 +18,7 @@ import { getJwt, getCurrentUser } from './services/authService';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'antd/dist/antd.css';
+import { isSignedInVar } from './graphql/localState';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3000/graphql',
@@ -34,19 +35,29 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache({
-    typePolicies: {
-      UserDto: {
-        fields: {
-          userTokenDecode: {
-            read: getCurrentUser,
-          },
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        isSignedIn: {
+          read: () => isSignedInVar(),
         },
       },
     },
-  }),
+    // todo: remove
+    UserDto: {
+      fields: {
+        userTokenDecode: {
+          read: getCurrentUser,
+        },
+      },
+    },
+  },
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache,
 });
 
 library.add(fab, fas, far);

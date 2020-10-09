@@ -1,0 +1,11 @@
+export const challenge = [
+  {
+    code: `function diffArray(arr1, arr2) {
+  var newArr = [];
+  return newArr;
+}
+
+diffArray([1, 2, 3, 5], [1, 2, 3, 4, 5]);`,
+    testString: `assert.sameMembers(diffArray(["diorite", "andesite", "grass", "dirt", "pink wool", "dead shrub"], ["diorite", "andesite", "grass", "dirt", "dead shrub"]), ["pink wool"]);`,
+  },
+];

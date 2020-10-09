@@ -1,7 +1,5 @@
 import {
   Injectable,
-  HttpException,
-  HttpStatus,
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
@@ -13,11 +11,16 @@ import { Challenge } from '../challenges/challenge.entity';
 import { UserAccountsService } from '../userAccounts/userAccounts.service';
 import { SubmitAnswerInput } from './input/submitAnswerInput.input';
 import { ChallengesService } from '../challenges/challenges.service';
-import { executeSolution, TestedResult } from '../codeExecutor/codeExecutor';
 import { UserAccount } from '../userAccounts/userAccount.entity';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 import * as bcrypt from 'bcrypt';
 import { bcryptSaltRound } from '../config/vars';
+import {
+  CodeEvaluatorService,
+  TestResult,
+} from '../codeEvaluator/codeEvaluator.service';
+import { SolvedChallengesService } from '../solvedChallenges/solvedChallenges.service';
+import { Submission } from '../submissions/submission.entity';
 
 @Injectable()
 export class UsersService {
@@ -25,10 +28,14 @@ export class UsersService {
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(UserAccount)
     private readonly userAccountsRepository: Repository<UserAccount>,
+    @InjectRepository(Submission)
+    private readonly submissionsRepository: Repository<Submission>,
 
     private readonly userAccountsService: UserAccountsService,
     private readonly challengesService: ChallengesService,
     private readonly subscriptionsService: SubscriptionsService,
+    private readonly solvedChallengesService: SolvedChallengesService,
+    private readonly codeEvaluatorService: CodeEvaluatorService,
   ) {}
 
   findAll(): Promise<User[]> {
@@ -131,43 +138,61 @@ export class UsersService {
 
   async submitAnswer(
     submitAnswerInput: SubmitAnswerInput,
-  ): Promise<TestedResult[] | Error> {
-    const { userId, answer, challengeId } = submitAnswerInput;
+  ): Promise<TestResult[]> {
+    const { userId, answer, challengeId, onlyRunCode } = submitAnswerInput;
 
-    const user = await this.findById(userId);
-    if (!user)
-      throw new HttpException(`Invalid user's id`, HttpStatus.NOT_FOUND);
+    const user = await this.usersRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.solvedChallenges', 'solvedChallenge')
+      .leftJoinAndSelect('user.submissions', 'submission')
+      .where('user.id = :userId', { userId })
+      .getOne();
+    if (!user) throw new NotFoundException(`Invalid user's id`);
 
     const challenge = await this.challengesService.findById(challengeId);
-    if (!challenge)
-      throw new HttpException(`Invalid challenge's id`, HttpStatus.NOT_FOUND);
+    if (!challenge) throw new NotFoundException(`Invalid challenge's id`);
 
-    const { inputFormat, testCases } = challenge;
-    const testInputs = inputFormat.split(' ');
-    const testAssertions = testCases.map(testCase => testCase.testString);
-    const executeResult = await executeSolution(userId, {
+    const { testCases } = challenge;
+
+    const tests = testCases.map(tc => ({
+      text: tc.text,
+      testString: tc.testString,
+    }));
+
+    const testResults = await this.codeEvaluatorService.executeChallenge(
       answer,
-      testAssertions,
-      testInputs,
-    });
+      tests,
+    );
 
-    // If error occur
-    if (executeResult instanceof Error) return executeResult;
+    if (!onlyRunCode) {
+      // User already pass challenge
+      const userWasPassed = await this.solvedChallengesService.isUserPassedChallenge(
+        userId,
+        challengeId,
+      );
+      if (userWasPassed) return testResults;
 
-    // If successfully solve challenge
-    const solvedChallenges = await this.findSolvedChallengesByUserId(userId);
-    if (solvedChallenges.map(sc => sc.challenge.id).includes(challengeId)) {
       const isPassed =
-        executeResult.filter(r => r.passed).length === testCases.length;
-
+        testResults.filter(tr => tr.pass).length === tests.length;
       if (isPassed) {
         const solvedChallenge = new SolvedChallenge({ challenge });
         user.solvedChallenges.push(solvedChallenge);
-        await this.usersRepository.save(user);
+        // Save 1 time below
       }
+
+      let newSubmission = new Submission({
+        answer,
+        challenge,
+        user,
+        isPassed,
+      });
+      newSubmission = await this.submissionsRepository.save(newSubmission);
+
+      user.submissions.push(newSubmission);
+      await this.usersRepository.save(user);
     }
 
-    return executeResult;
+    return testResults;
   }
 
   /**

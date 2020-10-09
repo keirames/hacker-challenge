@@ -4,9 +4,10 @@ import { Row, Col } from 'antd';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
-import { Contest, Challenge, User } from '../../graphql';
+import { Contest, Challenge } from '../../graphql';
 import ChallengesList from '../challenge/ChallengesList';
 import SortTable from '../challenge/SortTable';
+import { solvedChallengesIdVar } from '../../graphql/localState';
 
 export interface StatusFilter {
   solved: boolean;
@@ -41,64 +42,64 @@ const GET_CONTEST = gql`
   }
 `;
 
-// TODO: Find a way to refactore this interfae
-interface UserData {
-  getMe: User;
+interface GetMe {
+  solvedChallenges: {
+    id: number;
+  }[];
+}
+
+interface GetMeData {
+  getMe: GetMe;
 }
 
 const GET_ME = gql`
   query GetMe {
     getMe {
-      id
-      username
-      firstname
-      lastname
       solvedChallenges {
         id
       }
-      likedChallenges {
-        id
-      }
-      totalPoints
     }
   }
 `;
 
 const ContestDetailsContainer: React.FC = (props) => {
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
 
   const [challenges, setChallenges] = useState<Challenge[]>([]);
+  const [levelFilter, setLevelFilter] = useState<LevelFilter>({
+    easy: true,
+    medium: true,
+    hard: true,
+  });
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>({
+    solved: true,
+    unsolved: true,
+  });
 
   const { data, loading, error } = useQuery<ContestData, ContestVars>(
     GET_CONTEST,
     { variables: { slug } }
   );
-
-  const { data: userData } = useQuery<UserData>(GET_ME);
-
-  const [levelFilter, setLevelFilter] = useState<LevelFilter>({
-    easy: false,
-    medium: false,
-    hard: false,
-  });
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>({
-    solved: false,
-    unsolved: false,
-  });
+  const { data: userData } = useQuery<GetMeData>(GET_ME);
 
   useEffect(() => {
-    const solvedChallengesId: number[] = userData
-      ? userData.getMe.solvedChallenges.map((c) => c.challenge.id)
-      : [];
+    if (userData) {
+      const solvedChallenges = userData.getMe.solvedChallenges.map(
+        (sc) => sc.id
+      );
+      solvedChallengesIdVar(solvedChallenges);
+    }
+  }, [userData]);
 
+  useEffect(() => {
     if (data) {
       let tempChallenges = [...data.getContest.challenges];
       tempChallenges = tempChallenges.map((c) =>
-        solvedChallengesId.includes(c.id) ? { ...c, isSolved: true } : c
+        solvedChallengesIdVar().includes(c.id) ? { ...c, isSolved: true } : c
       );
       setChallenges(tempChallenges);
     }
-  }, [data, userData]);
+  }, [data]);
 
   const handleChangeLevelFilter = (checkedValue: CheckboxValueType[]) => {
     const tempLevelFilter = { ...levelFilter };
@@ -149,7 +150,7 @@ const ContestDetailsContainer: React.FC = (props) => {
     });
 
     // Status filter
-    sortedChallenges = sortedChallenges?.filter((c) => {
+    sortedChallenges = sortedChallenges.filter((c) => {
       if (statusChoices.length === 0) return true;
       if (statusChoices.length === Object.keys(statusFilter).length)
         return true;
@@ -174,8 +175,6 @@ const ContestDetailsContainer: React.FC = (props) => {
         </Col>
         <Col span={5}>
           <SortTable
-            levelFilter={levelFilter}
-            statusFilter={statusFilter}
             onChangeLevelFilter={handleChangeLevelFilter}
             onChangeStatusFilter={handleChangeStatusFilter}
           />

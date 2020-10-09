@@ -10,4 +10,7 @@ export class SubmitAnswerInput {
 
   @Field(() => String)
   answer: string;
+
+  @Field(() => Boolean)
+  onlyRunCode: boolean;
 }

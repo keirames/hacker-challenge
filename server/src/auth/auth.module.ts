@@ -58,20 +58,56 @@ import { ConfiguredCacheModule } from '../mail/mail.module';
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    const loginOptions: AuthenticateOptions = {
+    const githubOptions: AuthenticateOptions = {
       scope: ['user:email'],
       state: undefined,
       session: false,
     };
-
     consumer
       .apply((req: Request, res: Response, next: () => void) => {
-        loginOptions.state = JSON.stringify([req.query.type, req.query.userId]);
+        githubOptions.state = JSON.stringify([
+          req.query.type,
+          req.query.userId,
+        ]);
         next();
-      }, authenticate('github', loginOptions))
+      }, authenticate('github', githubOptions))
       .forRoutes(
         { path: 'api/auth/github', method: RequestMethod.GET },
         { path: 'api/auth/github/callback', method: RequestMethod.GET },
+      );
+
+    const googleOptions: AuthenticateOptions = {
+      state: undefined,
+      session: false,
+    };
+    consumer
+      .apply((req: Request, res: Response, next: () => void) => {
+        googleOptions.state = JSON.stringify([
+          req.query.type,
+          req.query.userId,
+        ]);
+        next();
+      }, authenticate('google', googleOptions))
+      .forRoutes(
+        { path: 'api/auth/google', method: RequestMethod.GET },
+        { path: 'api/auth/google/callback', method: RequestMethod.GET },
+      );
+
+    const facebookOptions: AuthenticateOptions = {
+      state: undefined,
+      session: false,
+    };
+    consumer
+      .apply((req: Request, res: Response, next: () => void) => {
+        facebookOptions.state = JSON.stringify([
+          req.query.type,
+          req.query.userId,
+        ]);
+        next();
+      }, authenticate('facebook', facebookOptions))
+      .forRoutes(
+        { path: 'api/auth/facebook', method: RequestMethod.GET },
+        { path: 'api/auth/facebook/callback', method: RequestMethod.GET },
       );
   }
 }

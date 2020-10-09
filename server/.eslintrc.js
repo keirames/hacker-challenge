@@ -20,13 +20,6 @@ module.exports = {
   rules: {
     'no-console': 'warn',
     'spaced-comment': 'error',
-    'no-unused-vars': [
-      'warn',
-      {
-        vars: 'all',
-        args: 'none',
-      },
-    ],
     'no-restricted-syntax': 'off',
     'no-shadow': 'off',
     'no-nested-ternary': 'warn',
@@ -34,6 +27,13 @@ module.exports = {
       'error',
       {
         allowForLoopAfterthoughts: true,
+      },
+    ],
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        args: 'none',
       },
     ],
     // '@typescript-eslint/interface-name-prefix': 'off',

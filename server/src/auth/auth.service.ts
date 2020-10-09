@@ -49,7 +49,6 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
     };
-    console.log(`Bearer ${this.jwtService.sign(payload)}`);
     return {
       accessToken: `Bearer ${this.jwtService.sign(payload)}`,
     };
@@ -161,30 +160,23 @@ export class AuthService {
     await this.usersRepository.save(currentUser);
   }
 
-  // async signIn(account: SignInInput): Promise<string> {
-  //   const { email, password } = account;
+  async signIn(account: SignInDto): Promise<User> {
+    const { email, password } = account;
 
-  //   const user = await this.usersService.findUserAccountByEmail(email);
-  //   console.log(user);
-  //   if (!user || !user.userAccount)
-  //     throw new HttpException(
-  //       'Invalid email or password',
-  //       HttpStatus.BAD_REQUEST,
-  //     );
+    const user = await this.usersService.findUserAccountByEmail(email);
+    if (!user || !user.userAccount)
+      throw new BadRequestException('Invalid email or password');
 
-  //   const isValidPassword = await bcrypt.compare(
-  //     password,
-  //     user.userAccount.password,
-  //   );
-  //   if (!isValidPassword)
-  //     throw new HttpException(
-  //       'Invalid email or password',
-  //       HttpStatus.BAD_REQUEST,
-  //     );
+    const isValidPassword = await bcrypt.compare(
+      password,
+      user.userAccount.password,
+    );
+    console.log(isValidPassword);
+    if (!isValidPassword)
+      throw new BadRequestException('Invalid email or password');
 
-  //   const token = user.generateAuthToken();
-  //   return token;
-  // }
+    return user;
+  }
 
   async signUp(accountDetails: SignUpDto): Promise<User> {
     const { email, firstName, lastName, password } = accountDetails;

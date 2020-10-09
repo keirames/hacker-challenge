@@ -8,6 +8,10 @@ const authCookie = 'Authentication';
 const tokenKey = 'hackerChallengeToken';
 const apiEndPoint = '/auth';
 
+export const removeToken = (): void => {
+  localStorage.removeItem(tokenKey);
+};
+
 export const signIn = async (account: SignInInput): Promise<void> => {
   const { data: jwt } = await http.post(`${apiEndPoint}/signin`, account);
   localStorage.setItem(tokenKey, jwt);
@@ -23,17 +27,17 @@ export const signInWithJwt = (jwt: string): void => {
 };
 
 export const signOut = (): void => {
-  localStorage.removeItem(tokenKey);
+  removeToken();
 };
 
 export const getJwt = (): string | null => {
   return localStorage.getItem(tokenKey);
 };
 
-export const getCurrentUser = (): unknown => {
+export const getCurrentUser = (): string | null => {
   try {
     const jwt = localStorage.getItem(tokenKey);
-    if (jwt) return jwtDecode(jwt);
+    if (jwt) return jwtDecode<string>(jwt);
     return null;
   } catch (error) {
     return null;

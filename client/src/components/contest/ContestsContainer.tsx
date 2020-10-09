@@ -5,7 +5,7 @@ import { Row, Col } from 'antd';
 import ContestBlock from './ContestBlock';
 
 export const GET_CONTESTS = gql`
-  {
+  query GetContests {
     getContests {
       id
       name
@@ -19,6 +19,8 @@ const ContestsContainer: React.FC = (props) => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
+
+  if (!data) return <div>not thing</div>;
 
   return (
     <SContestsContainer>

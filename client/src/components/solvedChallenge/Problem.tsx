@@ -3,37 +3,39 @@ import { useMutation, gql } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Space } from 'antd';
-import { Challenge, TestedResult } from '../../graphql';
+import { Challenge, TestResult } from '../../graphql';
 import Editor from './Editor';
 import TestTable from './TestTable';
 import ProblemContent from './ProblemContent';
 import Congratulation from './Congratulation';
 import MyButton from '../common/MyButton';
+import Console from './Console';
 
 const SUBMIT_ANSWER = gql`
   mutation SubmitAnswer($submitAnswerInput: SubmitAnswerInput!) {
     submitAnswer(submitAnswerInput: $submitAnswerInput) {
-      passed
-      time
-      assert {
-        message
-      }
+      text
+      testString
+      pass
+      err
+      message
+      stack
+      log
     }
   }
 `;
-// actual
-// expected
 
 interface Props {
   style?: React.CSSProperties;
   challenge: Challenge;
 }
 
-interface SubmitAnswerInput {
+interface SubmitAnswerVars {
   submitAnswerInput: {
     userId: number;
     challengeId: number;
     answer: string;
+    onlyRunCode: boolean;
   };
 }
 
@@ -50,22 +52,31 @@ const Problem: React.FC<Props> = (props) => {
     testInputs,
   } = challenge;
 
-  const { slug } = useParams();
+  const { slug } = useParams<{ slug: string }>();
+
   const [code, setCode] = useState<string>(challengeSeed);
+  const [showCongras, setShowCongras] = useState<boolean>(false);
 
   const [submitAnswer, { error, data, loading }] = useMutation<
-    { submitAnswer: TestedResult[] },
-    SubmitAnswerInput
+    { submitAnswer: TestResult[] },
+    SubmitAnswerVars
   >(SUBMIT_ANSWER);
 
   const handleCode = (value: string) => {
     setCode(value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = ({ onlyRunCode = true }) => {
+    if (!onlyRunCode) setShowCongras(true);
+
     submitAnswer({
       variables: {
-        submitAnswerInput: { userId: 1, challengeId: id, answer: code },
+        submitAnswerInput: {
+          userId: 1,
+          challengeId: id,
+          answer: code,
+          onlyRunCode,
+        },
       },
     });
   };
@@ -92,8 +103,15 @@ const Problem: React.FC<Props> = (props) => {
         outputFormat={outputFormat}
       />
       <Editor code={code} onCode={handleCode} />
+      <Console content={data?.submitAnswer[0].log || ''} />
       <SSpace size="middle">
-        <MyButton color="primary" type="ghost" size="middle">
+        <MyButton
+          color="primary"
+          type="ghost"
+          size="middle"
+          loading={loading}
+          onClick={() => handleSubmit({ onlyRunCode: true })}
+        >
           Run Code
         </MyButton>
         <MyButton
@@ -101,20 +119,22 @@ const Problem: React.FC<Props> = (props) => {
           type="primary"
           size="middle"
           loading={loading}
-          onClick={handleSubmit}
+          onClick={() => handleSubmit({ onlyRunCode: false })}
         >
           Submit Code
         </MyButton>
       </SSpace>
-      {/* <Congratulation
-        challengeSlug={slug}
-        answer={code}
-        testedResults={data?.submitAnswer.testedResults || []}
-        testCases={testCases}
-      /> */}
+      {showCongras && (
+        <Congratulation
+          challengeSlug={slug}
+          answer={code}
+          testedResults={data?.submitAnswer || []}
+          testCases={testCases}
+        />
+      )}
       <TestTable
         loading={loading}
-        testedResults={data?.submitAnswer || []}
+        testResults={data?.submitAnswer || []}
         testCases={testCases}
         testInputs={testInputs}
       />
