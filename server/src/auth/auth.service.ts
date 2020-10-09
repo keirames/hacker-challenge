@@ -49,7 +49,6 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
     };
-    console.log(`Bearer ${this.jwtService.sign(payload)}`);
     return {
       accessToken: `Bearer ${this.jwtService.sign(payload)}`,
     };
