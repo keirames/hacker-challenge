@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Burger from './Burger';
+import { useReactiveVar } from '@apollo/client';
+// import Burger from './Burger';
 import Links from './Links';
 import UserOptions from './UserOptions';
 import { STheme } from '../../theme/theme';
@@ -9,19 +10,13 @@ import Logo from './Logo';
 import RouterBreadcrumbs from './RouterBreadcrumbs';
 import MyButton from '../common/MyButton';
 import { isSignedInVar } from '../../graphql/localState';
-import { getCurrentUser } from '../../services/authService';
 
 interface Props {
   enableBreadcrumbs?: boolean;
 }
 
 const NavBar: React.FC<Props> = ({ enableBreadcrumbs = true }) => {
-  useEffect(() => {
-    const jwt = getCurrentUser();
-    if (jwt) {
-      isSignedInVar(true);
-    }
-  }, []);
+  const isSignedIn = useReactiveVar(isSignedInVar);
 
   return (
     <>
@@ -29,7 +24,7 @@ const NavBar: React.FC<Props> = ({ enableBreadcrumbs = true }) => {
         <Logo />
         <Links />
         {/* <Burger /> */}
-        {isSignedInVar() ? (
+        {isSignedIn ? (
           <UserOptions />
         ) : (
           // todo: link outside button and vice versa is not good.

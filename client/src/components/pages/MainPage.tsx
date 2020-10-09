@@ -1,28 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
-import {
-  getAuthCookie,
-  signInWithJwt,
-  deleteAuthCookie,
-} from '../../services/authService';
+
 import ContestDetailsContainer from '../contest/ContestDetailsContainer';
 import ChallengeContainer from '../challenge/ChallengeContainer';
 import NavBar from '../navBar/NavBar';
 import Footer from '../footer/Footer';
 import ContestsContainer from '../contest/ContestsContainer';
 
-const MainPage: React.FC = (props) => {
+const MainPage: React.FC = () => {
   const { path } = useRouteMatch();
-
-  useEffect(() => {
-    const jwt = getAuthCookie();
-    if (jwt) {
-      signInWithJwt(jwt);
-      deleteAuthCookie();
-      window.location.href = '/';
-    }
-  }, []);
 
   return (
     <SMainPage>

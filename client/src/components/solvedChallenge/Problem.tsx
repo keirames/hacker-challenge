@@ -30,11 +30,12 @@ interface Props {
   challenge: Challenge;
 }
 
-interface SubmitAnswerInput {
+interface SubmitAnswerVars {
   submitAnswerInput: {
     userId: number;
     challengeId: number;
     answer: string;
+    onlyRunCode: boolean;
   };
 }
 
@@ -52,21 +53,30 @@ const Problem: React.FC<Props> = (props) => {
   } = challenge;
 
   const { slug } = useParams<{ slug: string }>();
+
   const [code, setCode] = useState<string>(challengeSeed);
+  const [showCongras, setShowCongras] = useState<boolean>(false);
 
   const [submitAnswer, { error, data, loading }] = useMutation<
     { submitAnswer: TestResult[] },
-    SubmitAnswerInput
+    SubmitAnswerVars
   >(SUBMIT_ANSWER);
 
   const handleCode = (value: string) => {
     setCode(value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = ({ onlyRunCode = true }) => {
+    if (!onlyRunCode) setShowCongras(true);
+
     submitAnswer({
       variables: {
-        submitAnswerInput: { userId: 1, challengeId: id, answer: code },
+        submitAnswerInput: {
+          userId: 1,
+          challengeId: id,
+          answer: code,
+          onlyRunCode,
+        },
       },
     });
   };
@@ -95,7 +105,13 @@ const Problem: React.FC<Props> = (props) => {
       <Editor code={code} onCode={handleCode} />
       <Console content={data?.submitAnswer[0].log || ''} />
       <SSpace size="middle">
-        <MyButton color="primary" type="ghost" size="middle">
+        <MyButton
+          color="primary"
+          type="ghost"
+          size="middle"
+          loading={loading}
+          onClick={() => handleSubmit({ onlyRunCode: true })}
+        >
           Run Code
         </MyButton>
         <MyButton
@@ -103,17 +119,19 @@ const Problem: React.FC<Props> = (props) => {
           type="primary"
           size="middle"
           loading={loading}
-          onClick={handleSubmit}
+          onClick={() => handleSubmit({ onlyRunCode: false })}
         >
           Submit Code
         </MyButton>
       </SSpace>
-      {/* <Congratulation
-        challengeSlug={slug}
-        answer={code}
-        testedResults={data?.submitAnswer.testedResults || []}
-        testCases={testCases}
-      /> */}
+      {showCongras && (
+        <Congratulation
+          challengeSlug={slug}
+          answer={code}
+          testedResults={data?.submitAnswer || []}
+          testCases={testCases}
+        />
+      )}
       <TestTable
         loading={loading}
         testResults={data?.submitAnswer || []}

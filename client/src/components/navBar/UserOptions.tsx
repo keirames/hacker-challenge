@@ -39,11 +39,6 @@ const UserOptions: React.FC = () => {
     window.location.href = '/';
   };
 
-  // todo: do sthing here
-  if (error || !data) return null;
-
-  if (loading) return <MySpin />;
-
   const content = (
     <Space direction="vertical">
       <MyButton color="primary" type="text" block>
@@ -62,6 +57,22 @@ const UserOptions: React.FC = () => {
       </MyButton>
     </Space>
   );
+
+  // todo: do sthing here
+  if (error || !data)
+    return (
+      <SUserOptions>
+        <span>Unknown</span>
+        <Popover content={content} trigger="click">
+          <Space>
+            <FontAwesomeIcon icon="id-card" size="2x" />
+            <FontAwesomeIcon icon="angle-down" size="1x" />
+          </Space>
+        </Popover>
+      </SUserOptions>
+    );
+
+  if (loading) return <MySpin />;
 
   return (
     <SUserOptions>
