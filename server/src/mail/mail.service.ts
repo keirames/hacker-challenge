@@ -1,17 +1,17 @@
-import { Injectable, Inject, CACHE_MANAGER, CacheStore } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { createTransport } from 'nodemailer';
 import { gmailUser, gmailPass } from '../config/vars';
 import { createConfirmationLink } from './utils/createConfirmationLink';
 import { resetPasswordMail, activateAccountMail } from './views/mailBody';
 import { UsersService } from '../users/users.service';
 import { createResetPasswordLink } from './utils/createResetPasswordLink';
+import { RedisCacheService } from '../redisCache/redisCache.service';
 
 @Injectable()
 export class MailService {
   constructor(
-    @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
-
     private readonly usersService: UsersService,
+    private readonly redisCacheService: RedisCacheService,
   ) {}
 
   async sendActivateEmail(
@@ -31,7 +31,7 @@ export class MailService {
     const confirmEmailLink = await createConfirmationLink(
       clientUrl,
       userId,
-      this.cacheStore,
+      this.redisCacheService.getCacheManager(),
     );
 
     // send mail with defined transport object
@@ -67,7 +67,7 @@ export class MailService {
     const resetPasswordLink = await createResetPasswordLink(
       clientUrl,
       userId,
-      this.cacheStore,
+      this.redisCacheService.getCacheManager(),
     );
 
     // send mail with defined transport object
@@ -89,13 +89,15 @@ export class MailService {
   async confirmActivateAccountLink(
     confirmationToken: string,
   ): Promise<boolean> {
-    const userId = await this.cacheStore.get(confirmationToken);
+    const userId = await this.redisCacheService
+      .getCacheManager()
+      .get(confirmationToken);
 
     if (typeof userId !== 'number' || !userId) {
       return false;
     }
 
-    await this.cacheStore.del(confirmationToken);
+    await this.redisCacheService.getCacheManager().del(confirmationToken);
     // change status of user to activated
     await this.usersService.activateUser(userId);
 
@@ -106,13 +108,15 @@ export class MailService {
     newPassword: string,
     resetPasswordToken: string,
   ): Promise<boolean> {
-    const userId = await this.cacheStore.get(resetPasswordToken);
+    const userId = await this.redisCacheService
+      .getCacheManager()
+      .get(resetPasswordToken);
 
     if (typeof userId !== 'number' || !userId) {
       return false;
     }
 
-    await this.cacheStore.del(resetPasswordToken);
+    await this.redisCacheService.getCacheManager().del(resetPasswordToken);
     // change password of user
     await this.usersService.changeAccountPassword(userId, newPassword);
 

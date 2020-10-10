@@ -3,6 +3,7 @@ import {
   NestModule,
   MiddlewareConsumer,
   RequestMethod,
+  forwardRef,
 } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -17,18 +18,17 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { FacebookStrategy } from './strategies/facebook.strategy';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { ExternalAuthenticationProvidersModule } from '../externalAuthenticationProviders/externalAuthenticationProviders.module';
-import { jwtExpirationInterval, jwtPrivateKey } from '../config/vars';
+import { jwtExpirationTime, jwtPrivateKey } from '../config/vars';
 import { authenticate, AuthenticateOptions } from 'passport';
 import { Request, Response } from 'express';
 import { UserExternalLoginsModule } from '../userExternalLogins/userExternalLogins.module';
 import { Challenge } from '../challenges/challenge.entity';
 import { TestCase } from '../testCases/testCase.entity';
 import { MailService } from '../mail/mail.service';
-import { ConfiguredCacheModule } from '../mail/mail.module';
+import { RedisCacheModule } from '../redisCache/redisCache.module';
 
 @Module({
   imports: [
-    ConfiguredCacheModule,
     TypeOrmModule.forFeature([User, Challenge, TestCase]),
     // PassportModule.register({
     //   defaultStrategy: 'jwt',
@@ -37,12 +37,13 @@ import { ConfiguredCacheModule } from '../mail/mail.module';
     // }),
     JwtModule.register({
       secret: jwtPrivateKey,
-      signOptions: { expiresIn: jwtExpirationInterval },
+      signOptions: { expiresIn: jwtExpirationTime },
     }),
-    UsersModule,
+    forwardRef(() => UsersModule),
     UserAccountsModule,
     UserExternalLoginsModule,
     ExternalAuthenticationProvidersModule,
+    RedisCacheModule,
   ],
   controllers: [AuthController],
   providers: [

@@ -2,9 +2,6 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
-  Inject,
-  CACHE_MANAGER,
-  CacheStore,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import * as bcrypt from 'bcrypt';
@@ -22,13 +19,16 @@ import { SignInDto } from './dto/signInDto.dto';
 import { Challenge } from '../challenges/challenge.entity';
 import { TestCase } from '../testCases/testCase.entity';
 import { MailService } from '../mail/mail.service';
-import { bcryptSaltRound, clientUrl } from '../config/vars';
+import {
+  bcryptSaltRound,
+  clientUrl,
+  blacklistJwtExpirationTime,
+} from '../config/vars';
+import { RedisCacheService } from '../redisCache/redisCache.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(CACHE_MANAGER) private readonly cacheStore: CacheStore,
-
     @InjectRepository(User) private readonly usersRepository: Repository<User>,
     @InjectRepository(Challenge)
     private readonly challengesRepository: Repository<Challenge>,
@@ -40,6 +40,7 @@ export class AuthService {
     private readonly userAccountsService: UserAccountsService,
     private readonly externalAuthenticationProvidersService: ExternalAuthenticationProvidersService,
     private readonly mailService: MailService,
+    private readonly redisCacheService: RedisCacheService,
   ) {}
 
   async generateToken(user: User): Promise<{ accessToken: string }> {
@@ -231,7 +232,7 @@ export class AuthService {
    * this func will return value of the key.
    */
   async findResetPasswordTokenValue(token: string): Promise<number | null> {
-    const result = await this.cacheStore.get(token);
+    const result = await this.redisCacheService.getCacheManager().get(token);
 
     if (result === null) return result;
 
@@ -239,5 +240,29 @@ export class AuthService {
       throw new BadRequestException('Invalid token');
 
     return result;
+  }
+
+  async isInBlacklist(token: string): Promise<boolean> {
+    const result = await this.redisCacheService.getCacheManager().get(token);
+    if (typeof result === 'string') return true;
+    return false;
+  }
+
+  private extractBearerToken(bearerToken: string): string {
+    const [, token] = bearerToken.split(' ');
+    return token;
+  }
+
+  async isTokenRevoked(bearerToken: string): Promise<boolean> {
+    const token = this.extractBearerToken(bearerToken);
+    const isRevoked = await this.isInBlacklist(token);
+    return isRevoked;
+  }
+
+  async signOut(bearerToken: string): Promise<void> {
+    const token = this.extractBearerToken(bearerToken);
+    await this.redisCacheService
+      .getCacheManager()
+      .set(token, '', { ttl: blacklistJwtExpirationTime });
   }
 }

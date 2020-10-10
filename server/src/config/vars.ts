@@ -4,7 +4,8 @@ export const clientUrl = 'http://localhost:3001'; // CLIENT_URL
 export const serverUrl = 'http://localhost:3000'; // SERVER_URL
 export const serverPort = undefined; // SERVER_PORT
 export const jwtPrivateKey = 'secret'; // JWT_PRIVATE_KEY
-export const jwtExpirationInterval = '2d'; // JWT_EXPIRATION_TIME,
+export const jwtExpirationTime = '2d'; // JWT_EXPIRATION_TIME,
+export const blacklistJwtExpirationTime = 60 * 60 * 24 * 2; // BLACKLIST_JWT_EXPIRATION_TIME,
 export const googleClientId =
   '591878962744-4vg3us9vjk210ji7ohhe69a8hsu6vlke.apps.googleusercontent.com'; // GOOGLE_CLIENT_ID
 export const googleClientSecret = 'N7EMtVUCupDxeM1Q0IdZUgoC'; // GOOGLE_CLIENT_SECRET;

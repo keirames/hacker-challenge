@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
@@ -16,6 +17,7 @@ import { clientUrl } from '../config/vars';
 import { SignUpDto } from './dto/signUpDto.dto';
 import { MailService } from '../mail/mail.service';
 import { SignInDto } from './dto/signInDto.dto';
+import { JwtAuthGuard } from './guards/jwtAuth.guard';
 
 @Controller('/api/auth')
 export class AuthController {
@@ -52,12 +54,12 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<void> {
     if (req.user) {
-      if ((<any>req).user.accessToken.length === 0) {
+      if ((req as any).user.accessToken.length === 0) {
         res.redirect(this.createRedirectLink('merge'));
         return;
       }
 
-      res.cookie('Authentication', (<any>req).user.accessToken, {
+      res.cookie('Authentication', (req as any).user.accessToken, {
         maxAge: 10000,
       });
       res.redirect(this.createRedirectLink('signin'));
@@ -72,12 +74,12 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<void> {
     if (req.user) {
-      if ((<any>req).user.accessToken.length === 0) {
+      if ((req as any).user.accessToken.length === 0) {
         res.redirect(this.createRedirectLink('merge'));
         return;
       }
 
-      res.cookie('Authentication', (<any>req).user.accessToken, {
+      res.cookie('Authentication', (req as any).user.accessToken, {
         maxAge: 10000,
       });
       res.redirect(this.createRedirectLink('signin'));
@@ -92,12 +94,12 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<void> {
     if (req.user) {
-      if ((<any>req).user.accessToken.length === 0) {
+      if ((req as any).user.accessToken.length === 0) {
         res.redirect(this.createRedirectLink('merge'));
         return;
       }
 
-      res.cookie('Authentication', (<any>req).user.accessToken, {
+      res.cookie('Authentication', (req as any).user.accessToken, {
         maxAge: 10000,
       });
       res.redirect(this.createRedirectLink('signin'));
@@ -168,5 +170,11 @@ export class AuthController {
     );
 
     if (!isValid) throw new BadRequestException('Invalid token');
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/signout')
+  async signOut(@Body('token') bearerToken: string): Promise<void> {
+    await this.authService.signOut(bearerToken);
   }
 }

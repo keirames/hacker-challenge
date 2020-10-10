@@ -23,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
 import { MailModule } from './mail/mail.module';
 import { TasksModule } from './tasks/tasks.module';
 import { CodeEvaluatorModule } from './codeEvaluator/codeEvaluator.module';
+import { RedisCacheModule } from './redisCache/redisCache.module';
 
 @Module({
   imports: [
@@ -60,6 +61,7 @@ import { CodeEvaluatorModule } from './codeEvaluator/codeEvaluator.module';
     MailModule,
     TasksModule,
     CodeEvaluatorModule,
+    RedisCacheModule,
   ],
   controllers: [AppController],
   providers: [AppService, TestInputsService],
