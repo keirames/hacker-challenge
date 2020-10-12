@@ -20,7 +20,7 @@ axios.interceptors.response.use(undefined, (error: AxiosError) => {
   return Promise.reject(error);
 });
 
-const setJwt = (jwt: string): void => {
+const setJwt = (jwt: string | null): void => {
   axios.defaults.headers.Authorization = jwt;
 };
 

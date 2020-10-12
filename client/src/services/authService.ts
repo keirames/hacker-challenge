@@ -26,12 +26,16 @@ export const signInWithJwt = (jwt: string): void => {
   localStorage.setItem(tokenKey, jwt);
 };
 
-export const signOut = (): void => {
-  removeToken();
-};
-
 export const getJwt = (): string | null => {
   return localStorage.getItem(tokenKey);
+};
+
+// Set jwt here to avoid bi-directional
+http.setJwt(getJwt());
+
+export const signOut = async (): Promise<void> => {
+  await http.post(`${apiEndPoint}/signout`, { token: getJwt() });
+  removeToken();
 };
 
 export const getCurrentUser = (): string | null => {

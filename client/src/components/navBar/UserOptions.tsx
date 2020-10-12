@@ -34,8 +34,8 @@ const GET_ME = gql`
 const UserOptions: React.FC = () => {
   const { data, loading, error } = useQuery<GetMeData>(GET_ME);
 
-  const handleSignOut = () => {
-    signOut();
+  const handleSignOut = async () => {
+    await signOut();
     window.location.href = '/';
   };
 
