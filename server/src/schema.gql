@@ -121,6 +121,7 @@ type Query {
 
 type Mutation {
   submitAnswer(submitAnswerInput: SubmitAnswerInput!): [TestResultDto!]!
+  deleteAccount: Boolean!
   addChallenge(challenge: AddChallengeInput!): ChallengeDto!
   editChallenge(challenge: EditChallengeInput!): ChallengeDto!
   likeOrUnlikeChallenge(markLikeInput: MarkLikeChallengeInput!): ChallengeDto!

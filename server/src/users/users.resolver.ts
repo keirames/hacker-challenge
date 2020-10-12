@@ -51,8 +51,8 @@ export class UsersResolver {
     return this.usersService.findById(id);
   }
 
-  @Query(() => UserDto, { nullable: true })
   @UseGuards(GqlJwtAuthGuard)
+  @Query(() => UserDto, { nullable: true })
   async getMe(@CurrentUser() user: User): Promise<User> {
     return user;
   }
@@ -88,5 +88,12 @@ export class UsersResolver {
     @Args('submitAnswerInput') submitAnswerInput: SubmitAnswerInput,
   ): Promise<TestResult[]> {
     return this.usersService.submitAnswer(submitAnswerInput);
+  }
+
+  @UseGuards(GqlJwtAuthGuard)
+  @Mutation(() => Boolean)
+  async deleteAccount(@CurrentUser() user: User): Promise<boolean> {
+    await this.usersService.completelyRemoveUserById(user.id);
+    return true;
   }
 }
