@@ -44,7 +44,7 @@
     "dotenv": "^8.2.0",
     "graphql": "^15.3.0",
     "graphql-tools": "^6.0.15",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "nodemailer": "^6.4.11",
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
