@@ -26,7 +26,7 @@
     "graphql-import": "^1.0.2",
     "graphql-tools": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "mongoose": "^5.9.9",
     "node-fetch": "^2.6.1",
     "node-pre-gyp": "^0.14.0",
